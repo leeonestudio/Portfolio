@@ -718,7 +718,7 @@ function renderContact() {
     <h2>${nl2br(ct.title)}</h2>
     <div class="row">
       <button class="btn btn-p" onclick="copyEmail()">${ct.email ? '이메일 보내기' : '이메일 준비 중'}</button>
-      <button class="btn btn-o" id="btn-resume" onclick="downloadResume()" ${(() => { const p = localStorage.getItem('portfolio_resume_pdf'); return p ? '' : 'disabled'; })()}style="${(() => { const p = localStorage.getItem('portfolio_resume_pdf'); return p ? '' : 'opacity:0.4;cursor:not-allowed;'; })()}">이력서 PDF 다운로드</button>
+      <button class="btn btn-o" id="btn-resume" onclick="downloadResume()">이력서 PDF 다운로드</button>
     </div>
   </div>
   ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
@@ -746,12 +746,30 @@ function showToast(msg) {
   t._tid = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+function initResumeBtn() {
+  const btn = document.getElementById('btn-resume');
+  if (!btn) return;
+  const hasPdf = !!localStorage.getItem('portfolio_resume_pdf');
+  if (hasPdf) {
+    btn.disabled = false;
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.style.pointerEvents = '';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+    btn.style.pointerEvents = 'none';
+  }
+}
 function downloadResume() {
   const pdf = localStorage.getItem('portfolio_resume_pdf');
   if (!pdf) return;
+  const rawName = (D.contact.resumeName || '이력서').trim();
+  const name = rawName.endsWith('.pdf') ? rawName : rawName + '.pdf';
   const a = document.createElement('a');
   a.href = pdf;
-  a.download = '이력서.pdf';
+  a.download = name;
   a.click();
 }
 function copyEmail() {
@@ -790,6 +808,7 @@ function go(id) {
   window.scrollTo(0, 0);
   if (id === 'work') runCounters();
   if (id === 'insights') renderInsightsContent();
+  if (id === 'contact') initResumeBtn();
 }
 
 // ── COUNTERS ──────────────────────────────────────────────────────────────

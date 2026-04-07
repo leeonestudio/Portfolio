@@ -385,6 +385,10 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
         <div id="pdf-filename" style="margin-top:8px;font-size:12px;color:var(--text2);"></div>
         <input type="hidden" id="f-resume-pdf">
       </div>
+      <div class="field">
+        <label class="label">다운로드 파일명 (.pdf 자동 추가)</label>
+        <input type="text" id="f-resume-name" placeholder="김규수_이력서_밀도">
+      </div>
       <div class="field"><label class="label">기타 경력 (3개)</label><div id="prev-careers-wrap"></div></div>
     </div>
 
@@ -958,6 +962,7 @@ function populateAll() {
   const pdfStored = DATA.contact.resumePdf === '__stored__';
   v('f-resume-pdf').value = DATA.contact.resumePdf || '';
   v('pdf-filename').innerHTML = pdfStored ? '📄 업로드된 PDF 있음' : '';
+  set('f-resume-name', DATA.contact.resumeName || '');
   v('prev-careers-wrap').innerHTML = DATA.contact.prevCareers.map((p, i) => `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
       <input type="text" id="pc${i}-title" value="${esc(p.title)}" placeholder="회사 — 직함">
@@ -1047,6 +1052,7 @@ function collect() {
   d.contact.image = imgVal === '__stored__' ? '__stored__' : (imgVal || '');
   const pdfVal = v('f-resume-pdf').value;
   d.contact.resumePdf = pdfVal === '__stored__' ? '__stored__' : (pdfVal || '');
+  d.contact.resumeName = gv('f-resume-name').trim();
   d.contact.prevCareers = d.contact.prevCareers.map((p, i) => ({ title: gv(`pc${i}-title`), desc: gv(`pc${i}-desc`) }));
 
   return d;
