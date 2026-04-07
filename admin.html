@@ -584,6 +584,7 @@ function makeDraggable(container) {
 
   draggables().forEach(el => {
     el.addEventListener('dragstart', function(e) {
+      if (e.target.closest('input, textarea, select')) { e.preventDefault(); return; }
       dragSrc = this;
       setTimeout(() => this.classList.add('dragging'), 0);
       e.dataTransfer.effectAllowed = 'move';
