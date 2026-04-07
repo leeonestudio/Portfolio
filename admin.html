@@ -599,10 +599,25 @@ function loadContactImage(input) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    const src = e.target.result;
-    v('f-contact-image').value = src;
-    v('ct-img-preview').innerHTML = `<img src="${src}" style="max-width:280px;border-radius:8px;border:1px solid var(--border);">`;
-    markUnsaved();
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 600;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      let src = canvas.toDataURL('image/jpeg', 0.65);
+      // 결과가 여전히 크면 추가 압축
+      if (src.length > 300000) src = canvas.toDataURL('image/jpeg', 0.4);
+      v('f-contact-image').value = src;
+      v('ct-img-preview').innerHTML = `<img src="${src}" style="max-width:280px;border-radius:8px;border:1px solid var(--border);">`;
+      markUnsaved();
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
   input.value = '';
@@ -1022,7 +1037,12 @@ function markUnsaved() {
 }
 function save() {
   const d = collect();
-  localStorage.setItem('portfolio_v1', JSON.stringify(d));
+  try {
+    localStorage.setItem('portfolio_v1', JSON.stringify(d));
+  } catch(e) {
+    alert('저장 용량을 초과했습니다. 이미지 크기를 줄여서 다시 시도해주세요.');
+    return;
+  }
   DATA = d;
   const btn = v('btn-save');
   btn.textContent = '✓ 저장됨';
