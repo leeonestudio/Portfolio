@@ -721,7 +721,7 @@ function renderContact() {
       <button class="btn btn-o">이력서 PDF 다운로드</button>
     </div>
   </div>
-  ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
+  ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
   <div class="divider" style="margin:48px 0;"></div>
   <div class="block">
     <div class="tag">기타 경력</div>
