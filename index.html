@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김규수 — 콘텐츠로 매출을 만드는 마케터</title>
+<meta name="description" content="광고비 없이 유튜브 오가닉 콘텐츠만으로 자사몰 연매출 2.3배 성장을 이끈 콘텐츠 마케터 김규수의 포트폴리오">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--surface:#f5f5f5;--surface2:#ebebeb;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.16);
+  --text:#111111;--text2:#6b6b6b;--text3:#bbbbbb;
+  --accent:#4F46E5;--accent-l:rgba(79,70,229,0.08);--accent-h:#3730a3;
+  --green:#059669;--orange:#D97706;--teal:#0891B2;
+  --r:10px;--r-sm:6px;--t:0.22s ease;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;}
+.nav-logo{font-size:14px;font-weight:700;letter-spacing:-.02em;cursor:pointer;transition:opacity var(--t);}
+.nav-logo:hover{opacity:.55}
+.nav-links{display:flex;gap:28px;}
+.nav-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color var(--t);letter-spacing:.01em;}
+.nav-link:hover,.nav-link.on{color:var(--text);font-weight:500;}
+
+/* PAGES */
+main{padding-top:52px;}
+.page{display:none;min-height:calc(100vh - 52px);}
+.page.on{display:block;animation:fadein .3s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* LAYOUT */
+.w{max-width:720px;margin:0 auto;padding:52px 24px 100px;}
+.tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.block .tag{font-size:14px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--text2);}
+.divider{height:.5px;background:var(--border);margin:48px 0;}
+.block{margin-bottom:40px;}
+
+/* TYPOGRAPHY */
+h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.035em;line-height:1.18;}
+h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-height:1.25;}
+.sub{font-size:14px;color:var(--text2);line-height:1.75;margin-top:14px;}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:22px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px;}
+.mc{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 14px;text-align:center;transition:border-color var(--t);}
+.mc:hover{border-color:var(--border2);}
+.mn{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
+.ml{font-size:10px;color:var(--text2);}
+
+/* BTNS */
+.row{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:10px 22px;border-radius:var(--r-sm);cursor:pointer;border:none;font-family:inherit;transition:all var(--t);}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{background:var(--accent-h);}
+.btn-o{background:transparent;color:var(--text);border:.5px solid var(--border2);}
+.btn-o:hover{border-color:var(--text2);}
+
+/* CASE CARDS */
+.case-list{display:flex;flex-direction:column;gap:10px;margin-top:28px;}
+.cc{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 18px;cursor:pointer;display:grid;grid-template-columns:1fr 140px;grid-template-rows:auto auto auto;gap:0 20px;transition:all var(--t);}
+.cc:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-1px);}
+.cc-num{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--text3);grid-column:1;grid-row:1;align-self:start;margin-bottom:2px;}
+.cc-title{font-size:15px;font-weight:600;color:var(--text);grid-column:1;grid-row:2;align-self:center;}
+.cc-kpi{font-family:'Inter',sans-serif;font-size:32px;font-weight:700;color:#10b981;grid-column:2;grid-row:2;align-self:center;text-align:right;white-space:nowrap;}
+.cc-sub{font-size:12px;color:var(--text2);grid-column:1;grid-row:3;align-self:end;margin-top:6px;}
+.cc-more{grid-column:2;grid-row:3;align-self:end;justify-self:end;display:inline-block;white-space:nowrap;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;margin-top:8px;}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:14px;padding:16px 0;border-bottom:.5px solid var(--border);}
+.tl-item:last-child{border-bottom:none;}
+.tl-yr{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);min-width:76px;padding-top:3px;}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:4px;}
+.tl-dot.on{background:var(--accent);box-shadow:0 0 8px rgba(79,70,229,.3);}
+.tl-co{font-size:14px;font-weight:600;}
+.tl-role{font-size:12px;color:var(--text2);margin-top:2px;}
+.tl-res{font-size:11px;color:var(--text3);margin-top:3px;}
+
+/* SKILLS */
+.skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
+.sk{font-size:11px;color:var(--text2);background:var(--surface);border:.5px solid var(--border);border-radius:4px;padding:4px 10px;}
+
+/* CASE DETAIL */
+.back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;margin-bottom:24px;transition:color var(--t);}
+.back:hover{color:var(--text);}
+.sar{display:flex;flex-direction:column;}
+.sar-row{display:flex;gap:16px;padding:14px 0;border-bottom:.5px solid var(--border);}
+.sar-row:last-child{border-bottom:none;}
+.sar-l{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--green);width:18px;flex-shrink:0;padding-top:2px;letter-spacing:.06em;}
+.sar-c{font-size:13px;color:var(--text2);line-height:1.75;}
+.sar-c strong{color:var(--text);font-weight:600;}
+.case-period,.case-skills{font-size:14px;color:var(--text2);margin-top:8px;line-height:1.6;}
+.case-detail .block:not(.gallery-block) .tag{border-left:4px solid var(--green);padding-left:10px;}
+.case-detail .block+.block{border-top:.5px solid var(--border);padding-top:40px;}
+.case-detail .sar-row{border-bottom:none;padding:8px 0;}
+.case-detail .sar-row:first-child{padding-top:0;}
+.chart-box{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 12px;margin-top:8px;}
+.kpi-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px;}
+
+/* INSIGHTS LIST */
+.ins-header{padding:52px 0 28px;}
+.ins-cats{display:flex;align-items:center;border-bottom:.5px solid var(--border);margin-bottom:4px;}
+.ins-cat{font-size:13px;padding:10px 16px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all var(--t);white-space:nowrap;}
+.ins-cat:first-child{padding-left:0;}
+.ins-cat.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
+.ins-search{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.ins-q{border:none;outline:none;font-size:13px;font-family:inherit;color:var(--text);background:transparent;width:0;transition:width .3s ease;padding:0;}
+.ins-q.open{width:140px;border-bottom:.5px solid var(--border2);padding:2px 0;}
+.ins-search-btn{background:none;border:none;cursor:pointer;padding:4px;color:var(--text2);display:flex;align-items:center;transition:color var(--t);}
+.ins-search-btn:hover{color:var(--text);}
+.art-list{display:flex;flex-direction:column;}
+.art-row{display:flex;gap:24px;padding:28px 0;border-bottom:.5px solid var(--border);cursor:pointer;transition:opacity var(--t);}
+.art-row:hover{opacity:.65;}
+.art-body{flex:1;min-width:0;}
+.art-cat{font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.art-title{font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.35;margin-bottom:8px;color:var(--text);}
+.art-excerpt{font-size:13px;color:var(--text2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.art-meta{font-size:11px;color:var(--text3);margin-top:12px;}
+.art-img{width:96px;height:96px;flex-shrink:0;border-radius:var(--r-sm);overflow:hidden;background:var(--surface);}
+.art-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.art-img-empty{width:100%;height:100%;background:var(--surface2);}
+
+/* PAGINATION */
+.pagination{display:flex;gap:4px;justify-content:center;margin-top:40px;}
+.pg-btn{width:32px;height:32px;border-radius:var(--r-sm);border:.5px solid var(--border);background:none;font-size:13px;cursor:pointer;font-family:inherit;color:var(--text2);transition:all var(--t);}
+.pg-btn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pg-btn:hover:not(.on){border-color:var(--border2);color:var(--text);}
+
+/* INSIGHT DETAIL */
+.ins-detail-header{padding:52px 0 0;}
+.ins-detail-cat{font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;}
+.ins-detail-title{font-size:clamp(26px,4vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.25;}
+.ins-detail-sub{font-size:15px;color:var(--text2);margin-top:12px;line-height:1.7;}
+.ins-detail-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text3);padding:20px 0;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);margin-top:28px;}
+.ins-detail-body{padding:36px 0;font-size:15px;line-height:1.9;color:var(--text2);}
+.ins-detail-body p{margin-bottom:20px;}
+.ins-detail-body strong{color:var(--text);}
+.ins-detail-body hr{border:none;border-top:.5px solid var(--border);margin:28px 0;}
+.ins-detail-body blockquote{border-left:3px solid var(--accent);padding:12px 16px;margin:0 0 20px;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;color:var(--text2);}
+
+/* PREV CARDS */
+.prev-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+.pcard{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color var(--t);}
+.pcard:hover{border-color:var(--border2);}
+.pt{font-size:13px;font-weight:600;}
+.ps{font-size:12px;color:var(--text2);margin-top:3px;}
+
+/* CONTACT */
+.contact-h{padding:64px 0 20px;}
+.ct-img-wrap{margin:0 0 0;border-radius:var(--r);overflow:hidden;}
+.ct-img{width:100%;max-width:560px;height:auto;display:block;border-radius:var(--r);}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(16px);background:#111;color:#fff;padding:12px 24px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:all .3s ease;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* GALLERY */
+.gallery-block{margin-bottom:0;}
+.gallery-img{width:100%;object-fit:cover;display:block;border-radius:var(--r-sm);}
+.gallery-wide .gallery-img{aspect-ratio:16/9;}
+.gallery-two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.gallery-two-col .gallery-img{aspect-ratio:4/3;}
+.gallery-three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.gallery-three-col .gallery-img{aspect-ratio:1/1;}
+.gallery-mixed-top .gallery-img{aspect-ratio:16/9;margin-bottom:8px;}
+.gallery-mixed-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.gallery-mixed-bottom .gallery-img{aspect-ratio:4/3;}
+
+/* FOOTER */
+footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border-top:.5px solid var(--border);}
+
+@media(max-width:520px){
+  nav{padding:0 16px;}
+  .w{padding:36px 16px 72px;}
+  .metrics{grid-template-columns:repeat(3,1fr);}
+  .mn{font-size:20px;}
+  .row{flex-direction:column;}
+  .btn{justify-content:center;}
+  .art-img{width:72px;height:72px;}
+  .art-title{font-size:15px;}
+  .nav-links{gap:16px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav-inner"></nav>
+<main id="main"></main>
+<footer id="footer"></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DEFAULTS ─────────────────────────────────────────────────────────────
+const DEFAULTS = {
+  name: "김규수",
+  badge: "콘텐츠 마케터 · 포트폴리오",
+  tagline: "콘텐츠로\n매출을 만드는\n마케터",
+  subtitle: "광고비 없이 유튜브 오가닉 콘텐츠만으로\n자사몰 연매출 2.3배 성장을 이끌었습니다.",
+  insightsPage: {
+    title: "문제를 해결하며 배운 것들",
+    subtitle: "실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다."
+  },
+  motionBanner: {
+    title: "데이터로 이야기하겠습니다.",
+    tag: "Revenue Growth · 2024",
+    subtitle: "자사몰 연매출 성장 · 광고비 0원\n오가닉 콘텐츠 전략만으로",
+    kpiValue: 131,
+    startLabel: "2024년",
+    endLabel: "2025년"
+  },
+  metrics: [
+    { value: "+131%", label: "자사몰 연매출 성장", animate: true },
+    { value: "1.15만", label: "유튜브 구독자", animate: false },
+    { value: "756%", label: "텀블벅 달성률", animate: true }
+  ],
+  about: {
+    title: "콘텐츠를 매출 전환 구조로\n설계하는 사람",
+    subtitle: "콘텐츠 전략 · 상품 기획 · 브랜드 운영 — 브랜드 한 사이클 전체를 다룹니다.",
+    timeline: [
+      { year: "2024~현재", company: "비즈타민", role: "B2C 브랜드 총괄", desc: "오가닉 콘텐츠 기반 자사몰 연매출 +131%", active: true },
+      { year: "2023", company: "네스트앤드", role: "커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", active: false },
+      { year: "2021~2023", company: "백스테이션", role: "콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", active: false },
+      { year: "2020~2021", company: "바닐라", role: "콘텐츠 크리에이터", desc: "", active: false },
+      { year: "2019~2020", company: "뉴에라프로젝트", role: "영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", active: false }
+    ],
+    skills: ["Notion", "카페24", "채널톡", "Premiere Pro", "Photoshop", "Figma", "Google Sheets"]
+  },
+  cases: [
+    {
+      id: "01",
+      title: "오가닉 콘텐츠로 자사몰 연매출 2.3배 성장",
+      subtitle: "유튜브 오가닉 전략 · 채널 운영 · 커머스 연결",
+      kpi: "+131%", kpiColor: "#10b981", moreColor: "#6b6b6b",
+      sar: {
+        s: "광고 예산 없음, 구독자 100명, 매출 정체 상태에서 시작",
+        a: "콘텐츠 전략 수립 → <strong>롱폼 100편 · 숏폼 80편</strong> 기획·제작 → 커머스 연결 구조 설계",
+        r: "<strong>구독자 1.15만</strong> · 연매출 +131% · 숏폼 최고 조회수 <strong>30만</strong>"
+      },
+      kpis: [
+        { value: "1.15만", label: "유튜브 구독자", color: "green" },
+        { value: "+131%", label: "연매출 성장률", color: "green" },
+        { value: "30만", label: "숏폼 최고 조회수", color: "green" }
+      ],
+      timeline: [], systems: [], gallery: []
+    },
+    {
+      id: "02",
+      title: "고객 데이터 기반 상품 기획으로 자사몰 매출 1위",
+      subtitle: "페인포인트 발굴 · 상품 기획 · 데이터 기반 고도화",
+      kpi: "480만", kpiColor: "#10b981", moreColor: "#6b6b6b",
+      sar: {
+        s: "평균 단가 1~2만원, 히트 상품 없음, 고객 데이터 축적 중",
+        a: "페인포인트 발굴 → <strong>초기 기획</strong> → 반응 데이터 기반 후속 고도화",
+        r: "<strong>초심자 DIY 세트</strong> 누적 480만원 매출 1위 · <strong>젬젬젬</strong> 3개월 연속 1위"
+      },
+      kpis: [],
+      timeline: [
+        { month: "12월", event: "비즈 갤럭시 출시", desc: "초기 상품 라인업 확대" },
+        { month: "1월", event: "젬젬젬 출시", desc: "1개월 만에 자사몰 매출 1위" },
+        { month: "5월", event: "초심자 DIY 세트 출시", desc: "현재까지 자사몰 매출 1위 · 누적 480만원" },
+        { month: "6월", event: "미니 젬젬젬 출시", desc: "3개월 연속 매출 1위" }
+      ],
+      systems: [], gallery: []
+    },
+    {
+      id: "03",
+      title: "브랜드 시스템 0→1 구축",
+      subtitle: "브랜드 가이드 · Notion · 채널톡 · AI 보정",
+      kpi: "2× 효율", kpiColor: "#10b981", moreColor: "#6b6b6b",
+      sar: {
+        s: "브랜드 가이드 없음, 카톡 기반 소통, CS 병목 발생",
+        a: "<strong>브랜드 가이드</strong> 제작 · <strong>Notion · 채널톡</strong> 도입 · AI 보정 프로세스 구축",
+        r: "<strong>CS 병목 해소</strong> · 반복업무 2배 효율화 · 브랜드 일관성 확보"
+      },
+      kpis: [
+        { value: "해소", label: "CS 병목", color: "teal" },
+        { value: "2×", label: "반복업무 효율화", color: "teal" },
+        { value: "확보", label: "브랜드 일관성", color: "teal" }
+      ],
+      timeline: [],
+      systems: ["Notion 워크스페이스", "채널톡 CS 자동화", "브랜드 가이드 문서화", "AI 이미지 보정 프로세스"],
+      gallery: []
+    }
+  ],
+  contact: {
+    email: "",
+    title: "함께 일하고 싶으시다면\n언제든 연락주세요",
+    image: "",
+    prevCareers: [
+      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장" },
+      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발" },
+      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰" }
+    ]
+  },
+  insights: [
+    {
+      id: "ins-001",
+      title: "콘텐츠가 매출로 연결되는 구조를 어떻게 만들었나",
+      excerpt: "유튜브 채널을 만든다고 매출이 오르지 않는다. 콘텐츠와 커머스 사이의 연결 구조를 설계해야 한다.",
+      category: "콘텐츠 전략",
+      author: "김규수",
+      date: "2025-02-10",
+      image: "",
+      content: "유튜브 채널을 운영하면서 가장 많이 받는 질문이 있다.\n\n\"조회수는 있는데 왜 매출이 안 오르나요?\"\n\n이 질문에 답하기 위해 내가 직접 겪은 과정을 정리해보려 한다.\n\n콘텐츠와 커머스는 자동으로 연결되지 않는다. 콘텐츠를 보고 감동받은 사람이 바로 구매 버튼을 누르는 일은 드물다. 그 사이에 연결 구조가 필요하다.\n\n내가 설계한 구조는 단순했다. 영상 끝에 다음 행동을 명확히 제시하는 것. 댓글로 질문을 유도하고, 그 질문에 답하는 콘텐츠를 다시 만드는 것. 그리고 자연스럽게 상품 페이지로 연결하는 것.\n\n이 구조를 만들고 6개월 후, 매출이 눈에 띄게 달라졌다.",
+      published: true
+    },
+    {
+      id: "ins-002",
+      title: "고객 페인포인트에서 히트 상품이 나온다",
+      excerpt: "상품 기획의 시작은 시장 조사가 아니라 고객의 불편함이다. 댓글 하나에서 480만원짜리 아이디어가 나왔다.",
+      category: "상품 기획",
+      author: "김규수",
+      date: "2025-01-20",
+      image: "",
+      content: "상품 기획을 처음 맡았을 때 나는 경쟁사를 분석하고 시장 트렌드를 공부했다.\n\n하지만 히트 상품은 그 방향에서 나오지 않았다.\n\n댓글 하나가 시작이었다. \"초보자인데 어디서부터 시작해야 할지 모르겠어요.\" 이 한 줄이 초심자 DIY 세트의 시작이었다.\n\n고객은 이미 답을 알고 있다. 우리가 그것을 듣고 있지 않을 뿐이다.\n\n페인포인트를 발굴하는 방법은 단순하다. 댓글을 읽고, 질문을 기록하고, 반복되는 패턴을 찾는 것. 데이터는 화려한 분석 툴이 아니라 고객의 목소리에 있었다.",
+      published: true
+    },
+    {
+      id: "ins-003",
+      title: "브랜드 가이드 없이 성장하면 생기는 일",
+      excerpt: "빠르게 성장할수록 브랜드는 흔들린다. 일관성을 잃는 순간 고객의 신뢰도 함께 흔들린다.",
+      category: "브랜드 운영",
+      author: "김규수",
+      date: "2025-01-05",
+      image: "",
+      content: "급성장하는 브랜드가 가장 먼저 잃는 것은 일관성이다.\n\n콘텐츠 제작이 늘고, 외부 협력이 생기면서 우리 브랜드답지 않은 결과물이 나오기 시작했다. 톤앤매너가 달랐고, 컬러 사용이 제각각이었다.\n\n이때 브랜드 가이드의 필요성을 절감했다.\n\n가이드를 만드는 것은 단순히 규칙을 정하는 게 아니다. 우리가 어떤 브랜드인가를 명확히 하는 작업이다. 이것이 정해지면 모든 결정이 빨라진다.\n\n채널톡 CS 자동화, AI 이미지 보정 프로세스, Notion 워크스페이스 구축. 이 모든 것은 브랜드 가이드가 있었기에 가능했다.",
+      published: true
+    }
+  ]
+};
+
+// ── DATA LOADING ─────────────────────────────────────────────────────────
+function deepMerge(base, over) {
+  if (!over || typeof over !== 'object') return base;
+  const r = Array.isArray(base) ? [...base] : { ...base };
+  for (const k of Object.keys(over)) {
+    if (over[k] === null || over[k] === undefined) continue;
+    if (Array.isArray(over[k])) { r[k] = over[k]; }
+    else if (typeof over[k] === 'object' && base[k] && typeof base[k] === 'object' && !Array.isArray(base[k])) {
+      r[k] = deepMerge(base[k], over[k]);
+    } else { r[k] = over[k]; }
+  }
+  return r;
+}
+
+let D;
+try {
+  const saved = localStorage.getItem('portfolio_v1');
+  D = saved ? deepMerge(DEFAULTS, JSON.parse(saved)) : { ...DEFAULTS };
+} catch { D = { ...DEFAULTS }; }
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const nl2br = s => esc(s).replace(/\n/g,'<br>');
+const nl2brRaw = s => String(s||'').replace(/\n/g,'<br>');
+function mdInline(s) {
+  return s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/_(.*?)_/g,'<em>$1</em>');
+}
+const nl2p = s => s.split(/\n\n+/).map(p => {
+  const t = p.trim();
+  if (!t) return '';
+  if (/^<img /i.test(t)) return t;
+  if (t === '---') return '<hr>';
+  if (t.startsWith('> ')) {
+    const inner = t.split('\n').map(l => mdInline(esc(l.replace(/^> ?/,'')))).join('<br>');
+    return `<blockquote>${inner}</blockquote>`;
+  }
+  return `<p>${mdInline(esc(t)).replace(/\n/g,'<br>')}</p>`;
+}).join('');
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
+}
+
+// ── RENDER: MOTION BANNER ─────────────────────────────────────────────────
+function renderMotionBanner() {
+  const mb = D.motionBanner;
+  const kv = Math.max(1, Number(mb.kpiValue) || 131);
+  const endY = Math.max(15, Math.round(400 - (kv / 131) * 320));
+  const h = 378 - endY;
+  const ratios = [0.027, 0.087, 0.141, 0.279, 0.470, 0.597, 0.738];
+  const cy = ratios.map(p => Math.round(378 - h * p));
+  const curvePath = `M 28,378 C 140,376 260,${cy[0]} 370,${cy[1]} C 460,${cy[2]} 545,${cy[3]} 620,${cy[4]} C 665,${cy[5]} 700,${cy[6]} 748,${endY}`;
+  const fillPath  = `${curvePath} L 748,400 L 28,400 Z`;
+  const arrowAngle = Math.round(Math.atan2(-h * 0.262, 48) * 180 / Math.PI);
+  return `
+<style>
+  @property --mbv{syntax:'<integer>';initial-value:0;inherits:false}
+  @keyframes mbCount{to{--mbv:${kv}}}
+  @keyframes mbFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .mb-title{animation:mbFadeUp .5s ease .1s both}
+  .mb-tag{animation:mbFadeUp .5s ease .25s both}
+  .mb-num{animation:mbCount 1.9s cubic-bezier(.4,0,.2,1) .6s forwards;counter-reset:mbcnt var(--mbv)}
+  .mb-num::before{content:'+' counter(mbcnt) '%'}
+  .mb-sub{animation:mbFadeUp .55s ease 2.5s both}
+</style>
+<div style="width:100%;aspect-ratio:16/9;background:linear-gradient(155deg,#07070f 0%,#0c0c1e 100%);position:relative;overflow:hidden;">
+  <svg viewBox="0 0 800 450" style="position:absolute;inset:0;width:100%;height:100%;" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="mbFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#059669" stop-opacity=".35"/>
+        <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="mbLine" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#059669" stop-opacity=".45"/>
+        <stop offset="65%" stop-color="#10b981"/>
+        <stop offset="100%" stop-color="#34d399"/>
+      </linearGradient>
+      <mask id="mbMask">
+        <rect x="0" y="0" height="450" fill="white" width="0">
+          <animate attributeName="width" from="0" to="800" dur="2.1s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+        </rect>
+      </mask>
+    </defs>
+    <line x1="0" y1="400" x2="800" y2="400" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <line x1="0" y1="280" x2="800" y2="280" stroke="rgba(255,255,255,.04)" stroke-width=".8" stroke-dasharray="5 9"/>
+    <line x1="0" y1="160" x2="800" y2="160" stroke="rgba(255,255,255,.04)" stroke-width=".8" stroke-dasharray="5 9"/>
+    <text x="28" y="430" fill="rgba(255,255,255,.22)" font-size="14" font-family="Inter,sans-serif">${esc(mb.startLabel)}</text>
+    <text x="760" y="430" fill="rgba(255,255,255,.22)" font-size="14" font-family="Inter,sans-serif" text-anchor="end">${esc(mb.endLabel)}</text>
+    <path d="${fillPath}" fill="url(#mbFill)" mask="url(#mbMask)"/>
+    <path d="${curvePath}" fill="none" stroke="url(#mbLine)" stroke-width="3" stroke-linecap="round"
+      stroke-dasharray="1500" stroke-dashoffset="1500">
+      <animate attributeName="stroke-dashoffset" from="1500" to="0" dur="2.1s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g transform="translate(748,${endY}) rotate(${arrowAngle})" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.25s" fill="freeze"/>
+      <polyline points="-16,-8 0,0 -16,8" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <circle cx="748" cy="${endY}" r="5" fill="#34d399" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.25s" begin="2.2s" fill="freeze"/>
+    </circle>
+    <circle cx="748" cy="${endY}" r="5" fill="none" stroke="#34d399" stroke-width="1.5">
+      <animate attributeName="opacity" values="0;0.55;0" dur="1.4s" begin="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="5;20;5" dur="1.4s" begin="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="28" cy="378" r="4" fill="#059669" opacity="0">
+      <animate attributeName="opacity" from="0" to="0.5" dur="0.3s" begin="0.3s" fill="freeze"/>
+    </circle>
+  </svg>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(28px,6vw,72px);">
+    <div class="mb-title" style="font-size:clamp(16px,2.4vw,30px);font-weight:600;color:rgba(255,255,255,.92);letter-spacing:-.02em;margin-bottom:clamp(10px,1.4vw,18px);line-height:1.2;">${esc(mb.title)}</div>
+    <div class="mb-tag" style="font-size:clamp(9px,1.1vw,12px);letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;margin-bottom:clamp(4px,.6vw,8px);">${esc(mb.tag)}</div>
+    <div class="mb-num" style="font-family:'Inter',sans-serif;font-size:clamp(44px,9vw,108px);font-weight:700;color:#ffffff;line-height:1;letter-spacing:-.04em;"></div>
+    <div class="mb-sub" style="margin-top:clamp(8px,1.2vw,14px);font-size:clamp(11px,1.4vw,16px);color:rgba(255,255,255,.38);line-height:1.75;">${nl2br(mb.subtitle)}</div>
+  </div>
+</div>`;
+}
+
+// ── RENDER: NAV ───────────────────────────────────────────────────────────
+function renderNav() {
+  return `
+    <div class="nav-logo" onclick="go('work')">${esc(D.name)}</div>
+    <div class="nav-links">
+      <span class="nav-link" id="n-work" onclick="go('work')">Work</span>
+      <span class="nav-link" id="n-insights" onclick="go('insights')">Insights</span>
+      <span class="nav-link" id="n-contact" onclick="go('contact')">Contact</span>
+    </div>`;
+}
+
+// ── RENDER: WORK ──────────────────────────────────────────────────────────
+function renderWork() {
+  const a = D.about;
+  return `
+<div id="p-work" class="page">
+  ${renderMotionBanner()}
+  <div class="w">
+    <div style="padding-top:52px">
+      <div class="badge"><span class="badge-dot"></span>${esc(D.badge)}</div>
+      <h1>${nl2br(D.tagline)}</h1>
+      <p class="sub">${nl2br(D.subtitle)}</p>
+      <div class="metrics">
+        ${D.metrics.map((m,i) => `
+        <div class="mc">
+          <div class="mn" id="cnt${i}">${esc(m.value)}</div>
+          <div class="ml">${esc(m.label)}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="divider" style="margin:96px 0;"></div>
+    <div class="block">
+      <div class="tag" style="color:var(--accent);font-size:11px;">케이스 스터디</div>
+      <h2>성과로 증명한<br>${D.cases.length}가지 케이스</h2>
+      <p class="sub">실제 업무에서 이끌어낸 측정 가능한 결과물입니다.</p>
+      <div class="case-list" style="margin-top:42px;">
+        ${D.cases.map(c => `
+        <div class="cc" onclick="go('case-${esc(c.id)}')">
+          <div class="cc-num">CASE ${esc(c.id)}</div>
+          <div class="cc-kpi" style="color:${esc(c.kpiColor||'#10b981')}">${esc(c.kpi)}</div>
+          <div class="cc-title">${esc(c.title)}</div>
+          <div class="cc-sub">${esc(c.subtitle)}</div>
+          <div class="cc-more" style="background:${esc(c.moreColor||'#1a1a1a')}">자세히 보기 →</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="divider" style="margin:96px 0;"></div>
+    <div class="block">
+      <div class="tag" style="color:var(--accent);font-size:11px;">소개</div>
+      <h2 style="font-size:clamp(22px,3.5vw,28px);">${nl2br(a.title)}</h2>
+      <p class="sub">${nl2br(a.subtitle)}</p>
+      <div style="margin-top:42px;">
+        <div class="tag">경력 타임라인</div>
+        <div class="tl">
+          ${a.timeline.map(t => `
+          <div class="tl-item">
+            <div class="tl-yr">${esc(t.year)}</div>
+            <div class="tl-dot${t.active ? ' on' : ''}"></div>
+            <div>
+              <div class="tl-co">${esc(t.company)}</div>
+              <div class="tl-role">${esc(t.role)}</div>
+              ${t.desc ? `<div class="tl-res">${esc(t.desc)}</div>` : ''}
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <div class="tag">스킬</div>
+        <div class="skills">
+          ${a.skills.map(s => `<span class="sk">${esc(s)}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── RENDER: GALLERY ───────────────────────────────────────────────────────
+function imgTag(img) {
+  return `<img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}">`;
+}
+
+function renderGallery(gallery) {
+  if (!gallery || !gallery.length) return '';
+  return gallery.map(block => {
+    const imgs = (block.images || []).filter(img => img.src);
+    if (!imgs.length) return '';
+    const layout = block.layout || 'wide';
+    let inner = '';
+    if (layout === 'wide') {
+      inner = `<div class="gallery-wide">${imgTag(imgs[0])}</div>`;
+    } else if (layout === 'two-col') {
+      inner = `<div class="gallery-two-col">${imgs.slice(0,2).map(imgTag).join('')}</div>`;
+    } else if (layout === 'three-col') {
+      inner = `<div class="gallery-three-col">${imgs.slice(0,3).map(imgTag).join('')}</div>`;
+    } else if (layout === 'mixed') {
+      inner = `<div class="gallery-mixed-top">${imgTag(imgs[0])}</div>
+               <div class="gallery-mixed-bottom">${imgs.slice(1,3).map(imgTag).join('')}</div>`;
+    }
+    return `<div class="block gallery-block">${inner}</div>`;
+  }).join('');
+}
+
+// ── RENDER: CASE DETAIL ───────────────────────────────────────────────────
+function renderCaseDetail(c) {
+  const kpisHtml = c.kpis && c.kpis.length ? `
+  <div class="block">
+    <div class="tag">주요 지표</div>
+    <div class="kpi-g">
+      ${c.kpis.map(k => `
+      <div class="mc">
+        <div class="mn" style="color:var(--${k.color})">${esc(k.value)}</div>
+        <div class="ml">${esc(k.label)}</div>
+      </div>`).join('')}
+    </div>
+  </div>` : '';
+  const periodHtml = c.period ? `
+  <div class="block">
+    <div class="tag">기간</div>
+    <p class="case-period">${esc(c.period)}</p>
+  </div>` : '';
+  const skillsHtml = c.skills ? `
+  <div class="block">
+    <div class="tag">기술</div>
+    <p class="case-skills">${esc(c.skills)}</p>
+  </div>` : '';
+  return `
+<div id="p-case-${esc(c.id)}" class="page case-detail">
+<div class="w">
+  <div class="back" onclick="go('work')">← Work</div>
+  <div class="tag">CASE ${esc(c.id)}</div>
+  <h2>${nl2br(c.title)}</h2>
+  <div class="divider"></div>
+  ${kpisHtml}
+  ${periodHtml}
+  <div class="block">
+    <div class="tag">상황·행동·결과</div>
+    <div class="sar">
+      <div class="sar-row"><div class="sar-l">S</div><div class="sar-c">${nl2brRaw(c.sar.s)}</div></div>
+      <div class="sar-row"><div class="sar-l">A</div><div class="sar-c">${nl2brRaw(c.sar.a)}</div></div>
+      <div class="sar-row"><div class="sar-l">R</div><div class="sar-c">${nl2brRaw(c.sar.r)}</div></div>
+    </div>
+  </div>
+  ${skillsHtml}
+  ${renderGallery(c.gallery||[])}
+</div>
+</div>`;
+}
+
+// ── RENDER: INSIGHTS PAGE SHELL ───────────────────────────────────────────
+let insCat = '전체';
+let insQuery = '';
+let insPage = 1;
+const INS_PER_PAGE = 8;
+const INS_CATS = ['전체', '콘텐츠 전략', '상품 기획', '브랜드 운영'];
+
+function renderInsights() {
+  return `<div id="p-insights" class="page"><div class="w" id="ins-wrap"></div></div>`;
+}
+
+function renderInsightsContent() {
+  const wrap = document.getElementById('ins-wrap');
+  if (!wrap) return;
+  const articles = (D.insights || []).filter(a => a.published !== false);
+  const filtered = articles.filter(a => {
+    const catOk = insCat === '전체' || a.category === insCat;
+    const qOk = !insQuery || a.title.toLowerCase().includes(insQuery.toLowerCase());
+    return catOk && qOk;
+  });
+  const totalPages = Math.max(1, Math.ceil(filtered.length / INS_PER_PAGE));
+  insPage = Math.min(insPage, totalPages);
+  const paged = filtered.slice((insPage-1)*INS_PER_PAGE, insPage*INS_PER_PAGE);
+  wrap.innerHTML = `
+    <div class="ins-header">
+      <div class="tag">Insights</div>
+      <h2>${esc((D.insightsPage||{}).title||'문제를 해결하며 배운 것들')}</h2>
+      <p class="sub">${esc((D.insightsPage||{}).subtitle||'실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다.')}</p>
+    </div>
+    <div class="ins-cats">
+      ${INS_CATS.map(c => `<span class="ins-cat${insCat===c?' on':''}" onclick="setInsCat('${c}')">${esc(c)}</span>`).join('')}
+      <div class="ins-search">
+        <input type="text" id="ins-q" class="ins-q${insQuery?' open':''}" placeholder="검색" value="${esc(insQuery)}" autocomplete="off">
+        <button class="ins-search-btn" onclick="toggleSearch()" title="검색">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="art-list">
+      ${paged.length ? paged.map(a => `
+      <div class="art-row" onclick="go('insight-${esc(a.id)}')">
+        <div class="art-body">
+          <div class="art-cat">${esc(a.category)}</div>
+          <div class="art-title">${esc(a.title)}</div>
+          <div class="art-excerpt">${esc(a.excerpt)}</div>
+          <div class="art-meta">${fmtDate(a.date)} · by ${esc(a.author)}</div>
+        </div>
+        <div class="art-img">
+          ${a.image ? `<img src="${esc(a.image)}" alt="">` : '<div class="art-img-empty"></div>'}
+        </div>
+      </div>`).join('') : '<div style="padding:48px 0;color:var(--text3);font-size:14px;text-align:center;">검색 결과가 없습니다.</div>'}
+    </div>
+    ${totalPages > 1 ? `
+    <div class="pagination">
+      ${Array.from({length:totalPages},(_,i)=>`<button class="pg-btn${insPage===i+1?' on':''}" onclick="setInsPage(${i+1})">${i+1}</button>`).join('')}
+    </div>` : ''}
+  `;
+  _bindSearch();
+}
+
+function _bindSearch() {
+  const el = document.getElementById('ins-q');
+  if (!el || el._bound) return;
+  el._bound = true;
+  let composing = false;
+  el.addEventListener('compositionstart', () => { composing = true; });
+  el.addEventListener('compositionend', e => { composing = false; setInsQuery(e.target.value); });
+  el.addEventListener('input', e => { if (!composing) setInsQuery(e.target.value); });
+}
+function setInsCat(cat) { insCat = cat; insPage = 1; renderInsightsContent(); }
+function setInsPage(p) { insPage = p; renderInsightsContent(); window.scrollTo(0,52); }
+function setInsQuery(q) { insQuery = q; insPage = 1; renderInsightsContent(); }
+function toggleSearch() {
+  const el = document.getElementById('ins-q');
+  if (!el) return;
+  el.classList.toggle('open');
+  if (el.classList.contains('open')) { el.focus(); }
+  else { insQuery = ''; el.value = ''; renderInsightsContent(); }
+}
+
+// ── RENDER: INSIGHT DETAIL ────────────────────────────────────────────────
+function renderInsightDetail(a) {
+  return `
+<div id="p-insight-${esc(a.id)}" class="page">
+<div class="w">
+  <div class="back" onclick="go('insights')">← Insights</div>
+  <div class="ins-detail-header">
+    <div class="ins-detail-cat">${esc(a.category)}</div>
+    <div class="ins-detail-title">${esc(a.title)}</div>
+    ${a.excerpt ? `<div class="ins-detail-sub">${esc(a.excerpt)}</div>` : ''}
+  </div>
+  <div class="ins-detail-meta">
+    <span>by ${esc(a.author)}</span>
+    <span>${fmtDate(a.date)}</span>
+  </div>
+  <div class="ins-detail-body">${nl2p(a.content || '')}</div>
+</div>
+</div>`;
+}
+
+// ── RENDER: CONTACT ───────────────────────────────────────────────────────
+function renderContact() {
+  const ct = D.contact;
+  return `
+<div id="p-contact" class="page">
+<div class="w">
+  <div class="contact-h">
+    <div class="tag">Contact</div>
+    <h2>${nl2br(ct.title)}</h2>
+    <div class="row">
+      <button class="btn btn-p" onclick="copyEmail()">${ct.email ? '이메일 보내기' : '이메일 준비 중'}</button>
+      <button class="btn btn-o">이력서 PDF 다운로드</button>
+    </div>
+  </div>
+  ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
+  <div class="divider" style="margin:48px 0;"></div>
+  <div class="block">
+    <div class="tag">기타 경력</div>
+    <div class="prev-list">
+      ${ct.prevCareers.map(p => `
+      <div class="pcard">
+        <div class="pt">${esc(p.title)}</div>
+        <div class="ps">${esc(p.desc)}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>
+</div>`;
+}
+
+// ── TOAST & EMAIL COPY ────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function copyEmail() {
+  if (!D.contact.email) return;
+  navigator.clipboard.writeText(D.contact.email)
+    .then(() => showToast('✓ 이메일이 복사되었습니다'))
+    .catch(() => showToast('이메일: ' + D.contact.email));
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+document.getElementById('nav-inner').innerHTML = renderNav();
+document.getElementById('main').innerHTML =
+  renderWork() +
+  D.cases.map(renderCaseDetail).join('') +
+  renderInsights() +
+  (D.insights || []).map(renderInsightDetail).join('') +
+  renderContact();
+document.getElementById('footer').innerHTML = `© 2026 ${esc(D.name)} · AI 코딩 툴로 직접 제작`;
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+const NAV_MAP = {
+  work:'n-work',
+  'case-01':'n-work','case-02':'n-work','case-03':'n-work',
+  insights:'n-insights',
+  contact:'n-contact'
+};
+
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('on'));
+  const pg = document.getElementById('p-' + id);
+  if (pg) pg.classList.add('on');
+  const nk = NAV_MAP[id] || (id.startsWith('insight-') ? 'n-insights' : null);
+  if (nk) { const n = document.getElementById(nk); if (n) n.classList.add('on'); }
+  location.hash = id;
+  window.scrollTo(0, 0);
+  if (id === 'work') runCounters();
+  if (id === 'insights') renderInsightsContent();
+}
+
+// ── COUNTERS ──────────────────────────────────────────────────────────────
+let counted = false;
+function runCounters() {
+  if (counted) return; counted = true;
+  D.metrics.forEach((m, i) => {
+    if (!m.animate) return;
+    const el = document.getElementById('cnt' + i);
+    if (!el) return;
+    const numMatch = String(m.value).match(/([\d.]+)/);
+    if (!numMatch) return;
+    const target = parseFloat(numMatch[1]);
+    const prefix = String(m.value).slice(0, numMatch.index);
+    const suffix = String(m.value).slice(numMatch.index + numMatch[0].length);
+    const dur = 1200 + i * 200;
+    let s = 0, step = target / (dur / 16);
+    const isInt = Number.isInteger(target);
+    const tick = () => {
+      s = Math.min(s + step, target);
+      el.textContent = prefix + (isInt ? Math.floor(s) : s.toFixed(2)) + suffix;
+      if (s < target) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+// ── START ─────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const hash = location.hash.replace('#', '') || 'work';
+  go(hash);
+});
+window.addEventListener('hashchange', () => {
+  const hash = location.hash.replace('#', '') || 'work';
+  go(hash);
+});
+</script>
+</body>
+</html>
