@@ -451,24 +451,7 @@ function renderMotionBanner() {
     <div id="mb-num" style="font-family:'Inter',sans-serif;font-size:clamp(44px,9vw,108px);font-weight:700;color:#ffffff;line-height:1;letter-spacing:-.04em;">+0%</div>
     <div class="mb-sub" style="margin-top:clamp(8px,1.2vw,14px);font-size:clamp(11px,1.4vw,16px);color:rgba(255,255,255,.38);line-height:1.75;">${nl2br(mb.subtitle)}</div>
   </div>
-</div>
-<script>
-(function(){
-  var kv = ${kv}, start = null, dur = 1600, delay = 300;
-  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
-  function tick(ts){
-    if(!start) start = ts;
-    var elapsed = ts - start - delay;
-    if(elapsed < 0){ requestAnimationFrame(tick); return; }
-    var t = Math.min(elapsed / dur, 1);
-    var val = Math.round(easeOut(t) * kv);
-    var el = document.getElementById('mb-num');
-    if(el) el.textContent = '+' + val + '%';
-    if(t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-})();
-</script>`;
+</div>`;
 }
 
 // ── RENDER: NAV ───────────────────────────────────────────────────────────
@@ -819,9 +802,29 @@ function go(id) {
   if (nk) { const n = document.getElementById(nk); if (n) n.classList.add('on'); }
   location.hash = id;
   window.scrollTo(0, 0);
-  if (id === 'work') runCounters();
+  if (id === 'work') { runCounters(); startMotionCounter(); }
   if (id === 'insights') renderInsightsContent();
   if (id === 'contact') initResumeBtn();
+}
+
+// ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
+let mbCounted = false;
+function startMotionCounter() {
+  if (mbCounted) return; mbCounted = true;
+  const kv = Math.max(1, Number((D.motionBanner||{}).kpiValue) || 131);
+  const dur = 1600, delay = 300;
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  let start = null;
+  function tick(ts) {
+    if (!start) start = ts;
+    const elapsed = ts - start - delay;
+    if (elapsed < 0) { requestAnimationFrame(tick); return; }
+    const t = Math.min(elapsed / dur, 1);
+    const el = document.getElementById('mb-num');
+    if (el) el.textContent = '+' + Math.round(easeOut(t) * kv) + '%';
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
 // ── COUNTERS ──────────────────────────────────────────────────────────────
