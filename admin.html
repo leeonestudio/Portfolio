@@ -127,6 +127,9 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 .case-acc.open>.case-acc-hd>.case-acc-tog{transform:rotate(180deg);}
 .case-acc-body{padding:16px;display:none;}
 .case-acc.open>.case-acc-body{display:block;}
+.case-sub-sec{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.case-sub-sec+*{margin-top:0;}
+.case-sub-sec.mt{margin-top:20px;}
 
 /* ── KPI MINI ROWS ── */
 .kpis-wrap .dnd-row{padding:6px 8px;}
@@ -734,13 +737,12 @@ function populateCases() {
         <button class="row-del-btn" onclick="event.stopPropagation();deleteCaseItem(this)" title="삭제">✕</button>
       </div>
       <div class="case-acc-body">
+        <div class="case-sub-sec">Work 페이지 카드</div>
+        <div class="field"><label class="label">제목</label><textarea class="c-title" rows="2">${esc(c.title||'')}</textarea></div>
+        <div class="field"><label class="label">부제목</label><input type="text" class="c-subtitle" value="${esc(c.subtitle||'')}"></div>
+        <div class="field"><label class="label">KPI 수치</label><input type="text" class="c-kpi" value="${esc(c.kpi||'')}"></div>
         <div class="grid2">
-          <div class="field"><label class="label">제목</label><textarea class="c-title" rows="2">${esc(c.title||'')}</textarea></div>
-          <div class="field"><label class="label">부제목</label><input type="text" class="c-subtitle" value="${esc(c.subtitle||'')}"></div>
-        </div>
-        <div class="field"><label class="label">KPI 표시값</label><input type="text" class="c-kpi" value="${esc(c.kpi||'')}"></div>
-        <div class="grid2">
-          <div class="field"><label class="label">KPI 수치 색상</label>
+          <div class="field"><label class="label">KPI 색상</label>
             <div style="display:flex;align-items:center;gap:8px;">
               <input type="color" class="c-kpiColor" value="${kc}" style="width:40px;height:32px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:2px;">
               <input type="text" class="c-kpiColorHex" value="${kc}" placeholder="#10b981" style="flex:1;font-size:12px;">
@@ -753,18 +755,17 @@ function populateCases() {
             </div>
           </div>
         </div>
-        <div class="field"><label class="label">S (상황)</label><textarea class="c-s" rows="2">${esc(c.sar?.s||'')}</textarea></div>
-        <div class="field"><label class="label">A (행동) — &lt;strong&gt;강조&lt;/strong&gt; 사용 가능</label><textarea class="c-a" rows="3">${esc(c.sar?.a||'')}</textarea></div>
-        <div class="field"><label class="label">R (결과)</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
-        <div class="grid2">
-          <div class="field"><label class="label">기간 (예: 2024.03 ~ 2026.03)</label><input type="text" class="c-period" value="${esc(c.period||'')}" placeholder="2024.03 ~ 2026.03"></div>
-          <div class="field"><label class="label">기술 (쉼표로 구분)</label><input type="text" class="c-skills" value="${esc(c.skills||'')}" placeholder="Premiere Pro, 카페24, 채널톡"></div>
-        </div>
+        <div class="case-sub-sec mt">케이스 상세 페이지</div>
         <div class="field">
           <label class="label">주요 지표</label>
           <div class="kpis-wrap">${kpisHtml}</div>
           <button class="btn btn-outline btn-sm" onclick="addKpi(this)" style="margin-top:6px;">+ 수치 추가</button>
         </div>
+        <div class="field"><label class="label">기간 (예: 2024.03 ~ 2026.03)</label><input type="text" class="c-period" value="${esc(c.period||'')}" placeholder="2024.03 ~ 2026.03"></div>
+        <div class="field"><label class="label">S (상황)</label><textarea class="c-s" rows="2">${esc(c.sar?.s||'')}</textarea></div>
+        <div class="field"><label class="label">A (행동) — &lt;strong&gt;강조&lt;/strong&gt; 사용 가능</label><textarea class="c-a" rows="3">${esc(c.sar?.a||'')}</textarea></div>
+        <div class="field"><label class="label">R (결과)</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
+        <div class="field"><label class="label">기술 (쉼표로 구분)</label><input type="text" class="c-skills" value="${esc(c.skills||'')}" placeholder="Premiere Pro, 카페24, 채널톡"></div>
         <div class="field">
           <label class="label">이미지 갤러리</label>
           <div class="gallery-admin-wrap">${(c.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
