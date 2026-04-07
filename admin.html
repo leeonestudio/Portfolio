@@ -372,6 +372,19 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
         <div id="ct-img-preview" style="margin-top:10px;"></div>
         <input type="hidden" id="f-contact-image">
       </div>
+      <div class="field">
+        <label class="label">이력서 PDF</label>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <label style="cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-size:12px;font-weight:500;padding:8px 14px;border-radius:var(--r-sm);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            PDF 선택
+            <input type="file" accept=".pdf" style="display:none;" onchange="loadResumePdf(this)">
+          </label>
+          <button type="button" onclick="removeResumePdf()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:12px;padding:8px 14px;border-radius:var(--r-sm);cursor:pointer;">삭제</button>
+        </div>
+        <div id="pdf-filename" style="margin-top:8px;font-size:12px;color:var(--text2);"></div>
+        <input type="hidden" id="f-resume-pdf">
+      </div>
       <div class="field"><label class="label">기타 경력 (3개)</label><div id="prev-careers-wrap"></div></div>
     </div>
 
@@ -622,6 +635,26 @@ function loadContactImage(input) {
   };
   reader.readAsDataURL(file);
   input.value = '';
+}
+function loadResumePdf(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try { localStorage.setItem('portfolio_resume_pdf', e.target.result); }
+    catch(err) { alert('PDF 용량이 너무 큽니다. 더 작은 파일을 사용해주세요.'); input.value = ''; return; }
+    v('f-resume-pdf').value = '__stored__';
+    v('pdf-filename').innerHTML = `📄 ${esc(file.name)}`;
+    markUnsaved();
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+function removeResumePdf() {
+  v('f-resume-pdf').value = '';
+  localStorage.removeItem('portfolio_resume_pdf');
+  v('pdf-filename').innerHTML = '';
+  markUnsaved();
 }
 function removeContactImage() {
   v('f-contact-image').value = '';
@@ -922,6 +955,9 @@ function populateAll() {
   const ctImg = ctImgRaw === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ctImgRaw;
   v('f-contact-image').value = ctImgRaw;
   v('ct-img-preview').innerHTML = ctImg ? `<img src="${ctImg}" style="max-width:280px;border-radius:8px;border:1px solid var(--border);">` : '';
+  const pdfStored = DATA.contact.resumePdf === '__stored__';
+  v('f-resume-pdf').value = DATA.contact.resumePdf || '';
+  v('pdf-filename').innerHTML = pdfStored ? '📄 업로드된 PDF 있음' : '';
   v('prev-careers-wrap').innerHTML = DATA.contact.prevCareers.map((p, i) => `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
       <input type="text" id="pc${i}-title" value="${esc(p.title)}" placeholder="회사 — 직함">
@@ -1009,6 +1045,8 @@ function collect() {
   d.contact.title = gv('f-contact-title');
   const imgVal = v('f-contact-image').value;
   d.contact.image = imgVal === '__stored__' ? '__stored__' : (imgVal || '');
+  const pdfVal = v('f-resume-pdf').value;
+  d.contact.resumePdf = pdfVal === '__stored__' ? '__stored__' : (pdfVal || '');
   d.contact.prevCareers = d.contact.prevCareers.map((p, i) => ({ title: gv(`pc${i}-title`), desc: gv(`pc${i}-desc`) }));
 
   return d;
