@@ -213,6 +213,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <div class="sb-item" id="sb-contact" onclick="switchAdmin('contact')">Contact</div>
     <div class="sb-divider"></div>
     <div class="sb-item-sub" id="sb-backup" onclick="switchAdmin('backup')">백업/복구 관리</div>
+    <div class="sb-item-sub" id="sb-security" onclick="switchAdmin('security')">보안 설정</div>
   </div>
 </div>
 
@@ -375,16 +376,6 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
       <div class="field"><label class="label">기타 경력 (3개)</label><div id="prev-careers-wrap"></div></div>
     </div>
 
-    <!-- 관리자 비밀번호 -->
-    <div class="sec">
-      <div class="sec-title">관리자 비밀번호 변경</div>
-      <div class="grid2">
-        <div class="field"><label class="label">새 비밀번호</label><input type="password" id="f-new-pw" placeholder="비워두면 변경 안 함"></div>
-        <div class="field"><label class="label">확인</label><input type="password" id="f-new-pw2"></div>
-      </div>
-      <div class="hint" id="pw-hint"></div>
-    </div>
-
   </div><!-- /as-contact -->
 
   <!-- ── 백업/복구 관리 ── -->
@@ -420,6 +411,29 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
       </div>
     </div>
   </div><!-- /as-backup -->
+
+  <!-- ── 보안 설정 ── -->
+  <div class="admin-section" id="as-security">
+    <div class="sec">
+      <div class="sec-title">비밀번호 변경</div>
+      <div class="field">
+        <label class="label">기존 비밀번호</label>
+        <input type="password" id="sec-cur-pw" placeholder="기존 비밀번호 입력">
+        <div id="sec-cur-err" style="font-size:12px;color:#e53e3e;margin-top:4px;display:none;">기존 비밀번호가 올바르지 않습니다</div>
+      </div>
+      <div class="field">
+        <label class="label">새 비밀번호</label>
+        <input type="password" id="sec-new-pw" placeholder="새 비밀번호 입력">
+      </div>
+      <div class="field">
+        <label class="label">새 비밀번호 확인</label>
+        <input type="password" id="sec-new-pw2" placeholder="새 비밀번호 다시 입력">
+        <div id="sec-match-err" style="font-size:12px;color:#e53e3e;margin-top:4px;display:none;">비밀번호가 일치하지 않습니다</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="changePassword()">변경하기</button>
+      <div id="sec-ok" style="font-size:12px;color:var(--accent);margin-top:8px;text-align:center;display:none;">비밀번호가 변경되었습니다</div>
+    </div>
+  </div><!-- /as-security -->
 
 </div><!-- /panel -->
 
@@ -535,7 +549,7 @@ function switchAdmin(section) {
   document.querySelectorAll('.sb-item, .sb-item-sub').forEach(s => s.classList.remove('on'));
   document.getElementById('as-' + section).classList.add('on');
   document.getElementById('sb-' + section).classList.add('on');
-  const titles = { work: 'Work 편집', insights: 'Insights 편집', contact: 'Contact 편집', backup: '백업/복구 관리' };
+  const titles = { work: 'Work 편집', insights: 'Insights 편집', contact: 'Contact 편집', backup: '백업/복구 관리', security: '보안 설정' };
   document.getElementById('topbar-title').textContent = titles[section] || '';
   const showSave = section === 'work' || section === 'contact';
   document.getElementById('btn-save').style.display = showSave ? '' : 'none';
@@ -979,15 +993,25 @@ function collect() {
   return d;
 }
 
+function changePassword() {
+  const cur = v('sec-cur-pw').value;
+  const np = v('sec-new-pw').value;
+  const np2 = v('sec-new-pw2').value;
+  const curErr = v('sec-cur-err');
+  const matchErr = v('sec-match-err');
+  const ok = v('sec-ok');
+  curErr.style.display = 'none';
+  matchErr.style.display = 'none';
+  ok.style.display = 'none';
+  if (cur !== getPassword()) { curErr.style.display = 'block'; return; }
+  if (np !== np2) { matchErr.style.display = 'block'; return; }
+  localStorage.setItem('portfolio_admin_pw', np);
+  v('sec-cur-pw').value = ''; v('sec-new-pw').value = ''; v('sec-new-pw2').value = '';
+  ok.style.display = 'block';
+  setTimeout(() => { ok.style.display = 'none'; }, 3000);
+}
+
 function save() {
-  const np = v('f-new-pw').value, np2 = v('f-new-pw2').value, ph = v('pw-hint');
-  if (np) {
-    if (np !== np2) { ph.textContent = '비밀번호가 일치하지 않습니다'; ph.style.color = '#e53e3e'; return; }
-    localStorage.setItem('portfolio_admin_pw', np);
-    v('f-new-pw').value = ''; v('f-new-pw2').value = '';
-    ph.textContent = '비밀번호가 변경되었습니다'; ph.style.color = 'var(--accent)';
-    setTimeout(() => { ph.textContent = ''; }, 3000);
-  }
   const d = collect();
   localStorage.setItem('portfolio_v1', JSON.stringify(d));
   DATA = d;
