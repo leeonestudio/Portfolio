@@ -50,7 +50,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Noto Sans
 .btn-danger{background:#fff;color:#e53e3e;border:1px solid rgba(229,62,62,0.3);}
 .btn-danger:hover{background:#fff5f5;}
 .btn-sm{padding:6px 12px;font-size:12px;}
-.save-ok{font-size:12px;color:var(--accent);display:none;align-items:center;gap:4px;}
+.btn-saved{background:#059669 !important;pointer-events:none;}
 
 /* ── ADMIN SECTIONS ── */
 .admin-section{display:none;max-width:740px;margin:0 auto;padding:24px 20px 80px;}
@@ -225,7 +225,6 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <button class="ham-btn" onclick="openSidebar()">☰</button>
     <h1 id="topbar-title">Work 편집</h1>
     <div class="top-btns">
-      <span class="save-ok" id="save-ok">✓ 저장됨</span>
       <button class="btn btn-outline" onclick="window.open('index.html','_blank')">미리보기</button>
       <button class="btn btn-primary" id="btn-save" onclick="save()">저장하기</button>
     </div>
@@ -528,6 +527,7 @@ function login() {
     loadData();
     populateAll();
     populateInsights();
+    initChangeDetection();
   } else {
     document.getElementById('gate-err').style.display = 'block';
   }
@@ -602,6 +602,7 @@ function loadContactImage(input) {
     const src = e.target.result;
     v('f-contact-image').value = src;
     v('ct-img-preview').innerHTML = `<img src="${src}" style="max-width:280px;border-radius:8px;border:1px solid var(--border);">`;
+    markUnsaved();
   };
   reader.readAsDataURL(file);
   input.value = '';
@@ -609,6 +610,7 @@ function loadContactImage(input) {
 function removeContactImage() {
   v('f-contact-image').value = '';
   v('ct-img-preview').innerHTML = '';
+  markUnsaved();
 }
 function syncColor(colorId, hexId) {
   const hex = v(hexId).value.trim();
@@ -1011,13 +1013,25 @@ function changePassword() {
   setTimeout(() => { ok.style.display = 'none'; }, 3000);
 }
 
+let _savedTimer = null;
+function markUnsaved() {
+  const btn = v('btn-save');
+  if (!btn || btn.style.display === 'none') return;
+  btn.textContent = '저장하기';
+  btn.classList.remove('btn-saved');
+}
 function save() {
   const d = collect();
   localStorage.setItem('portfolio_v1', JSON.stringify(d));
   DATA = d;
-  const ok = v('save-ok');
-  ok.style.display = 'flex';
-  setTimeout(() => { ok.style.display = 'none'; }, 2500);
+  const btn = v('btn-save');
+  btn.textContent = '✓ 저장됨';
+  btn.classList.add('btn-saved');
+  clearTimeout(_savedTimer);
+}
+function initChangeDetection() {
+  document.getElementById('panel').addEventListener('input', markUnsaved);
+  document.getElementById('panel').addEventListener('change', markUnsaved);
 }
 
 function resetData() {
