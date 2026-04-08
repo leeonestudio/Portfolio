@@ -580,16 +580,28 @@ function switchAdmin(section) {
 function makeDraggable(container) {
   if (!container) return;
   let dragSrc = null;
-  const draggables = () => [...container.children].filter(el => el.draggable !== false && el.getAttribute('draggable') === 'true');
+  const draggables = () => [...container.children].filter(el => el.getAttribute('draggable') !== null);
 
+  // 초기에 모든 아이템 draggable 비활성화 — 핸들 mousedown 시에만 활성화
   draggables().forEach(el => {
+    el.setAttribute('draggable', 'false');
+
+    const handle = el.querySelector('.drag-handle');
+    if (handle) {
+      handle.addEventListener('mousedown', () => el.setAttribute('draggable', 'true'));
+      handle.addEventListener('mouseup',   () => el.setAttribute('draggable', 'false'));
+    }
+
     el.addEventListener('dragstart', function(e) {
-      if (e.target.closest('input, textarea, select')) { e.preventDefault(); return; }
+      if (!handle || !handle.matches(':active') && this.getAttribute('draggable') !== 'true') {
+        e.preventDefault(); return;
+      }
       dragSrc = this;
       setTimeout(() => this.classList.add('dragging'), 0);
       e.dataTransfer.effectAllowed = 'move';
     });
     el.addEventListener('dragend', function() {
+      this.setAttribute('draggable', 'false');
       this.classList.remove('dragging');
       draggables().forEach(s => s.classList.remove('drag-over'));
     });
