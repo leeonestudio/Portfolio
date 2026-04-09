@@ -275,6 +275,10 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <!-- 케이스 -->
     <div class="sec">
       <div class="sec-title">케이스 스터디</div>
+      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트)</label><input type="text" id="f-case-label" placeholder="케이스 스터디"></div>
+      <div class="field"><label class="label">섹션 제목 (줄바꿈은 Enter)</label><textarea id="f-case-title" rows="2"></textarea></div>
+      <div class="field"><label class="label">섹션 부제목</label><textarea id="f-case-sub" rows="2"></textarea></div>
+      <div style="height:8px;"></div>
       <div id="cases-wrap"></div>
       <button class="btn btn-outline btn-sm" onclick="addCase()" style="margin-top:8px;">+ 케이스 추가</button>
     </div>
@@ -282,6 +286,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <!-- 소개 -->
     <div class="sec">
       <div class="sec-title">소개 (Work 하단)</div>
+      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트)</label><input type="text" id="f-about-label" placeholder="소개"></div>
       <div class="field"><label class="label">제목</label><textarea id="f-about-title" rows="2"></textarea></div>
       <div class="field"><label class="label">부제목</label><textarea id="f-about-subtitle" rows="2"></textarea></div>
       <div class="field"><label class="label">스킬 (쉼표로 구분)</label><input type="text" id="f-skills" placeholder="Notion, Figma, ..."></div>
@@ -462,6 +467,10 @@ const DEFAULTS = {
   name: "김규수",
   tagline: "콘텐츠로\n매출을 만드는\n마케터",
   subtitle: "광고비 없이 유튜브 오가닉 콘텐츠만으로\n자사몰 연매출 2.3배 성장을 이끌었습니다.",
+  caseStudyLabel: "케이스 스터디",
+  caseStudyTitle: "성과로 증명한\n3가지 케이스",
+  caseStudySub: "실제 업무에서 이끌어낸 측정 가능한 결과물입니다.",
+  aboutLabel: "소개",
   motionBanner: {
     title: "데이터로 이야기하겠습니다.",
     tag: "Revenue Growth · 2024",
@@ -959,6 +968,11 @@ function populateAll() {
   set('ins-page-title', (DATA.insightsPage||{}).title || '');
   set('ins-page-subtitle', (DATA.insightsPage||{}).subtitle || '');
 
+  set('f-case-label', DATA.caseStudyLabel || '');
+  set('f-case-title', DATA.caseStudyTitle || '');
+  set('f-case-sub', DATA.caseStudySub || '');
+  set('f-about-label', DATA.aboutLabel || '');
+
   populateMetrics();
   populateCases();
 
@@ -1005,6 +1019,11 @@ function collect() {
   if (!d.insightsPage) d.insightsPage = {};
   d.insightsPage.title = gv('ins-page-title');
   d.insightsPage.subtitle = gv('ins-page-subtitle');
+
+  d.caseStudyLabel = gv('f-case-label');
+  d.caseStudyTitle = gv('f-case-title');
+  d.caseStudySub = gv('f-case-sub');
+  d.aboutLabel = gv('f-about-label');
 
   // 주요 수치 (DOM 순서 기반)
   d.metrics = [...v('metrics-wrap').querySelectorAll('.dnd-row')].map(r => ({
