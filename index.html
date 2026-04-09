@@ -467,8 +467,8 @@ function renderMotionBanner() {
     </circle>
   </svg>
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(28px,6vw,72px);">
-    <div class="mb-title" style="font-size:clamp(16px,2.4vw,30px);font-weight:600;color:rgba(255,255,255,.92);letter-spacing:-.02em;margin-bottom:clamp(10px,1.4vw,18px);line-height:1.2;">${esc(mb.title)}</div>
-    <div class="mb-tag" style="font-size:clamp(9px,1.1vw,12px);letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;margin-bottom:clamp(4px,.6vw,8px);">${esc(mb.tag)}</div>
+    <div class="mb-title" style="font-size:clamp(16px,2.4vw,30px);font-weight:600;color:rgba(255,255,255,.92);letter-spacing:-.02em;margin-bottom:clamp(10px,1.4vw,18px);line-height:1.2;">${nl2br(mb.title)}</div>
+    <div class="mb-tag" style="font-size:clamp(9px,1.1vw,12px);letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:'Inter',sans-serif;margin-bottom:clamp(4px,.6vw,8px);">${nl2br(mb.tag)}</div>
     <div id="mb-num" style="font-family:'Inter',sans-serif;font-size:clamp(44px,9vw,108px);font-weight:700;color:#ffffff;line-height:1;letter-spacing:-.04em;">+0%</div>
     <div class="mb-sub" style="margin-top:clamp(8px,1.2vw,14px);font-size:clamp(11px,1.4vw,16px);color:rgba(255,255,255,.38);line-height:1.75;">${nl2br(mb.subtitle)}</div>
   </div>
@@ -494,14 +494,14 @@ function renderWork() {
   ${renderMotionBanner()}
   <div class="w">
     <div style="padding-top:52px">
-      <div class="badge"><span class="badge-dot"></span>${esc(D.badge)}</div>
+      <div class="badge"><span class="badge-dot"></span>${nl2br(D.badge)}</div>
       <h1>${nl2br(D.tagline)}</h1>
       <p class="sub">${nl2br(D.subtitle)}</p>
       <div class="metrics">
         ${D.metrics.map((m,i) => `
         <div class="mc">
           <div class="mn" id="cnt${i}">${esc(m.value)}</div>
-          <div class="ml">${esc(m.label)}</div>
+          <div class="ml">${nl2br(m.label)}</div>
         </div>`).join('')}
       </div>
     </div>
@@ -536,7 +536,7 @@ function renderWork() {
             <div>
               <div class="tl-co">${esc(t.company)}</div>
               <div class="tl-role">${esc(t.role)}</div>
-              ${t.desc ? `<div class="tl-res">${esc(t.desc)}</div>` : ''}
+              ${t.desc ? `<div class="tl-res">${nl2br(t.desc)}</div>` : ''}
             </div>
           </div>`).join('')}
         </div>
@@ -605,19 +605,19 @@ function renderCaseDetail(c) {
       ${c.kpis.map(k => `
       <div class="mc">
         <div class="mn" style="color:var(--${k.color})">${esc(k.value)}</div>
-        <div class="ml">${esc(k.label)}</div>
+        <div class="ml">${nl2br(k.label)}</div>
       </div>`).join('')}
     </div>
   </div>` : '';
   const periodHtml = c.period ? `
   <div class="block">
     <div class="tag">기간</div>
-    <p class="case-period">${esc(c.period)}</p>
+    <p class="case-period">${nl2br(c.period)}</p>
   </div>` : '';
   const skillsHtml = c.skills ? `
   <div class="block">
     <div class="tag">기술</div>
-    <p class="case-skills">${esc(c.skills)}</p>
+    <p class="case-skills">${nl2br(c.skills)}</p>
   </div>` : '';
   return `
 <div id="p-case-${esc(c.id)}" class="page case-detail">

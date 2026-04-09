@@ -104,10 +104,11 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 /* ── DND ROWS (수치·경력) ── */
 .dnd-row{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:6px;transition:opacity .15s,border-color .15s;}
 .dnd-row:last-child{margin-bottom:0;}
-.dnd-row.dragging{opacity:0.35;}
+.dnd-row.dragging{opacity:0.5;pointer-events:none;}
 .dnd-row.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,0.12);}
-.dnd-row input{border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;color:var(--text);background:#fff;outline:none;min-width:0;}
-.dnd-row input:focus{border-color:var(--accent);}
+.dnd-row input,.dnd-row textarea{border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;color:var(--text);background:#fff;outline:none;min-width:0;}
+.dnd-row input:focus,.dnd-row textarea:focus{border-color:var(--accent);}
+.dnd-row textarea{resize:none;min-height:auto;height:30px;overflow:auto;line-height:1.4;}
 
 /* ── DELETE BUTTON ── */
 .row-del-btn{flex-shrink:0;background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:2px 5px;border-radius:4px;line-height:1;transition:color .15s,background .15s;}
@@ -116,7 +117,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 /* ── CASE ACCORDION ── */
 .case-acc{border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden;transition:opacity .15s,border-color .15s;}
 .case-acc:last-child{margin-bottom:0;}
-.case-acc.dragging{opacity:0.35;}
+.case-acc.dragging{opacity:0.5;pointer-events:none;}
 .case-acc.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,0.12);}
 .case-acc-hd{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;user-select:none;background:#fafafa;border-bottom:1px solid transparent;transition:background .15s;}
 .case-acc-hd:hover{background:#f2f2f2;}
@@ -137,7 +138,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 /* ── GALLERY ADMIN ── */
 .gallery-admin-block{border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;background:#fafafa;}
 .gallery-admin-block:last-child{margin-bottom:0;}
-.gallery-admin-block.dragging{opacity:0.35;}
+.gallery-admin-block.dragging{opacity:0.5;pointer-events:none;}
 .gallery-admin-block.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,0.12);}
 .gallery-img-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 .gallery-img-row:last-child{margin-bottom:0;}
@@ -146,10 +147,11 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 /* ── TIMELINE DND ROWS ── */
 .tl-dnd-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .tl-dnd-row:last-child{margin-bottom:0;}
-.tl-dnd-row.dragging{opacity:0.35;}
+.tl-dnd-row.dragging{opacity:0.5;pointer-events:none;}
 .tl-dnd-row.drag-over{background:rgba(79,70,229,0.04);border-radius:6px;}
-.tl-dnd-row input{border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;color:var(--text);background:#fff;outline:none;min-width:0;}
-.tl-dnd-row input:focus{border-color:var(--accent);}
+.tl-dnd-row input,.tl-dnd-row textarea{border:1px solid var(--border);border-radius:5px;padding:6px 8px;font-size:12px;font-family:inherit;color:var(--text);background:#fff;outline:none;min-width:0;}
+.tl-dnd-row input:focus,.tl-dnd-row textarea:focus{border-color:var(--accent);}
+.tl-dnd-row textarea{resize:none;min-height:auto;height:30px;overflow:auto;line-height:1.4;}
 .tl-check-lbl{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--text2);white-space:nowrap;cursor:pointer;flex-shrink:0;}
 
 /* ── INSIGHTS EDITOR ── */
@@ -239,8 +241,8 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <!-- 모션 배너 -->
     <div class="sec">
       <div class="sec-title">모션 배너 (홈 상단 그래프)</div>
-      <div class="field"><label class="label">메인 타이틀</label><input type="text" id="mb-title" placeholder="데이터로 이야기하겠습니다."></div>
-      <div class="field"><label class="label">태그 라인 (작은 텍스트)</label><input type="text" id="mb-tag" placeholder="Revenue Growth · 2024"></div>
+      <div class="field"><label class="label">메인 타이틀 (줄바꿈은 Enter)</label><textarea id="mb-title" rows="2" placeholder="데이터로 이야기하겠습니다."></textarea></div>
+      <div class="field"><label class="label">태그 라인 (줄바꿈은 Enter)</label><textarea id="mb-tag" rows="2" placeholder="Revenue Growth · 2024"></textarea></div>
       <div class="field"><label class="label">부제목 (줄바꿈은 Enter)</label><textarea id="mb-subtitle" rows="2"></textarea></div>
       <div class="grid2">
         <div class="field">
@@ -260,7 +262,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <div class="sec">
       <div class="sec-title">기본 정보</div>
       <div class="field"><label class="label">이름</label><input type="text" id="f-name"></div>
-      <div class="field"><label class="label">배지 텍스트 (상단 작은 문구)</label><input type="text" id="f-badge" placeholder="콘텐츠 마케터 · 포트폴리오"></div>
+      <div class="field"><label class="label">배지 텍스트 (줄바꿈은 Enter)</label><textarea id="f-badge" rows="2" placeholder="콘텐츠 마케터 · 포트폴리오"></textarea></div>
       <div class="field"><label class="label">헤드라인 (줄바꿈은 Enter)</label><textarea id="f-tagline" rows="3"></textarea></div>
       <div class="field"><label class="label">부제목</label><textarea id="f-subtitle" rows="2"></textarea></div>
     </div>
@@ -275,7 +277,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <!-- 케이스 -->
     <div class="sec">
       <div class="sec-title">케이스 스터디</div>
-      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트)</label><input type="text" id="f-case-label" placeholder="케이스 스터디"></div>
+      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트, 줄바꿈은 Enter)</label><textarea id="f-case-label" rows="2" placeholder="케이스 스터디"></textarea></div>
       <div class="field"><label class="label">섹션 제목 (줄바꿈은 Enter)</label><textarea id="f-case-title" rows="2"></textarea></div>
       <div class="field"><label class="label">섹션 부제목</label><textarea id="f-case-sub" rows="2"></textarea></div>
       <div style="height:8px;"></div>
@@ -286,7 +288,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
     <!-- 소개 -->
     <div class="sec">
       <div class="sec-title">소개 (Work 하단)</div>
-      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트)</label><input type="text" id="f-about-label" placeholder="소개"></div>
+      <div class="field"><label class="label">섹션 라벨 (파란색 텍스트, 줄바꿈은 Enter)</label><textarea id="f-about-label" rows="2" placeholder="소개"></textarea></div>
       <div class="field"><label class="label">제목</label><textarea id="f-about-title" rows="2"></textarea></div>
       <div class="field"><label class="label">부제목</label><textarea id="f-about-subtitle" rows="2"></textarea></div>
       <div class="field"><label class="label">스킬 (쉼표로 구분)</label><input type="text" id="f-skills" placeholder="Notion, Figma, ..."></div>
@@ -601,6 +603,13 @@ function makeDraggable(container) {
       handle.addEventListener('mouseup',   () => el.setAttribute('draggable', 'false'));
     }
 
+    // 입력 필드에서의 마우스 이벤트가 부모 드래그를 방해하지 않도록
+    el.querySelectorAll('input:not([type=checkbox]), textarea, select').forEach(inner => {
+      inner.setAttribute('draggable', 'false');
+      inner.addEventListener('mousedown', e => e.stopPropagation());
+      inner.addEventListener('dragstart', e => e.preventDefault());
+    });
+
     el.addEventListener('dragstart', function(e) {
       if (!handle || !handle.matches(':active') && this.getAttribute('draggable') !== 'true') {
         e.preventDefault(); return;
@@ -710,7 +719,7 @@ function populateMetrics() {
     <div class="dnd-row" draggable="true">
       <span class="drag-handle" title="드래그하여 순서 변경">⠿</span>
       <input type="text" class="m-val" value="${esc(m.value)}" placeholder="값" style="flex:1;min-width:60px;">
-      <input type="text" class="m-lbl" value="${esc(m.label)}" placeholder="라벨" style="flex:2;">
+      <textarea class="m-lbl" placeholder="라벨" style="flex:2;">${esc(m.label)}</textarea>
       <label class="tl-check-lbl"><input type="checkbox" class="m-ani" ${m.animate?'checked':''}> 카운터</label>
       <button class="row-del-btn" onclick="deleteMetric(this)" title="삭제">✕</button>
     </div>`).join('');
@@ -738,7 +747,7 @@ function kpiRowHtml(k) {
   return `<div class="dnd-row" draggable="true">
     <span class="drag-handle" title="드래그하여 순서 변경">⠿</span>
     <input type="text" class="kpi-val" value="${esc(k.value)}" placeholder="값" style="flex:1;">
-    <input type="text" class="kpi-lbl" value="${esc(k.label)}" placeholder="라벨" style="flex:2;">
+    <textarea class="kpi-lbl" placeholder="라벨" style="flex:2;">${esc(k.label)}</textarea>
     <button class="row-del-btn" onclick="deleteKpi(this)" title="삭제">✕</button>
   </div>`;
 }
@@ -783,11 +792,11 @@ function populateCases() {
           <div class="kpis-wrap">${kpisHtml}</div>
           <button class="btn btn-outline btn-sm" onclick="addKpi(this)" style="margin-top:6px;">+ 수치 추가</button>
         </div>
-        <div class="field"><label class="label">기간 (예: 2024.03 ~ 2026.03)</label><input type="text" class="c-period" value="${esc(c.period||'')}" placeholder="2024.03 ~ 2026.03"></div>
+        <div class="field"><label class="label">기간 (줄바꿈은 Enter)</label><textarea class="c-period" rows="2" placeholder="2024.03 ~ 2026.03">${esc(c.period||'')}</textarea></div>
         <div class="field"><label class="label">S (상황)</label><textarea class="c-s" rows="2">${esc(c.sar?.s||'')}</textarea></div>
         <div class="field"><label class="label">A (행동) — &lt;strong&gt;강조&lt;/strong&gt; 사용 가능</label><textarea class="c-a" rows="3">${esc(c.sar?.a||'')}</textarea></div>
         <div class="field"><label class="label">R (결과)</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
-        <div class="field"><label class="label">기술 (쉼표로 구분)</label><input type="text" class="c-skills" value="${esc(c.skills||'')}" placeholder="Premiere Pro, 카페24, 채널톡"></div>
+        <div class="field"><label class="label">기술 (쉼표로 구분, 줄바꿈은 Enter)</label><textarea class="c-skills" rows="2" placeholder="Premiere Pro, 카페24, 채널톡">${esc(c.skills||'')}</textarea></div>
         <div class="field">
           <label class="label">이미지 갤러리</label>
           <div class="gallery-admin-wrap">${(c.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
@@ -926,7 +935,7 @@ function populateTimeline() {
       <input type="text" class="tl-year" value="${esc(t.year)}" placeholder="기간" style="width:86px;">
       <input type="text" class="tl-company" value="${esc(t.company)}" placeholder="회사" style="flex:1;">
       <input type="text" class="tl-role" value="${esc(t.role)}" placeholder="직함" style="flex:1;">
-      <input type="text" class="tl-desc" value="${esc(t.desc)}" placeholder="성과" style="flex:2;">
+      <textarea class="tl-desc" placeholder="성과" style="flex:2;">${esc(t.desc)}</textarea>
       <label class="tl-check-lbl"><input type="checkbox" class="tl-active" ${t.active?'checked':''}> 현직</label>
       <button class="row-del-btn" onclick="deleteTimelineRow(this)" title="삭제">✕</button>
     </div>`).join('');
