@@ -750,7 +750,7 @@ function populateCases() {
     const mc = /^#[0-9a-fA-F]{6}$/.test(c.moreColor||'') ? c.moreColor : '#6b6b6b';
     const kpisHtml = (c.kpis||[]).map(k => kpiRowHtml(k)).join('');
     return `
-    <div class="case-acc${i===0?' open':''}" draggable="true">
+    <div class="case-acc" draggable="true">
       <div class="case-acc-hd" onclick="toggleCaseAcc(this)">
         <span class="drag-handle" onclick="event.stopPropagation()" title="드래그하여 순서 변경">⠿</span>
         <span class="case-acc-num">CASE ${String(i+1).padStart(2,'0')}</span>
