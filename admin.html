@@ -611,6 +611,8 @@ function makeDraggable(container) {
     });
 
     el.addEventListener('dragstart', function(e) {
+      // 하위 요소(중첩 컨테이너)에서 버블링된 이벤트는 무시
+      if (e.target !== this) return;
       if (!handle || !handle.matches(':active') && this.getAttribute('draggable') !== 'true') {
         e.preventDefault(); return;
       }
@@ -622,9 +624,13 @@ function makeDraggable(container) {
       this.setAttribute('draggable', 'false');
       this.classList.remove('dragging');
       draggables().forEach(s => s.classList.remove('drag-over'));
+      dragSrc = null;
     });
     el.addEventListener('dragover', function(e) {
+      // 이 컨테이너에서 시작된 드래그만 처리 (교차 컨테이너 간섭 방지)
+      if (!dragSrc) return;
       e.preventDefault();
+      e.stopPropagation();
       e.dataTransfer.dropEffect = 'move';
       if (this !== dragSrc) this.classList.add('drag-over');
     });
@@ -632,8 +638,11 @@ function makeDraggable(container) {
       if (!this.contains(e.relatedTarget)) this.classList.remove('drag-over');
     });
     el.addEventListener('drop', function(e) {
+      // 이 컨테이너에서 시작된 드래그만 처리
+      if (!dragSrc) return;
       e.preventDefault();
-      if (dragSrc && dragSrc !== this) {
+      e.stopPropagation();
+      if (dragSrc !== this) {
         const list = draggables();
         if (list.indexOf(dragSrc) < list.indexOf(this)) this.after(dragSrc);
         else this.before(dragSrc);
