@@ -176,6 +176,15 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .gallery-mixed-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
 .gallery-mixed-bottom .gallery-img{}
 
+/* LIGHTBOX */
+.lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
+.lb-overlay.open{opacity:1;pointer-events:auto;}
+.lb-img-wrap{max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;}
+.lb-img-wrap img{max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);transition:transform .22s ease;}
+.lb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:9001;line-height:1;}
+.lb-close:hover{background:rgba(255,255,255,.25);}
+.gallery-img{cursor:zoom-in;}
+
 /* FOOTER */
 footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border-top:.5px solid var(--border);}
 
@@ -198,6 +207,14 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
 <main id="main"></main>
 <footer id="footer"></footer>
 <div class="toast" id="toast"></div>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lb-overlay" onclick="lbClose(event)">
+  <button class="lb-close" onclick="lbClose()" aria-label="닫기">✕</button>
+  <div class="lb-img-wrap">
+    <img id="lb-img" src="" alt="">
+  </div>
+</div>
 
 <script>
 // ── DEFAULTS ─────────────────────────────────────────────────────────────
@@ -535,9 +552,27 @@ function renderWork() {
 </div>`;
 }
 
+// ── LIGHTBOX ──────────────────────────────────────────────────────────────
+function lbOpen(src, alt) {
+  const ov = document.getElementById('lb-overlay');
+  const im = document.getElementById('lb-img');
+  im.src = src;
+  im.alt = alt || '';
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function lbClose(e) {
+  if (e && e.target === document.getElementById('lb-img')) return;
+  const ov = document.getElementById('lb-overlay');
+  ov.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lbClose(); });
+
 // ── RENDER: GALLERY ───────────────────────────────────────────────────────
 function imgTag(img) {
-  return `<img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}">`;
+  return `<img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}" onclick="lbOpen('${esc(img.src)}','${esc(img.alt||'')}')" loading="lazy">`;
 }
 
 function renderGallery(gallery) {
