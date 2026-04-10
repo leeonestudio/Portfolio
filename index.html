@@ -55,6 +55,7 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .mc{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 14px;text-align:center;transition:border-color var(--t);}
 .mc:hover{border-color:var(--border2);}
 .mn{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
+.metrics .mn{font-size:32px;}
 .ml{font-size:13px;color:var(--text2);}
 
 /* BTNS */
@@ -208,6 +209,7 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
   .w{padding:44px 28px 80px;}
   .metrics{gap:8px;}
   .mn{font-size:22px;}
+  .metrics .mn{font-size:28px;}
   .btn{min-height:44px;}
   .pg-btn{width:40px;height:40px;}
 }
@@ -231,6 +233,7 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
   .metrics{grid-template-columns:repeat(3,1fr);gap:7px;margin-top:20px;}
   .mc{padding:12px 8px;}
   .mn{font-size:18px;}
+  .metrics .mn{font-size:22px;}
   .ml{font-size:11px;}
 
   /* 버튼 — 터치 최소 44px */
@@ -306,6 +309,7 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
 /* ── 소형 모바일 (max-width: 374px) ──────────────────────────────── */
 @media(max-width:374px){
   .mn{font-size:16px;}
+  .metrics .mn{font-size:18px;}
   .ml{font-size:10px;}
   .mc{padding:10px 6px;}
   .cc-kpi{font-size:18px;}
@@ -718,7 +722,7 @@ function renderWork() {
       <div class="metrics">
         ${D.metrics.map((m,i) => `
         <div class="mc">
-          <div class="mn" id="cnt${i}">${esc(m.value)}</div>
+          <div class="mn" id="cnt${i}">${nl2br(m.value)}</div>
           <div class="ml">${nl2br(m.label)}</div>
         </div>`).join('')}
       </div>
@@ -844,7 +848,7 @@ function renderCaseDetail(c) {
     <div class="kpi-g">
       ${c.kpis.map(k => `
       <div class="mc">
-        <div class="mn" style="color:var(--${k.color})">${esc(k.value)}</div>
+        <div class="mn" style="color:var(--${k.color})">${nl2br(k.value)}</div>
         <div class="ml">${nl2br(k.label)}</div>
       </div>`).join('')}
     </div>
@@ -1135,7 +1139,7 @@ function runCounters() {
     const isInt = Number.isInteger(target);
     const tick = () => {
       s = Math.min(s + step, target);
-      el.textContent = prefix + (isInt ? Math.floor(s) : s.toFixed(2)) + suffix;
+      el.innerHTML = nl2br(prefix) + (isInt ? Math.floor(s) : s.toFixed(2)) + nl2br(suffix);
       if (s < target) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
