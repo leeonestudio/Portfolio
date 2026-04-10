@@ -93,12 +93,14 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 /* CASE DETAIL */
 .back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;margin-bottom:24px;transition:color var(--t);}
 .back:hover{color:var(--text);}
-.sar{display:flex;flex-direction:column;}
-.sar-row{display:flex;gap:16px;padding:14px 0;border-bottom:.5px solid var(--border);}
-.sar-row:last-child{border-bottom:none;}
-.sar-l{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--green);width:18px;flex-shrink:0;padding-top:2px;letter-spacing:.06em;}
+.sar{display:flex;flex-direction:column;gap:0;}
+.sar-row{background:#fff;border:1px solid var(--border2);border-radius:var(--r);box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:20px 22px;margin-bottom:14px;}
+.sar-row:last-child{margin-bottom:0;}
+.sar-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sar-badge{width:26px;height:26px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;letter-spacing:0;}
+.sar-label{font-size:14px;font-weight:700;color:#333333;letter-spacing:-.01em;}
 .sar-c{font-size:15px;color:var(--text2);line-height:1.75;}
-.sar-c strong{color:var(--text);font-weight:600;}
+.sar-c strong{color:#333333;font-weight:700;}
 .case-period,.case-skills{font-size:15px;color:var(--text2);margin-top:8px;line-height:1.6;}
 
 /* MARKDOWN BODY (case detail only) */
@@ -116,8 +118,7 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .md-body span{white-space:pre-wrap;}
 .case-detail .block:not(.gallery-block) .tag{border-left:4px solid var(--green);padding-left:10px;font-size:17px;font-weight:600;}
 .case-detail .block+.block{border-top:.5px solid var(--border);padding-top:40px;}
-.case-detail .sar-row{border-bottom:none;padding:8px 0;}
-.case-detail .sar-row:first-child{padding-top:0;}
+.case-detail .sar-row{display:flex;flex-direction:column;}
 .chart-box{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 12px;margin-top:8px;}
 .kpi-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px;}
 
@@ -252,7 +253,7 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
   /* 케이스 상세 */
   .case-detail .block:not(.gallery-block) .tag{font-size:14px;}
   .case-detail .block+.block{padding-top:28px;}
-  .sar-row{gap:12px;padding:10px 0;}
+  .sar-row{padding:16px 16px;margin-bottom:10px;}
   .sar-c{font-size:14px;}
   .md-body{font-size:14px;}
   .case-period,.case-skills{font-size:14px;}
@@ -871,9 +872,9 @@ function renderCaseDetail(c) {
   <div class="block">
     <div class="tag">상황·행동·결과</div>
     <div class="sar">
-      <div class="sar-row"><div class="sar-l">S</div><div class="sar-c">${sarHtml(c.sar.s)}</div></div>
-      <div class="sar-row"><div class="sar-l">A</div><div class="sar-c">${sarHtml(c.sar.a)}</div></div>
-      <div class="sar-row"><div class="sar-l">R</div><div class="sar-c">${sarHtml(c.sar.r)}</div></div>
+      <div class="sar-row"><div class="sar-head"><span class="sar-badge">S</span><span class="sar-label">상황</span></div><div class="sar-c">${sarHtml(c.sar.s)}</div></div>
+      <div class="sar-row"><div class="sar-head"><span class="sar-badge">A</span><span class="sar-label">행동</span></div><div class="sar-c">${sarHtml(c.sar.a)}</div></div>
+      <div class="sar-row"><div class="sar-head"><span class="sar-badge">R</span><span class="sar-label">결과</span></div><div class="sar-c">${sarHtml(c.sar.r)}</div></div>
     </div>
   </div>
   ${skillsHtml}
