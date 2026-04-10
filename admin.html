@@ -576,7 +576,6 @@ async function login() {
   if (pw === getPassword()) {
     document.getElementById('gate').style.display = 'none';
     document.getElementById('panel').style.display = 'block';
-    document.getElementById('panel').innerHTML = '<div style="padding:60px;text-align:center;color:#aaa;font-size:13px;">데이터 불러오는 중…</div>';
     await loadData();
     populateAll();
     populateInsights();
