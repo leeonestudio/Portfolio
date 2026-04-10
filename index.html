@@ -202,16 +202,114 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 /* FOOTER */
 footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border-top:.5px solid var(--border);}
 
-@media(max-width:520px){
+/* ── 태블릿 (768px ~ 1023px) ──────────────────────────────────────── */
+@media(min-width:768px) and (max-width:1023px){
+  .w{padding:44px 28px 80px;}
+  .metrics{gap:8px;}
+  .mn{font-size:22px;}
+  .btn{min-height:44px;}
+  .pg-btn{width:40px;height:40px;}
+}
+
+/* ── 모바일 (max-width: 767px) ────────────────────────────────────── */
+@media(max-width:767px){
+  /* 네비게이션 */
   nav{padding:0 16px;}
-  .w{padding:36px 16px 72px;}
-  .metrics{grid-template-columns:repeat(3,1fr);}
-  .mn{font-size:20px;}
-  .row{flex-direction:column;}
-  .btn{justify-content:center;}
-  .art-img{width:72px;height:72px;}
-  .art-title{font-size:15px;}
   .nav-links{gap:16px;}
+  .nav-link{font-size:12px;}
+
+  /* 레이아웃 */
+  .w{padding:32px 16px 80px;}
+  .divider{margin:32px 0;}
+  .block{margin-bottom:28px;}
+
+  /* 서브 텍스트 */
+  .sub{font-size:13px;margin-top:10px;}
+
+  /* 수치 카드 */
+  .metrics{grid-template-columns:repeat(3,1fr);gap:7px;margin-top:20px;}
+  .mc{padding:12px 8px;}
+  .mn{font-size:18px;}
+  .ml{font-size:11px;}
+
+  /* 버튼 — 터치 최소 44px */
+  .row{flex-direction:column;gap:8px;margin-top:20px;}
+  .btn{justify-content:center;min-height:44px;width:100%;font-size:14px;padding:11px 20px;}
+
+  /* 케이스 카드 */
+  .case-list{gap:8px;margin-top:20px;}
+  .cc{grid-template-columns:1fr auto;padding:14px 14px 12px;gap:0 10px;}
+  .cc-kpi{font-size:22px;}
+  .cc-title{font-size:14px;}
+  .cc-sub{font-size:11px;margin-top:4px;}
+  .cc-more{font-size:10px;padding:3px 10px;}
+
+  /* KPI 그리드 */
+  .kpi-g{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .kpi-g .mn{font-size:18px;}
+  .kpi-g .ml{font-size:11px;}
+
+  /* 케이스 상세 */
+  .case-detail .block:not(.gallery-block) .tag{font-size:14px;}
+  .case-detail .block+.block{padding-top:28px;}
+  .sar-row{gap:12px;padding:10px 0;}
+  .sar-c{font-size:14px;}
+  .md-body{font-size:14px;}
+  .case-period,.case-skills{font-size:14px;}
+  .back{min-height:44px;display:inline-flex;align-items:center;}
+
+  /* 타임라인 */
+  .tl-yr{min-width:58px;font-size:10px;}
+  .tl-item{gap:10px;}
+
+  /* 인사이트 목록 */
+  .ins-header{padding:32px 0 18px;}
+  .ins-cats{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .ins-cats::-webkit-scrollbar{display:none;}
+  .ins-cat{font-size:12px;padding:10px 10px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;}
+  .ins-cat:first-child{padding-left:2px;}
+  .ins-search-btn{min-width:44px;min-height:44px;justify-content:center;}
+  .ins-q.open{width:110px;}
+  .art-row{gap:14px;padding:20px 0;}
+  .art-img{width:68px;height:68px;flex-shrink:0;}
+  .art-title{font-size:15px;}
+  .art-excerpt{font-size:12px;}
+  .art-meta{font-size:11px;margin-top:8px;}
+
+  /* 페이지네이션 — 터치 44px */
+  .pagination{gap:6px;margin-top:32px;}
+  .pg-btn{width:44px;height:44px;font-size:13px;}
+
+  /* 인사이트 상세 */
+  .ins-detail-header{padding:32px 0 0;}
+  .ins-detail-title{font-size:clamp(22px,6vw,30px);}
+  .ins-detail-sub{font-size:14px;}
+  .ins-detail-meta{flex-direction:column;align-items:flex-start;gap:6px;padding:16px 0;}
+  .ins-detail-body{font-size:14px;line-height:1.85;padding:24px 0;}
+  .ins-detail-body p{margin-bottom:16px;}
+
+  /* Contact */
+  .contact-h{padding:36px 0 14px;}
+
+  /* 갤러리 */
+  .gallery-three-col{grid-template-columns:1fr 1fr;}
+  .gallery-two-col,.gallery-mixed-bottom{gap:6px;}
+
+  /* 라이트박스 */
+  .lb-close{width:44px;height:44px;top:12px;right:12px;font-size:18px;}
+
+  /* 토스트 */
+  .toast{font-size:12px;padding:10px 18px;max-width:calc(100vw - 32px);white-space:normal;text-align:center;}
+}
+
+/* ── 소형 모바일 (max-width: 374px) ──────────────────────────────── */
+@media(max-width:374px){
+  .mn{font-size:16px;}
+  .ml{font-size:10px;}
+  .mc{padding:10px 6px;}
+  .cc-kpi{font-size:18px;}
+  .kpi-g{grid-template-columns:1fr 1fr;}
+  .nav-links{gap:10px;}
 }
 </style>
 <!-- Firebase SDK (compat) -->
