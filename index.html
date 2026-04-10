@@ -214,8 +214,29 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
   .nav-links{gap:16px;}
 }
 </style>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+  } catch(e) {}
+  var _db      = firebase.firestore();
+  var _storage = firebase.storage();
+</script>
 </head>
 <body>
+
+<!-- Firebase 로딩 오버레이 -->
+<div id="fb-loading" style="position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;">
+  <div style="text-align:center;color:#aaa;font-size:13px;font-family:'Noto Sans KR',sans-serif;">
+    <div style="width:32px;height:32px;border:2px solid #eee;border-top-color:#4F46E5;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px;"></div>
+    불러오는 중…
+  </div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
 <nav id="nav-inner"></nav>
 <main id="main"></main>
@@ -388,11 +409,7 @@ function deepMerge(base, over) {
   return r;
 }
 
-let D;
-try {
-  const saved = localStorage.getItem('portfolio_v1');
-  D = saved ? deepMerge(DEFAULTS, JSON.parse(saved)) : { ...DEFAULTS };
-} catch { D = { ...DEFAULTS }; }
+let D = JSON.parse(JSON.stringify(DEFAULTS)); // Firebase 로드 전 기본값
 
 // ── HELPERS ───────────────────────────────────────────────────────────────
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -909,7 +926,8 @@ function showToast(msg) {
 function initResumeBtn() {
   const btn = document.getElementById('btn-resume');
   if (!btn) return;
-  const hasPdf = !!localStorage.getItem('portfolio_resume_pdf');
+  const pdfVal = D.contact && D.contact.resumePdf;
+  const hasPdf = (pdfVal && pdfVal.startsWith('http')) || !!localStorage.getItem('portfolio_resume_pdf');
   if (hasPdf) {
     btn.disabled = false;
     btn.style.opacity = '';
@@ -923,6 +941,13 @@ function initResumeBtn() {
   }
 }
 function downloadResume() {
+  const pdfVal = D.contact && D.contact.resumePdf;
+  // Firebase Storage URL
+  if (pdfVal && pdfVal.startsWith('http')) {
+    window.open(pdfVal, '_blank');
+    return;
+  }
+  // 레거시: localStorage
   const pdf = localStorage.getItem('portfolio_resume_pdf');
   if (!pdf) return;
   const rawName = (D.contact.resumeName || '이력서').trim();
@@ -939,15 +964,17 @@ function copyEmail() {
     .catch(() => showToast('이메일: ' + D.contact.email));
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────
-document.getElementById('nav-inner').innerHTML = renderNav();
-document.getElementById('main').innerHTML =
-  renderWork() +
-  D.cases.map(renderCaseDetail).join('') +
-  renderInsights() +
-  (D.insights || []).map(renderInsightDetail).join('') +
-  renderContact();
-document.getElementById('footer').innerHTML = `© 2026 ${esc(D.name)} · AI 코딩 툴로 직접 제작`;
+// ── RENDER ────────────────────────────────────────────────────────────────
+function renderAll() {
+  document.getElementById('nav-inner').innerHTML = renderNav();
+  document.getElementById('main').innerHTML =
+    renderWork() +
+    D.cases.map(renderCaseDetail).join('') +
+    renderInsights() +
+    (D.insights || []).map(renderInsightDetail).join('') +
+    renderContact();
+  document.getElementById('footer').innerHTML = `© 2026 ${esc(D.name)} · AI 코딩 툴로 직접 제작`;
+}
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────
 const NAV_MAP = {
@@ -1016,11 +1043,34 @@ function runCounters() {
   });
 }
 
-// ── START ─────────────────────────────────────────────────────────────────
-window.addEventListener('load', () => {
+// ── START (Firebase 비동기 초기화) ─────────────────────────────────────────
+(async function() {
+  try {
+    const snap = await _db.collection('portfolio').doc('main').get();
+    if (snap.exists) {
+      D = deepMerge(DEFAULTS, snap.data());
+    } else {
+      // Firestore에 데이터 없음 → localStorage 확인
+      const saved = localStorage.getItem('portfolio_v1');
+      if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
+    }
+  } catch(e) {
+    // Firebase 연결 실패 → localStorage 폴백
+    try {
+      const saved = localStorage.getItem('portfolio_v1');
+      if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
+    } catch {}
+  }
+
+  // 로딩 오버레이 제거 후 렌더
+  const loader = document.getElementById('fb-loading');
+  if (loader) loader.style.display = 'none';
+  renderAll();
+
   const hash = location.hash.replace('#', '') || 'work';
   go(hash);
-});
+})();
+
 window.addEventListener('hashchange', () => {
   const hash = location.hash.replace('#', '') || 'work';
   go(hash);
