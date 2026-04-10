@@ -134,6 +134,7 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 
 /* ── KPI MINI ROWS ── */
 .kpis-wrap .dnd-row{padding:6px 8px;}
+.m-lbl,.kpi-lbl{height:50px !important;resize:vertical !important;}
 
 /* ── GALLERY ADMIN ── */
 .gallery-admin-block{border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;background:#fafafa;}
@@ -779,7 +780,7 @@ function populateMetrics() {
     <div class="dnd-row" draggable="true">
       <span class="drag-handle" title="드래그하여 순서 변경">⠿</span>
       <input type="text" class="m-val" value="${esc(m.value)}" placeholder="값" style="flex:1;min-width:60px;">
-      <textarea class="m-lbl" placeholder="라벨" style="flex:2;">${esc(m.label)}</textarea>
+      <textarea class="m-lbl" placeholder="라벨 (줄바꿈은 Enter)" style="flex:2;">${esc(m.label)}</textarea>
       <label class="tl-check-lbl"><input type="checkbox" class="m-ani" ${m.animate?'checked':''}> 카운터</label>
       <button class="row-del-btn" onclick="deleteMetric(this)" title="삭제">✕</button>
     </div>`).join('');
@@ -807,7 +808,7 @@ function kpiRowHtml(k) {
   return `<div class="dnd-row" draggable="true">
     <span class="drag-handle" title="드래그하여 순서 변경">⠿</span>
     <input type="text" class="kpi-val" value="${esc(k.value)}" placeholder="값" style="flex:1;">
-    <textarea class="kpi-lbl" placeholder="라벨" style="flex:2;">${esc(k.label)}</textarea>
+    <textarea class="kpi-lbl" placeholder="라벨 (줄바꿈은 Enter)" style="flex:2;">${esc(k.label)}</textarea>
     <button class="row-del-btn" onclick="deleteKpi(this)" title="삭제">✕</button>
   </div>`;
 }
