@@ -801,11 +801,11 @@ function populateCases() {
           <div class="kpis-wrap">${kpisHtml}</div>
           <button class="btn btn-outline btn-sm" onclick="addKpi(this)" style="margin-top:6px;">+ 수치 추가</button>
         </div>
-        <div class="field"><label class="label">기간 (줄바꿈은 Enter)</label><textarea class="c-period" rows="2" placeholder="2024.03 ~ 2026.03">${esc(c.period||'')}</textarea></div>
-        <div class="field"><label class="label">S (상황)</label><textarea class="c-s" rows="2">${esc(c.sar?.s||'')}</textarea></div>
-        <div class="field"><label class="label">A (행동) — &lt;strong&gt;강조&lt;/strong&gt; 사용 가능</label><textarea class="c-a" rows="3">${esc(c.sar?.a||'')}</textarea></div>
-        <div class="field"><label class="label">R (결과)</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
-        <div class="field"><label class="label">기술 (쉼표로 구분, 줄바꿈은 Enter)</label><textarea class="c-skills" rows="2" placeholder="Premiere Pro, 카페24, 채널톡">${esc(c.skills||'')}</textarea></div>
+        <div class="field"><label class="label">기간 — 마크다운 지원 (- 불릿, 1. 번호, " 인용, **굵게**, _기울임_, ==형광==)</label><textarea class="c-period" rows="2" placeholder="2024.03 ~ 2026.03">${esc(c.period||'')}</textarea></div>
+        <div class="field"><label class="label">S (상황) — 마크다운 지원</label><textarea class="c-s" rows="2">${esc(c.sar?.s||'')}</textarea></div>
+        <div class="field"><label class="label">A (행동) — 마크다운 지원 (- 불릿, 1. 번호, " 인용, **굵게**, _기울임_, &lt;u&gt;밑줄&lt;/u&gt;, ==형광==)</label><textarea class="c-a" rows="3">${esc(c.sar?.a||'')}</textarea></div>
+        <div class="field"><label class="label">R (결과) — 마크다운 지원</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
+        <div class="field"><label class="label">기술 — 마크다운 지원 (- 불릿, 1. 번호, **굵게** 등)</label><textarea class="c-skills" rows="2" placeholder="Premiere Pro, 카페24, 채널톡">${esc(c.skills||'')}</textarea></div>
         <div class="field">
           <label class="label">이미지 갤러리</label>
           <div class="gallery-admin-wrap">${(c.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>

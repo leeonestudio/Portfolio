@@ -100,6 +100,20 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .sar-c{font-size:15px;color:var(--text2);line-height:1.75;}
 .sar-c strong{color:var(--text);font-weight:600;}
 .case-period,.case-skills{font-size:15px;color:var(--text2);margin-top:8px;line-height:1.6;}
+
+/* MARKDOWN BODY (case detail only) */
+.md-body{font-size:15px;color:var(--text2);line-height:1.75;}
+.md-body strong{color:var(--text);font-weight:600;}
+.md-body em{font-style:italic;}
+.md-body u{text-decoration:underline;}
+.md-body mark{background:#10b981;color:#fff;padding:1px 5px;border-radius:3px;font-style:normal;}
+.md-body ul{margin:4px 0 4px 18px;padding:0;list-style:disc;}
+.md-body ul ul{list-style:circle;margin:2px 0 2px 18px;}
+.md-body ol{margin:4px 0 4px 18px;padding:0;list-style:decimal;}
+.md-body ol ol{list-style:lower-alpha;margin:2px 0 2px 18px;}
+.md-body li{margin:2px 0;}
+.md-body blockquote{border-left:3px solid var(--border2);padding:8px 14px;margin:6px 0;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;}
+.md-body span{white-space:pre-wrap;}
 .case-detail .block:not(.gallery-block) .tag{border-left:4px solid var(--green);padding-left:10px;font-size:17px;font-weight:600;}
 .case-detail .block+.block{border-top:.5px solid var(--border);padding-top:40px;}
 .case-detail .sar-row{border-bottom:none;padding:8px 0;}
@@ -387,6 +401,94 @@ const nl2brRaw = s => String(s||'').replace(/\n/g,'<br>');
 function mdInline(s) {
   return s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/_(.*?)_/g,'<em>$1</em>');
 }
+
+// ── MARKDOWN RENDERER (case detail only) ─────────────────────────────────
+function renderMd(raw) {
+  if (!raw) return '';
+
+  // Regex to match allowed passthrough HTML tags — built via new RegExp to avoid /.../ literal issues
+  var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
+
+  function inlineMd(text) {
+    var saved = [];
+    var t = String(text).replace(PASS_TAG, function(m) {
+      saved.push(m);
+      return '\x00T' + (saved.length - 1) + '\x00';
+    });
+    // Escape remaining HTML
+    t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // Preserve spaces: leading spaces → &nbsp;, internal 2+ spaces → &nbsp;
+    t = t.replace(/^( +)/, function(m) { return m.replace(/ /g, '&nbsp;'); });
+    t = t.replace(/( {2,})/g, function(m) { return m.replace(/ /g, '&nbsp;'); });
+    // Markdown transforms
+    t = t.replace(/==(.*?)==/g, '<mark>$1</mark>');
+    t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    t = t.replace(/_(.*?)_/g, '<em>$1</em>');
+    // Restore saved tags
+    t = t.replace(/\x00T(\d+)\x00/g, function(_, i) { return saved[+i]; });
+    return t;
+  }
+
+  var lines = String(raw).split('\n');
+  var html = '';
+  var outerList = null; // 'ul' | 'ol' | null
+  var innerList = null; // 'ul' | 'ol' | null
+
+  function closeInner() {
+    if (innerList === 'ul') { html += '</ul>'; innerList = null; }
+    else if (innerList === 'ol') { html += '</ol>'; innerList = null; }
+  }
+  function closeOuter() {
+    closeInner();
+    if (outerList === 'ul') { html += '</ul>'; outerList = null; }
+    else if (outerList === 'ol') { html += '</ol>'; outerList = null; }
+  }
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].trimEnd();
+    if (!line) { closeOuter(); continue; }
+
+    // Sub-bullet: 2+ spaces then "- "
+    if (/^ {2,}- /.test(line)) {
+      if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
+      if (innerList !== 'ul') { closeInner(); html += '<ul>'; innerList = 'ul'; }
+      html += '<li>' + inlineMd(line.replace(/^ +- /, '')) + '</li>';
+      continue;
+    }
+    // Sub-alpha: 2+ spaces then letter/dot
+    if (/^ {2,}[a-zA-Z]\. /.test(line)) {
+      if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
+      if (innerList !== 'ol') { closeInner(); html += '<ol type="a">'; innerList = 'ol'; }
+      html += '<li>' + inlineMd(line.replace(/^ +[a-zA-Z]\. /, '')) + '</li>';
+      continue;
+    }
+    // Bullet: starts with "- "
+    if (/^- /.test(line)) {
+      closeInner();
+      if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
+      html += '<li>' + inlineMd(line.slice(2)) + '</li>';
+      continue;
+    }
+    // Numbered: starts with "1. " etc.
+    if (/^\d+\. /.test(line)) {
+      closeInner();
+      if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
+      html += '<li>' + inlineMd(line.replace(/^\d+\. /, '')) + '</li>';
+      continue;
+    }
+    // Blockquote: starts with '"'
+    if (/^"/.test(line)) {
+      closeOuter();
+      html += '<blockquote>' + inlineMd(line.replace(/^"\s?/, '')) + '</blockquote>';
+      continue;
+    }
+    // Plain text
+    closeOuter();
+    html += '<span style="display:block;white-space:pre-wrap">' + inlineMd(line) + '</span>';
+  }
+  closeOuter();
+  return html;
+}
 const nl2p = s => s.split(/\n\n+/).map(p => {
   const t = p.trim();
   if (!t) return '';
@@ -596,6 +698,28 @@ function renderGallery(gallery) {
   }).join('');
 }
 
+function sarHtml(raw) {
+  if (!raw) return '';
+  var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
+  var saved = [];
+  var t = String(raw).replace(PASS_TAG, function(m) {
+    saved.push(m);
+    return '\x00T' + (saved.length - 1) + '\x00';
+  });
+  t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  t = t.split('\n').map(function(line) {
+    return line.replace(/^( +)/, function(m) {
+      return m.replace(/ /g, '&nbsp;');
+    });
+  }).join('<br>');
+  t = t.replace(/( {2,})/g, function(m) { return m.replace(/ /g, '&nbsp;'); });
+  t = t.replace(/==(.*?)==/g, '<mark style="background:#10b981;color:#fff;padding:1px 5px;border-radius:3px;font-weight:500">$1</mark>');
+  t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/_(.*?)_/g, '<em>$1</em>');
+  t = t.replace(/\x00T(\d+)\x00/g, function(_, i) { return saved[+i]; });
+  return t;
+}
+
 // ── RENDER: CASE DETAIL ───────────────────────────────────────────────────
 function renderCaseDetail(c) {
   const kpisHtml = c.kpis && c.kpis.length ? `
@@ -612,12 +736,12 @@ function renderCaseDetail(c) {
   const periodHtml = c.period ? `
   <div class="block">
     <div class="tag">기간</div>
-    <p class="case-period">${nl2br(c.period)}</p>
+    <div class="case-period">${sarHtml(c.period)}</div>
   </div>` : '';
   const skillsHtml = c.skills ? `
   <div class="block">
     <div class="tag">기술</div>
-    <p class="case-skills">${nl2br(c.skills)}</p>
+    <div class="case-skills">${sarHtml(c.skills)}</div>
   </div>` : '';
   return `
 <div id="p-case-${esc(c.id)}" class="page case-detail">
@@ -632,9 +756,9 @@ function renderCaseDetail(c) {
   <div class="block">
     <div class="tag">상황·행동·결과</div>
     <div class="sar">
-      <div class="sar-row"><div class="sar-l">S</div><div class="sar-c">${nl2brRaw(c.sar.s)}</div></div>
-      <div class="sar-row"><div class="sar-l">A</div><div class="sar-c">${nl2brRaw(c.sar.a)}</div></div>
-      <div class="sar-row"><div class="sar-l">R</div><div class="sar-c">${nl2brRaw(c.sar.r)}</div></div>
+      <div class="sar-row"><div class="sar-l">S</div><div class="sar-c">${sarHtml(c.sar.s)}</div></div>
+      <div class="sar-row"><div class="sar-l">A</div><div class="sar-c">${sarHtml(c.sar.a)}</div></div>
+      <div class="sar-row"><div class="sar-l">R</div><div class="sar-c">${sarHtml(c.sar.r)}</div></div>
     </div>
   </div>
   ${skillsHtml}
