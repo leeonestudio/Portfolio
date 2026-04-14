@@ -845,6 +845,7 @@ function renderSlide(imgs) {
   </div>
   ${imgs.length > 1 ? `<div class="gallery-slide-dots" id="${id}-dots">${dots}</div>` : ''}
   <div class="gallery-slide-caption" id="${id}-caption" style="${firstCaption ? '' : 'display:none;'}">${esc(firstCaption)}</div>`;
+}
 
 function slideTo(id, idx) {
   const el = document.getElementById(id);
