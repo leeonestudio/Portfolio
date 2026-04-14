@@ -956,7 +956,13 @@ function galleryBlockHtml(blk) {
     </div>
     <input type="text" class="gallery-block-title" value="${esc(title)}" placeholder="블럭 제목 캡션 (비우면 미표시)" style="width:100%;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;margin-bottom:8px;">
     <div class="gallery-imgs-wrap">${imgs.map(img => galleryImgRowHtml(img)).join('')}</div>
-    <button class="btn btn-outline btn-sm" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>
+    ${layout === 'slide'
+      ? `<label class="btn btn-outline btn-sm" style="margin-top:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+           + 이미지 여러 장 추가
+           <input type="file" accept="image/*" multiple style="display:none;" onchange="loadGalleryImages(this)">
+         </label>`
+      : `<button class="btn btn-outline btn-sm" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>`
+    }
   </div>`;
 }
 
@@ -1005,6 +1011,31 @@ async function loadGalleryImage(input) {
     if (label) label.childNodes[0].textContent = origText || '이미지 선택 ';
     alert('이미지 업로드에 실패했습니다. 다시 시도해 주세요.');
   }
+  input.value = '';
+}
+
+async function loadGalleryImages(input) {
+  const files = [...input.files];
+  if (!files.length) return;
+  const label = input.closest('label');
+  const wrap = label.closest('.gallery-admin-block').querySelector('.gallery-imgs-wrap');
+  if (label) label.childNodes[0].textContent = '업로드 중… ';
+  let failed = 0;
+  for (const file of files) {
+    try {
+      const ext = file.name.split('.').pop() || 'jpg';
+      const filename = 'portfolio/gallery/' + Date.now() + '_' + Math.random().toString(36).slice(2,7) + '.' + ext;
+      const ref = _storage.ref(filename);
+      await ref.put(file, { contentType: file.type || 'image/jpeg' });
+      const url = await ref.getDownloadURL();
+      wrap.insertAdjacentHTML('beforeend', galleryImgRowHtml({ src: url, alt: '', caption: '' }));
+    } catch(err) {
+      console.error('업로드 실패:', file.name, err);
+      failed++;
+    }
+  }
+  if (label) label.childNodes[0].textContent = '+ 이미지 여러 장 추가 ';
+  if (failed > 0) alert(`${failed}장 업로드에 실패했습니다.`);
   input.value = '';
 }
 
