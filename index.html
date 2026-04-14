@@ -209,18 +209,18 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .gallery-img-wrap{position:relative;}
 .gallery-img-caption{font-size:12px;color:var(--text3);margin-top:5px;text-align:left;line-height:1.5;}
 /* SLIDE */
-.gallery-slide{position:relative;overflow:hidden;border-radius:var(--r-sm);}
+.gallery-slide{position:relative;width:100%;overflow:hidden;border-radius:var(--r-sm);}
 .gallery-slide-track{display:flex;transition:transform .35s ease;}
-.gallery-slide-track .gallery-slide-item{min-width:100%;box-sizing:border-box;display:flex;flex-direction:column;}
-.gallery-slide-track .gallery-slide-item .gallery-img{border-radius:0;cursor:default;height:400px;object-fit:cover;object-position:center;}
-.gallery-slide-btn{position:absolute;top:200px;transform:translateY(-50%);background:rgba(0,0,0,0.38);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s;line-height:1;}
+.gallery-slide-track .gallery-slide-item{width:100%;flex-shrink:0;box-sizing:border-box;}
+.gallery-slide-track .gallery-slide-item .gallery-img{width:100%;height:auto;border-radius:0;cursor:default;display:block;}
+.gallery-slide-caption{font-size:12px;color:var(--text3);text-align:left;line-height:1.5;height:40px;padding-top:6px;overflow:hidden;}
+.gallery-slide-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.38);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s;line-height:1;}
 .gallery-slide-btn:hover{background:rgba(0,0,0,0.6);}
 .gallery-slide-btn.prev{left:10px;}
 .gallery-slide-btn.next{right:10px;}
 .gallery-slide-dots{display:flex;justify-content:center;gap:6px;margin-top:8px;}
 .gallery-slide-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);cursor:pointer;transition:background .2s;}
 .gallery-slide-dot.on{background:var(--green);}
-.gallery-slide-caption{font-size:12px;color:var(--text3);margin-top:5px;text-align:left;line-height:1.5;min-height:1em;}
 
 /* LIGHTBOX */
 .lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
@@ -844,7 +844,7 @@ function renderSlide(imgs) {
     ${imgs.length > 1 ? `<button class="gallery-slide-btn prev" onclick="slideStep('${id}',-1)">&#8249;</button><button class="gallery-slide-btn next" onclick="slideStep('${id}',1)">&#8250;</button>` : ''}
   </div>
   ${imgs.length > 1 ? `<div class="gallery-slide-dots" id="${id}-dots">${dots}</div>` : ''}
-  <div class="gallery-slide-caption" id="${id}-caption" style="${firstCaption ? '' : 'display:none;'}">${esc(firstCaption)}</div>`;
+  <div class="gallery-slide-caption" id="${id}-caption">${esc(firstCaption)}</div>`;
 }
 
 function slideTo(id, idx) {
@@ -858,11 +858,7 @@ function slideTo(id, idx) {
   const dotsEl = document.getElementById(id + '-dots');
   if (dotsEl) dotsEl.querySelectorAll('.gallery-slide-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
   const captionEl = document.getElementById(id + '-caption');
-  if (captionEl) {
-    const cap = (_slideCaptions[id] || [])[idx] || '';
-    captionEl.textContent = cap;
-    captionEl.style.display = cap ? '' : 'none';
-  }
+  if (captionEl) captionEl.textContent = (_slideCaptions[id] || [])[idx] || '';
 }
 
 function slideStep(id, dir) {
