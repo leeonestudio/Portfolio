@@ -1110,7 +1110,7 @@ function go(id) {
   if (id === 'work') { runCounters(); startMotionCounter(); }
   if (id === 'insights') renderInsightsContent();
   if (id === 'contact') initResumeBtn();
-  if (id.startsWith('case-')) setTimeout(syncContribWidths, 50);
+  if (id.startsWith('case-')) setTimeout(syncContribWidths, 350);
 }
 
 // ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
@@ -1163,9 +1163,9 @@ function syncContribWidths() {
   document.querySelectorAll('.contrib-bar-wrap').forEach(wrap => {
     const id = wrap.id.replace('contrib-wrap-', '');
     const sub = document.getElementById('sub-' + id);
-    if (sub) {
-      wrap.style.width = sub.getBoundingClientRect().width + 'px';
-    }
+    if (!sub) return;
+    const w = sub.getBoundingClientRect().width;
+    if (w > 0) wrap.style.width = w + 'px';
   });
 }
 window.addEventListener('resize', syncContribWidths);
