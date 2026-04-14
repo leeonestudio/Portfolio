@@ -957,17 +957,17 @@ function galleryBlockHtml(blk) {
   return `<div class="gallery-admin-block" draggable="true">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
       <span class="drag-handle" title="드래그하여 순서 변경" onclick="event.stopPropagation()">⠿</span>
-      <select class="gallery-layout" style="flex:1;padding:5px 8px;font-size:12px;">${opts}</select>
+      <select class="gallery-layout" style="flex:1;padding:5px 8px;font-size:12px;" onchange="updateGalleryAddBtn(this)">${opts}</select>
       <button class="row-del-btn" onclick="deleteGalleryBlock(this)" title="블록 삭제">✕</button>
     </div>
     <input type="text" class="gallery-block-title" value="${esc(title)}" placeholder="블럭 제목 캡션 (비우면 미표시)" style="width:100%;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;margin-bottom:8px;">
     <div class="gallery-imgs-wrap">${imgs.map(img => galleryImgRowHtml(img)).join('')}</div>
     ${layout === 'slide'
-      ? `<label class="btn btn-outline btn-sm" style="margin-top:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+      ? `<label class="btn btn-outline btn-sm gallery-add-btn" style="margin-top:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
            + 이미지 여러 장 추가
            <input type="file" accept="image/*" multiple style="display:none;" onchange="loadGalleryImages(this)">
          </label>`
-      : `<button class="btn btn-outline btn-sm" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>`
+      : `<button class="btn btn-outline btn-sm gallery-add-btn" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>`
     }
   </div>`;
 }
@@ -979,6 +979,20 @@ function addGalleryBlock(btn) {
 }
 
 function deleteGalleryBlock(btn) { btn.closest('.gallery-admin-block').remove(); }
+
+function updateGalleryAddBtn(select) {
+  const block = select.closest('.gallery-admin-block');
+  const existing = block.querySelector('.gallery-add-btn');
+  if (!existing) return;
+  if (select.value === 'slide') {
+    existing.outerHTML = `<label class="btn btn-outline btn-sm gallery-add-btn" style="margin-top:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
+      + 이미지 여러 장 추가
+      <input type="file" accept="image/*" multiple style="display:none;" onchange="loadGalleryImages(this)">
+    </label>`;
+  } else {
+    existing.outerHTML = `<button class="btn btn-outline btn-sm gallery-add-btn" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>`;
+  }
+}
 
 function addGalleryImage(btn) {
   btn.previousElementSibling.insertAdjacentHTML('beforeend', galleryImgRowHtml({}));
