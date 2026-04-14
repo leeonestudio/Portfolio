@@ -118,6 +118,11 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .md-body blockquote{border-left:3px solid var(--border2);padding:8px 14px;margin:6px 0;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;}
 .md-body span{white-space:pre-wrap;}
 .case-detail .block:not(.gallery-block) .tag{border-left:4px solid var(--green);padding-left:10px;font-size:17px;font-weight:600;}
+.contrib-bar-wrap{display:flex;align-items:center;gap:8px;margin-top:12px;}
+.contrib-label{font-size:12px;color:var(--text3);white-space:nowrap;flex-shrink:0;}
+.contrib-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.contrib-fill{height:100%;background:var(--green);border-radius:2px;transition:width .6s ease;}
+.contrib-pct{font-size:12px;color:var(--green);white-space:nowrap;flex-shrink:0;font-family:'Inter',sans-serif;font-weight:600;}
 .case-detail .block+.block{border-top:.5px solid var(--border);padding-top:40px;}
 .case-detail .sar-row{display:flex;flex-direction:column;}
 .chart-box{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 12px;margin-top:8px;}
@@ -869,7 +874,13 @@ function renderCaseDetail(c) {
   <div class="back" onclick="go('work')">← Work</div>
   <div class="tag">CASE ${esc(c.id)}</div>
   <h2>${nl2br(c.title)}</h2>
-  ${c.subtitle ? `<p class="sub" style="margin-top:8px;">${nl2br(c.subtitle)}</p>` : ''}
+  ${c.subtitle ? `<p class="sub" id="sub-${esc(c.id)}" style="margin-top:8px;">${nl2br(c.subtitle)}</p>` : ''}
+  ${(c.contrib != null && c.contrib !== '') ? `
+  <div class="contrib-bar-wrap" id="contrib-wrap-${esc(c.id)}">
+    <span class="contrib-label">기여도</span>
+    <div class="contrib-track"><div class="contrib-fill" style="width:${Math.min(100,Math.max(0,Number(c.contrib)))}%"></div></div>
+    <span class="contrib-pct">${Math.min(100,Math.max(0,Number(c.contrib)))}%</span>
+  </div>` : ''}
   <div class="divider"></div>
   ${kpisHtml}
   ${periodHtml}
@@ -1099,6 +1110,7 @@ function go(id) {
   if (id === 'work') { runCounters(); startMotionCounter(); }
   if (id === 'insights') renderInsightsContent();
   if (id === 'contact') initResumeBtn();
+  if (id.startsWith('case-')) setTimeout(syncContribWidths, 50);
 }
 
 // ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
@@ -1145,6 +1157,18 @@ function runCounters() {
     requestAnimationFrame(tick);
   });
 }
+
+// ── CONTRIB BAR WIDTH SYNC ────────────────────────────────────────────────
+function syncContribWidths() {
+  document.querySelectorAll('.contrib-bar-wrap').forEach(wrap => {
+    const id = wrap.id.replace('contrib-wrap-', '');
+    const sub = document.getElementById('sub-' + id);
+    if (sub) {
+      wrap.style.width = sub.getBoundingClientRect().width + 'px';
+    }
+  });
+}
+window.addEventListener('resize', syncContribWidths);
 
 // ── START (Firebase 비동기 초기화) ─────────────────────────────────────────
 (async function() {

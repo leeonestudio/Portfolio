@@ -848,6 +848,7 @@ function populateCases() {
           </div>
         </div>
         <div class="case-sub-sec mt">케이스 상세 페이지</div>
+        <div class="field"><label class="label">기여도 (%)</label><input type="number" class="c-contrib" min="1" max="100" value="${c.contrib != null ? c.contrib : 100}" placeholder="100"><div class="hint">1~100 사이 숫자 입력. 입력값이 없으면 프로그레스바가 표시되지 않습니다.</div></div>
         <div class="field">
           <label class="label">주요 지표</label>
           <div class="kpis-wrap">${kpisHtml}</div>
@@ -1143,6 +1144,7 @@ function collect() {
         a: body.querySelector('.c-a').value.trim(),
         r: body.querySelector('.c-r').value.trim()
       },
+      contrib: (function(){ const v = body.querySelector('.c-contrib').value.trim(); return v === '' ? null : Math.min(100, Math.max(1, Number(v))); })(),
       period: body.querySelector('.c-period').value.trim(),
       skills: body.querySelector('.c-skills').value.trim(),
       kpis: [...body.querySelectorAll('.kpis-wrap .dnd-row')].map(r => ({
