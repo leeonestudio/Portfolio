@@ -1036,50 +1036,65 @@ function admImgModalClose() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') admImgModalClose(); });
 
-// ── 이미지 행 드래그앤드롭 ────────────────────────────────────────────────
+// ── 이미지 행 드래그앤드롭 (이벤트 위임 방식) ────────────────────────────
 function makeImgRowsDraggable(wrap) {
-  if (!wrap) return;
+  if (!wrap || wrap._imgDndWrapBound) return;
+  wrap._imgDndWrapBound = true;
   let dragSrc = null;
+  const getRow = el => el ? el.closest('.gallery-img-row') : null;
   const rows = () => [...wrap.querySelectorAll('.gallery-img-row')];
-  rows().forEach(row => {
-    // 중복 바인딩 방지
-    if (row._imgDndBound) return;
-    row._imgDndBound = true;
-    row.setAttribute('draggable', 'true');
-    row.addEventListener('dragstart', function(e) {
-      dragSrc = this;
-      setTimeout(() => this.classList.add('img-dragging'), 0);
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    row.addEventListener('dragend', function() {
-      this.classList.remove('img-dragging');
-      rows().forEach(r => r.classList.remove('img-drag-over'));
-      dragSrc = null;
-    });
-    row.addEventListener('dragover', function(e) {
-      if (!dragSrc || dragSrc === this) return;
-      e.preventDefault();
-      e.stopPropagation();
-      rows().forEach(r => r.classList.remove('img-drag-over'));
-      this.classList.add('img-drag-over');
-    });
-    row.addEventListener('dragleave', function(e) {
-      if (!this.contains(e.relatedTarget)) this.classList.remove('img-drag-over');
-    });
-    row.addEventListener('drop', function(e) {
-      if (!dragSrc || dragSrc === this) return;
-      e.preventDefault();
-      e.stopPropagation();
-      const list = rows();
-      if (list.indexOf(dragSrc) < list.indexOf(this)) this.after(dragSrc);
-      else this.before(dragSrc);
-      this.classList.remove('img-drag-over');
-    });
-    // input, textarea는 드래그 방해 차단
-    row.querySelectorAll('input, textarea, label').forEach(el => {
-      el.addEventListener('mousedown', e => e.stopPropagation());
-      el.addEventListener('dragstart', e => e.preventDefault());
-    });
+
+  // 새 행이 추가될 때 draggable 속성 자동 부여를 위해 MutationObserver 사용
+  new MutationObserver(mutations => {
+    mutations.forEach(m => m.addedNodes.forEach(node => {
+      if (node.nodeType === 1 && node.classList.contains('gallery-img-row')) {
+        node.setAttribute('draggable', 'true');
+      }
+    }));
+  }).observe(wrap, { childList: true });
+
+  // 기존 행에 draggable 부여
+  rows().forEach(r => r.setAttribute('draggable', 'true'));
+
+  wrap.addEventListener('dragstart', e => {
+    const row = getRow(e.target);
+    if (!row || !wrap.contains(row)) return;
+    dragSrc = row;
+    setTimeout(() => row.classList.add('img-dragging'), 0);
+    e.dataTransfer.effectAllowed = 'move';
+    e.stopPropagation();
+  });
+
+  wrap.addEventListener('dragend', e => {
+    const row = getRow(e.target);
+    if (row) row.classList.remove('img-dragging');
+    rows().forEach(r => r.classList.remove('img-drag-over'));
+    dragSrc = null;
+  });
+
+  wrap.addEventListener('dragover', e => {
+    const row = getRow(e.target);
+    if (!dragSrc || !row || row === dragSrc) return;
+    e.preventDefault();
+    e.stopPropagation();
+    rows().forEach(r => r.classList.remove('img-drag-over'));
+    row.classList.add('img-drag-over');
+  });
+
+  wrap.addEventListener('dragleave', e => {
+    const row = getRow(e.target);
+    if (row && !row.contains(e.relatedTarget)) row.classList.remove('img-drag-over');
+  });
+
+  wrap.addEventListener('drop', e => {
+    const row = getRow(e.target);
+    if (!dragSrc || !row || row === dragSrc) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const list = rows();
+    if (list.indexOf(dragSrc) < list.indexOf(row)) row.after(dragSrc);
+    else row.before(dragSrc);
+    row.classList.remove('img-drag-over');
   });
 }
 
