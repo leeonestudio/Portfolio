@@ -212,7 +212,19 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .gallery-slide{position:relative;width:100%;overflow:hidden;border-radius:var(--r-sm);}
 .gallery-slide-track{display:flex;transition:transform .35s ease;}
 .gallery-slide-track .gallery-slide-item{width:100%;flex-shrink:0;box-sizing:border-box;}
-.gallery-slide-track .gallery-slide-item .gallery-img{width:100%;height:auto;border-radius:0;cursor:default;display:block;}
+.gallery-slide-track .gallery-slide-item .gallery-img{width:100%;height:auto;border-radius:0;cursor:zoom-in;display:block;}
+/* SLIDE MODAL */
+.slb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
+.slb-overlay.open{opacity:1;pointer-events:auto;}
+.slb-img-wrap{max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;}
+.slb-img-wrap img{max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);}
+.slb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:9001;line-height:1;}
+.slb-close:hover{background:rgba(255,255,255,.25);}
+.slb-counter{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:500;color:rgba(255,255,255,.7);letter-spacing:.04em;z-index:9001;pointer-events:none;}
+.slb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;z-index:9001;transition:background .15s;line-height:1;}
+.slb-nav:hover{background:rgba(255,255,255,.28);}
+.slb-nav.prev{left:20px;}
+.slb-nav.next{right:20px;}
 .gallery-slide-caption{font-size:12px;color:var(--text3);text-align:left;line-height:1.5;height:40px;padding-top:6px;overflow:hidden;}
 .gallery-slide-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.38);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s;line-height:1;}
 .gallery-slide-btn:hover{background:rgba(0,0,0,0.6);}
@@ -375,6 +387,17 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
 <main id="main"></main>
 <footer id="footer"></footer>
 <div class="toast" id="toast"></div>
+
+<!-- SLIDE MODAL -->
+<div class="slb-overlay" id="slb-overlay" onclick="slideModalClose(event)">
+  <button class="slb-close" onclick="slideModalClose()" aria-label="닫기">✕</button>
+  <button class="slb-nav prev" id="slb-prev" onclick="slideModalStep(-1)">&#8249;</button>
+  <div class="slb-img-wrap">
+    <img id="slb-img" src="" alt="">
+  </div>
+  <button class="slb-nav next" id="slb-next" onclick="slideModalStep(1)">&#8250;</button>
+  <div class="slb-counter" id="slb-counter"></div>
+</div>
 
 <!-- LIGHTBOX -->
 <div class="lb-overlay" id="lb-overlay" onclick="lbClose(event)">
@@ -820,7 +843,47 @@ function lbClose(e) {
   document.body.style.overflow = '';
   setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') lbClose(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { lbClose(); slideModalClose(); }
+  if (document.getElementById('slb-overlay').classList.contains('open')) {
+    if (e.key === 'ArrowLeft') slideModalStep(-1);
+    if (e.key === 'ArrowRight') slideModalStep(1);
+  }
+});
+
+// ── SLIDE MODAL ────────────────────────────────────────────────────────────
+let _slbId = null, _slbIdx = 0, _slbSrcs = [];
+function slideModalOpen(id, idx) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const imgs = el.querySelectorAll('.gallery-slide-item img');
+  _slbId = id;
+  _slbSrcs = Array.from(imgs).map(img => ({ src: img.src, alt: img.alt }));
+  _slbIdx = idx;
+  _slbUpdate();
+  document.getElementById('slb-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function _slbUpdate() {
+  const item = _slbSrcs[_slbIdx];
+  if (!item) return;
+  document.getElementById('slb-img').src = item.src;
+  document.getElementById('slb-img').alt = item.alt || '';
+  document.getElementById('slb-counter').textContent = _slbSrcs.length > 1 ? `${_slbIdx + 1} / ${_slbSrcs.length}` : '';
+  document.getElementById('slb-prev').style.display = _slbSrcs.length > 1 ? '' : 'none';
+  document.getElementById('slb-next').style.display = _slbSrcs.length > 1 ? '' : 'none';
+}
+function slideModalStep(dir) {
+  _slbIdx = (_slbIdx + dir + _slbSrcs.length) % _slbSrcs.length;
+  _slbUpdate();
+}
+function slideModalClose(e) {
+  if (e && e.target === document.getElementById('slb-img')) return;
+  const ov = document.getElementById('slb-overlay');
+  ov.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { document.getElementById('slb-img').src = ''; }, 220);
+}
 
 // ── RENDER: GALLERY ───────────────────────────────────────────────────────
 let _slideIdx = {};
@@ -834,8 +897,8 @@ const _slideCaptions = {};
 function renderSlide(imgs) {
   const id = 'slide-' + (_slideCount++);
   _slideCaptions[id] = imgs.map(img => img.caption || '');
-  const items = imgs.map((img) =>
-    `<div class="gallery-slide-item"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}" loading="lazy"></div>`
+  const items = imgs.map((img, i) =>
+    `<div class="gallery-slide-item"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}" loading="lazy" onclick="slideModalOpen('${id}',${i})"></div>`
   ).join('');
   const dots = imgs.map((_, i) => `<span class="gallery-slide-dot${i===0?' on':''}" onclick="slideTo('${id}',${i})"></span>`).join('');
   const firstCaption = imgs[0] && imgs[0].caption ? imgs[0].caption : '';
