@@ -926,22 +926,27 @@ function deleteKpi(btn) { btn.closest('.dnd-row').remove(); }
 function galleryImgRowHtml(img) {
   const src = (img && img.src) || '';
   const alt = (img && img.alt) || '';
-  return `<div class="gallery-img-row">
-    ${src ? `<img class="gallery-img-preview" src="${esc(src)}">` : '<div class="gallery-img-preview"></div>'}
-    <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;">
-      이미지 선택
-      <input type="file" accept="image/*" style="display:none;" onchange="loadGalleryImage(this)">
-    </label>
-    <input type="text" class="gallery-img-alt" value="${esc(alt)}" placeholder="alt 텍스트" style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
-    <input type="hidden" class="gallery-img-src" value="${esc(src)}">
-    <button class="row-del-btn" onclick="deleteGalleryImage(this)" title="삭제">✕</button>
+  const caption = (img && img.caption) || '';
+  return `<div class="gallery-img-row" style="flex-direction:column;align-items:stretch;gap:4px;">
+    <div style="display:flex;align-items:center;gap:6px;">
+      ${src ? `<img class="gallery-img-preview" src="${esc(src)}">` : '<div class="gallery-img-preview"></div>'}
+      <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;">
+        이미지 선택
+        <input type="file" accept="image/*" style="display:none;" onchange="loadGalleryImage(this)">
+      </label>
+      <input type="text" class="gallery-img-alt" value="${esc(alt)}" placeholder="alt 텍스트" style="flex:1;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
+      <input type="hidden" class="gallery-img-src" value="${esc(src)}">
+      <button class="row-del-btn" onclick="deleteGalleryImage(this)" title="삭제">✕</button>
+    </div>
+    <input type="text" class="gallery-img-caption" value="${esc(caption)}" placeholder="이미지 캡션 (비우면 미표시)" style="font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
   </div>`;
 }
 
 function galleryBlockHtml(blk) {
   const layout = (blk && blk.layout) || 'wide';
   const imgs = (blk && blk.images) || [];
-  const opts = ['wide','two-col','three-col','mixed'].map(l =>
+  const title = (blk && blk.title) || '';
+  const opts = ['wide','two-col','three-col','mixed','slide'].map(l =>
     `<option value="${l}"${layout===l?' selected':''}>${l}</option>`).join('');
   return `<div class="gallery-admin-block" draggable="true">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
@@ -949,6 +954,7 @@ function galleryBlockHtml(blk) {
       <select class="gallery-layout" style="flex:1;padding:5px 8px;font-size:12px;">${opts}</select>
       <button class="row-del-btn" onclick="deleteGalleryBlock(this)" title="블록 삭제">✕</button>
     </div>
+    <input type="text" class="gallery-block-title" value="${esc(title)}" placeholder="블럭 제목 캡션 (비우면 미표시)" style="width:100%;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;margin-bottom:8px;">
     <div class="gallery-imgs-wrap">${imgs.map(img => galleryImgRowHtml(img)).join('')}</div>
     <button class="btn btn-outline btn-sm" onclick="addGalleryImage(this)" style="margin-top:6px;font-size:11px;">+ 이미지 추가</button>
   </div>`;
@@ -1156,9 +1162,11 @@ function collect() {
       systems: (DATA.cases[i] || {}).systems || [],
       gallery: [...body.querySelectorAll('.gallery-admin-block')].map(blk => ({
         layout: blk.querySelector('.gallery-layout').value,
+        title: (blk.querySelector('.gallery-block-title').value || '').trim(),
         images: [...blk.querySelectorAll('.gallery-img-row')].map(row => ({
           src: row.querySelector('.gallery-img-src').value,
-          alt: row.querySelector('.gallery-img-alt').value.trim()
+          alt: row.querySelector('.gallery-img-alt').value.trim(),
+          caption: (row.querySelector('.gallery-img-caption').value || '').trim()
         })).filter(img => img.src)
       }))
     };
