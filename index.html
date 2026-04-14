@@ -180,10 +180,29 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 
 /* PREV CARDS */
 .prev-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-.pcard{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color var(--t);}
-.pcard:hover{border-color:var(--border2);}
+.pcard{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color var(--t);cursor:pointer;}
+.pcard:hover{border-color:var(--border2);background:var(--surface2);}
 .pt{font-size:13px;font-weight:600;}
 .ps{font-size:12px;color:var(--text2);margin-top:3px;}
+.pcard-more{display:inline-block;white-space:nowrap;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;margin-top:10px;}
+
+/* OTHER EXP MODAL */
+.oexp-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
+.oexp-overlay.open{opacity:1;pointer-events:auto;}
+.oexp-modal{background:#fff;width:min(680px,calc(100vw - 32px));max-height:min(90vh,860px);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;}
+.oexp-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:.5px solid var(--border);flex-shrink:0;}
+.oexp-header-title{font-size:15px;font-weight:700;letter-spacing:-.02em;}
+.oexp-hclose{background:none;border:none;font-size:18px;color:var(--text2);cursor:pointer;padding:4px;line-height:1;transition:color var(--t);}
+.oexp-hclose:hover{color:var(--text);}
+.oexp-toc{padding:10px 24px;border-bottom:.5px solid var(--border);display:flex;flex-wrap:wrap;gap:4px 18px;flex-shrink:0;}
+.oexp-toc-item{font-size:12px;color:var(--text2);cursor:pointer;transition:color var(--t);}
+.oexp-toc-item:hover{color:var(--text);}
+.oexp-body{flex:1;overflow-y:auto;padding:0 24px 48px;}
+.oexp-project{padding-top:32px;}
+.oexp-project+.oexp-project{border-top:.5px solid var(--border);margin-top:32px;}
+.oexp-project-title{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;}
+.oexp-project-period{font-size:12px;color:var(--text2);margin-bottom:14px;}
+.oexp-project-body{font-size:14px;line-height:1.8;margin-bottom:16px;}
 
 /* CONTACT */
 .contact-h{padding:64px 0 20px;}
@@ -387,6 +406,18 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
 <main id="main"></main>
 <footer id="footer"></footer>
 <div class="toast" id="toast"></div>
+
+<!-- OTHER EXP MODAL -->
+<div class="oexp-overlay" id="oexp-overlay" onclick="oexpClose(event)">
+  <div class="oexp-modal">
+    <div class="oexp-header">
+      <span class="oexp-header-title">기타 경력</span>
+      <button class="oexp-hclose" onclick="oexpClose()" aria-label="닫기">✕</button>
+    </div>
+    <div class="oexp-toc" id="oexp-toc"></div>
+    <div class="oexp-body" id="oexp-body"></div>
+  </div>
+</div>
 
 <!-- SLIDE MODAL -->
 <div class="slb-overlay" id="slb-overlay" onclick="slideModalClose(event)">
@@ -844,12 +875,71 @@ function lbClose(e) {
   setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
 }
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { lbClose(); slideModalClose(); }
+  if (e.key === 'Escape') { lbClose(); slideModalClose(); oexpClose(); }
   if (document.getElementById('slb-overlay').classList.contains('open')) {
     if (e.key === 'ArrowLeft') slideModalStep(-1);
     if (e.key === 'ArrowRight') slideModalStep(1);
   }
 });
+
+// ── OTHER EXP MODAL ────────────────────────────────────────────────────────
+function oexpOpen(startIdx) {
+  const careers = (D.contact && D.contact.prevCareers) || [];
+  const tocEl = document.getElementById('oexp-toc');
+  const bodyEl = document.getElementById('oexp-body');
+
+  tocEl.innerHTML = careers.map((p, i) =>
+    `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">· ${esc(p.title)}</span>`
+  ).join('');
+
+  bodyEl.innerHTML = careers.map((p, i) => {
+    const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
+    const galleryHtml = (p.gallery && p.gallery.length) ? renderGallery(p.gallery) : '';
+    const refs = (p.links || []).filter(l => l.url && l.title);
+    const linksHtml = refs.length ? `
+      <div style="margin-top:12px;">
+        <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 영상</div>
+        <div class="ref-list">
+          ${refs.map(l => `
+          <a class="ref-card" href="${esc(l.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <div class="ref-body">
+              <div class="ref-title">${esc(l.title)}</div>
+              ${l.desc ? `<div class="ref-desc">${esc(l.desc)}</div>` : ''}
+              <div class="ref-url">${esc(l.url)}</div>
+            </div>
+            ${l.thumb ? `<img class="ref-thumb" src="${esc(l.thumb)}" alt="">` : ''}
+          </a>`).join('')}
+        </div>
+      </div>` : '';
+    const hasGallery = galleryHtml.trim().length > 0;
+    const gallerySection = hasGallery ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
+    return `<div class="oexp-project" id="oexp-p-${i}">
+      <div class="oexp-project-title">${esc(p.title)}</div>
+      ${p.period ? `<div class="oexp-project-period">${esc(p.period)}</div>` : ''}
+      ${bodyHtml}${gallerySection}${linksHtml}
+    </div>`;
+  }).join('');
+
+  document.getElementById('oexp-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (startIdx > 0) {
+    requestAnimationFrame(() => {
+      const target = document.getElementById(`oexp-p-${startIdx}`);
+      if (target) target.scrollIntoView({ behavior: 'instant' });
+    });
+  } else {
+    bodyEl.scrollTop = 0;
+  }
+}
+function oexpScrollTo(idx) {
+  const target = document.getElementById(`oexp-p-${idx}`);
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+}
+function oexpClose(e) {
+  if (e && e.target !== document.getElementById('oexp-overlay')) return;
+  document.getElementById('oexp-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ── SLIDE MODAL ────────────────────────────────────────────────────────────
 let _slbId = null, _slbIdx = 0, _slbSrcs = [];
@@ -1163,10 +1253,11 @@ function renderContact() {
   <div class="block">
     <div class="tag">기타 경력</div>
     <div class="prev-list">
-      ${ct.prevCareers.map(p => `
-      <div class="pcard">
+      ${ct.prevCareers.map((p, i) => `
+      <div class="pcard" onclick="oexpOpen(${i})">
         <div class="pt">${esc(p.title)}</div>
-        <div class="ps">${esc(p.desc)}</div>
+        ${p.desc ? `<div class="ps">${esc(p.desc)}</div>` : ''}
+        <span class="pcard-more">자세히 보기 →</span>
       </div>`).join('')}
     </div>
   </div>

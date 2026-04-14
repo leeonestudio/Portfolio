@@ -423,7 +423,11 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
         <label class="label">다운로드 파일명 (.pdf 자동 추가)</label>
         <input type="text" id="f-resume-name" placeholder="김규수_이력서_밀도">
       </div>
-      <div class="field"><label class="label">기타 경력 (3개)</label><div id="prev-careers-wrap"></div></div>
+      <div class="field">
+        <label class="label">기타 경력</label>
+        <div id="prev-careers-wrap"></div>
+        <button class="btn btn-outline btn-sm" onclick="addPrevCareer(this)" style="margin-top:8px;">+ 프로젝트 추가</button>
+      </div>
     </div>
 
   </div><!-- /as-contact -->
@@ -541,9 +545,9 @@ const DEFAULTS = {
     title: "함께 일하고 싶으시다면\n언제든 연락주세요",
     image: "",
     prevCareers: [
-      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장" },
-      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발" },
-      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰" }
+      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", period: "", body: "", gallery: [], links: [] },
+      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", period: "", body: "", gallery: [], links: [] },
+      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", period: "", body: "", gallery: [], links: [] }
     ]
   },
   insights: []
@@ -1145,6 +1149,83 @@ async function loadGalleryImage(input) {
   input.value = '';
 }
 
+// ── PREV CAREER BLOCKS ────────────────────────────────────────────────────
+function prevCareerBlockHtml(p) {
+  p = p || {};
+  return `<div class="prev-career-block" style="border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <span style="font-size:12px;font-weight:600;color:var(--text2);">프로젝트</span>
+      <div style="display:flex;gap:5px;">
+        <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,-1)" title="위로">↑</button>
+        <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,1)" title="아래로">↓</button>
+        <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-career-block').remove()" style="color:#e11d48;" title="삭제">삭제</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">프로젝트명 *</label>
+      <input type="text" class="pc-title" value="${esc(p.title||'')}" placeholder="예: 네스트앤드 — 커뮤니티 매니저" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">한 줄 설명 (카드에 표시)</label>
+      <input type="text" class="pc-desc" value="${esc(p.desc||'')}" placeholder="예: 엑스포 참여자 50% 증가" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">기간</label>
+      <input type="text" class="pc-period" value="${esc(p.period||'')}" placeholder="예: 2023.03 – 2023.12" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">줄글 내용 — **굵게**, <u>밑줄</u>, ==하이라이트== 지원</label>
+      <textarea class="pc-body" rows="5" placeholder="프로젝트 상세 내용을 입력하세요..." style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;resize:vertical;font-family:inherit;">${esc(p.body||'')}</textarea>
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:4px;">이미지 갤러리</label>
+      <div class="pc-gallery-wrap gallery-admin-wrap">${(p.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
+      <button class="btn btn-outline btn-sm" onclick="addGalleryBlock(this)" style="margin-top:5px;font-size:11px;">+ 갤러리 블록 추가</button>
+    </div>
+    <div class="field">
+      <label class="label" style="font-size:11px;margin-bottom:4px;">관련 영상</label>
+      <div class="pc-links-wrap">${(p.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
+      <button class="btn btn-outline btn-sm" onclick="addPcLink(this)" style="margin-top:5px;">+ 링크 추가</button>
+    </div>
+  </div>`;
+}
+
+function addPrevCareer(btn) {
+  const wrap = v('prev-careers-wrap');
+  wrap.insertAdjacentHTML('beforeend', prevCareerBlockHtml({}));
+  const newBlock = wrap.lastElementChild;
+  initPrevCareerBlock(newBlock);
+  newBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function movePrevCareer(btn, dir) {
+  const block = btn.closest('.prev-career-block');
+  const wrap = block.parentElement;
+  if (dir === -1 && block.previousElementSibling) {
+    wrap.insertBefore(block, block.previousElementSibling);
+  } else if (dir === 1 && block.nextElementSibling) {
+    wrap.insertBefore(block.nextElementSibling, block);
+  }
+}
+
+function initPrevCareerBlock(block) {
+  const galleryWrap = block.querySelector('.pc-gallery-wrap');
+  if (galleryWrap) makeDraggable(galleryWrap);
+  const linksWrap = block.querySelector('.pc-links-wrap');
+  if (linksWrap) makeDraggable(linksWrap);
+  block.querySelectorAll('.gallery-imgs-wrap').forEach(makeImgRowsDraggable);
+}
+
+function initPrevCareerBlocks() {
+  v('prev-careers-wrap').querySelectorAll('.prev-career-block').forEach(initPrevCareerBlock);
+}
+
+function addPcLink(btn) {
+  const wrap = btn.previousElementSibling;
+  wrap.insertAdjacentHTML('beforeend', refLinkRowHtml({}));
+  makeDraggable(wrap);
+}
+
 // ── REF LINKS ─────────────────────────────────────────────────────────────
 function refLinkRowHtml(l) {
   l = l || {};
@@ -1323,11 +1404,15 @@ function populateAll() {
   v('f-resume-pdf').value = DATA.contact.resumePdf || '';
   v('pdf-filename').innerHTML = pdfStored ? '📄 업로드된 PDF 있음' : '';
   set('f-resume-name', DATA.contact.resumeName || '');
-  v('prev-careers-wrap').innerHTML = DATA.contact.prevCareers.map((p, i) => `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
-      <input type="text" id="pc${i}-title" value="${esc(p.title)}" placeholder="회사 — 직함">
-      <input type="text" id="pc${i}-desc" value="${esc(p.desc)}" placeholder="성과">
-    </div>`).join('');
+  // 구 형식 호환: 누락 필드 기본값 채우기
+  (DATA.contact.prevCareers || []).forEach(p => {
+    if (p.period === undefined) p.period = '';
+    if (p.body === undefined) p.body = '';
+    if (!p.gallery) p.gallery = [];
+    if (!p.links) p.links = [];
+  });
+  v('prev-careers-wrap').innerHTML = DATA.contact.prevCareers.map(p => prevCareerBlockHtml(p)).join('');
+  initPrevCareerBlocks();
 }
 
 // ── COLLECT & SAVE ────────────────────────────────────────────────────────
@@ -1427,7 +1512,27 @@ function collect() {
   const pdfVal = v('f-resume-pdf').value;
   d.contact.resumePdf = pdfVal === '__stored__' ? '__stored__' : (pdfVal || '');
   d.contact.resumeName = gv('f-resume-name').trim();
-  d.contact.prevCareers = d.contact.prevCareers.map((p, i) => ({ title: gv(`pc${i}-title`), desc: gv(`pc${i}-desc`) }));
+  d.contact.prevCareers = [...v('prev-careers-wrap').querySelectorAll('.prev-career-block')].map(blk => ({
+    title: blk.querySelector('.pc-title').value.trim(),
+    desc: blk.querySelector('.pc-desc').value.trim(),
+    period: blk.querySelector('.pc-period').value.trim(),
+    body: blk.querySelector('.pc-body').value.trim(),
+    gallery: [...blk.querySelectorAll('.gallery-admin-block')].map(gb => ({
+      layout: gb.querySelector('.gallery-layout').value,
+      title: (gb.querySelector('.gallery-block-title').value || '').trim(),
+      images: [...gb.querySelectorAll('.gallery-img-row')].map(row => ({
+        src: row.querySelector('.gallery-img-src').value,
+        alt: row.querySelector('.gallery-img-alt').value.trim(),
+        caption: (row.querySelector('.gallery-img-caption').value || '').trim()
+      })).filter(img => img.src)
+    })),
+    links: [...blk.querySelectorAll('.pc-links-wrap .dnd-row')].map(r => ({
+      title: r.querySelector('.ref-title').value.trim(),
+      desc: r.querySelector('.ref-desc').value.trim(),
+      url: r.querySelector('.ref-url').value.trim(),
+      thumb: r.querySelector('.ref-thumb-val').value.trim()
+    })).filter(l => l.title && l.url)
+  }));
 
   return d;
 }
