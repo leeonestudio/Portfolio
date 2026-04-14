@@ -186,6 +186,19 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 .sb-item-sub:hover{background:var(--bg);}
 .sb-item-sub.on{color:var(--accent);background:rgba(79,70,229,0.05);border-left-color:var(--accent);font-weight:500;}
 
+/* ── IMG MODAL ── */
+#adm-img-modal{position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+#adm-img-modal.open{opacity:1;pointer-events:auto;}
+#adm-img-modal img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.6);}
+
+/* ── GALLERY IMG ROW DRAG ── */
+.gallery-img-row.img-dragging{opacity:0.35;border:1.5px dashed var(--accent);}
+.gallery-img-row.img-drag-over{border:1.5px solid var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,0.15);}
+.gallery-img-row{cursor:grab;border:1.5px solid transparent;border-radius:6px;padding:4px;}
+.gallery-img-row:active{cursor:grabbing;}
+.gallery-imgs-hint{font-size:11px;color:var(--text3);margin-bottom:6px;display:none;}
+.gallery-imgs-hint.show{display:block;}
+
 @media(max-width:520px){
   .grid2,.grid3{grid-template-columns:1fr;}
   .tl-row{grid-template-columns:1fr 1fr;}
@@ -886,6 +899,7 @@ function populateCases() {
     makeDraggable(acc.querySelector('.kpis-wrap'));
     makeDraggable(acc.querySelector('.ref-links-wrap'));
     makeDraggable(acc.querySelector('.gallery-admin-wrap'));
+    acc.querySelectorAll('.gallery-imgs-wrap').forEach(makeImgRowsDraggable);
   });
   makeDraggable(wrap);
   updateCaseNumbers();
@@ -933,9 +947,9 @@ function galleryImgRowHtml(img) {
   const src = (img && img.src) || '';
   const alt = (img && img.alt) || '';
   const caption = (img && img.caption) || '';
-  return `<div class="gallery-img-row" style="flex-direction:column;align-items:stretch;gap:4px;">
+  return `<div class="gallery-img-row" draggable="true" style="flex-direction:column;align-items:stretch;gap:4px;">
     <div style="display:flex;align-items:center;gap:6px;">
-      ${src ? `<img class="gallery-img-preview" src="${esc(src)}">` : '<div class="gallery-img-preview"></div>'}
+      ${src ? `<img class="gallery-img-preview" src="${esc(src)}" ondblclick="admImgModalOpen('${esc(src)}')" title="더블클릭하면 크게 보기" style="cursor:zoom-in;">` : '<div class="gallery-img-preview"></div>'}
       <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;">
         이미지 선택
         <input type="file" accept="image/*" style="display:none;" onchange="loadGalleryImage(this)">
@@ -961,6 +975,7 @@ function galleryBlockHtml(blk) {
       <button class="row-del-btn" onclick="deleteGalleryBlock(this)" title="블록 삭제">✕</button>
     </div>
     <input type="text" class="gallery-block-title" value="${esc(title)}" placeholder="블럭 제목 캡션 (비우면 미표시)" style="width:100%;font-size:11px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;margin-bottom:8px;">
+    <div class="gallery-imgs-hint${imgs.length > 1 ? ' show' : ''}">↕ 드래그해서 순서를 조정하세요</div>
     <div class="gallery-imgs-wrap">${imgs.map(img => galleryImgRowHtml(img)).join('')}</div>
     ${layout === 'slide'
       ? `<label class="btn btn-outline btn-sm gallery-add-btn" style="margin-top:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
@@ -998,7 +1013,75 @@ function addGalleryImage(btn) {
   btn.previousElementSibling.insertAdjacentHTML('beforeend', galleryImgRowHtml({}));
 }
 
-function deleteGalleryImage(btn) { btn.closest('.gallery-img-row').remove(); }
+function deleteGalleryImage(btn) {
+  const block = btn.closest('.gallery-admin-block');
+  btn.closest('.gallery-img-row').remove();
+  if (block) {
+    const hint = block.querySelector('.gallery-imgs-hint');
+    if (hint && block.querySelectorAll('.gallery-img-row').length <= 1) hint.classList.remove('show');
+  }
+}
+
+// ── 이미지 모달 ───────────────────────────────────────────────────────────
+function admImgModalOpen(src) {
+  const modal = document.getElementById('adm-img-modal');
+  const img = document.getElementById('adm-img-modal-img');
+  if (!modal || !img) return;
+  img.src = src;
+  modal.classList.add('open');
+}
+function admImgModalClose() {
+  const modal = document.getElementById('adm-img-modal');
+  if (modal) { modal.classList.remove('open'); document.getElementById('adm-img-modal-img').src = ''; }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') admImgModalClose(); });
+
+// ── 이미지 행 드래그앤드롭 ────────────────────────────────────────────────
+function makeImgRowsDraggable(wrap) {
+  if (!wrap) return;
+  let dragSrc = null;
+  const rows = () => [...wrap.querySelectorAll('.gallery-img-row')];
+  rows().forEach(row => {
+    // 중복 바인딩 방지
+    if (row._imgDndBound) return;
+    row._imgDndBound = true;
+    row.setAttribute('draggable', 'true');
+    row.addEventListener('dragstart', function(e) {
+      dragSrc = this;
+      setTimeout(() => this.classList.add('img-dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', function() {
+      this.classList.remove('img-dragging');
+      rows().forEach(r => r.classList.remove('img-drag-over'));
+      dragSrc = null;
+    });
+    row.addEventListener('dragover', function(e) {
+      if (!dragSrc || dragSrc === this) return;
+      e.preventDefault();
+      e.stopPropagation();
+      rows().forEach(r => r.classList.remove('img-drag-over'));
+      this.classList.add('img-drag-over');
+    });
+    row.addEventListener('dragleave', function(e) {
+      if (!this.contains(e.relatedTarget)) this.classList.remove('img-drag-over');
+    });
+    row.addEventListener('drop', function(e) {
+      if (!dragSrc || dragSrc === this) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const list = rows();
+      if (list.indexOf(dragSrc) < list.indexOf(this)) this.after(dragSrc);
+      else this.before(dragSrc);
+      this.classList.remove('img-drag-over');
+    });
+    // input, textarea는 드래그 방해 차단
+    row.querySelectorAll('input, textarea, label').forEach(el => {
+      el.addEventListener('mousedown', e => e.stopPropagation());
+      el.addEventListener('dragstart', e => e.preventDefault());
+    });
+  });
+}
 
 async function loadGalleryImage(input) {
   const file = input.files[0];
@@ -1024,8 +1107,21 @@ async function loadGalleryImage(input) {
       preview.replaceWith(img);
       preview = img;
     }
-    if (preview) preview.src = url;
+    if (preview) {
+      preview.src = url;
+      preview.ondblclick = () => admImgModalOpen(url);
+      preview.title = '더블클릭하면 크게 보기';
+      preview.style.cursor = 'zoom-in';
+    }
     if (label) label.childNodes[0].textContent = '이미지 선택 ';
+    // 힌트 표시
+    const wrap = row.closest('.gallery-admin-block');
+    if (wrap) {
+      const hint = wrap.querySelector('.gallery-imgs-hint');
+      if (hint && wrap.querySelectorAll('.gallery-img-row').length > 1) hint.classList.add('show');
+    }
+    // 이미지 행 드래그앤드롭 재바인딩
+    makeImgRowsDraggable(row.closest('.gallery-imgs-wrap'));
   } catch(err) {
     console.error('갤러리 이미지 업로드 실패:', err);
     if (label) label.childNodes[0].textContent = origText || '이미지 선택 ';
@@ -1130,6 +1226,13 @@ async function loadGalleryImages(input) {
   if (label) label.childNodes[0].textContent = '+ 이미지 여러 장 추가 ';
   if (failed > 0) alert(`${failed}장 업로드에 실패했습니다.`);
   input.value = '';
+  // 힌트 표시 + 드래그앤드롭 재바인딩
+  const block = label.closest('.gallery-admin-block');
+  if (block) {
+    const hint = block.querySelector('.gallery-imgs-hint');
+    if (hint && block.querySelectorAll('.gallery-img-row').length > 1) hint.classList.add('show');
+    makeImgRowsDraggable(wrap);
+  }
 }
 
 // ── POPULATE: TIMELINE ────────────────────────────────────────────────────
@@ -1647,5 +1750,9 @@ function insDeleteArticle() {
   populateInsights();
 }
 </script>
+<!-- 이미지 미리보기 모달 -->
+<div id="adm-img-modal" onclick="admImgModalClose()">
+  <img id="adm-img-modal-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
 </body>
 </html>
