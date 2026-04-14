@@ -860,6 +860,11 @@ function populateCases() {
         <div class="field"><label class="label">R (결과) — 마크다운 지원</label><textarea class="c-r" rows="3">${esc(c.sar?.r||'')}</textarea></div>
         <div class="field"><label class="label">기술 — 마크다운 지원 (- 불릿, 1. 번호, **굵게** 등)</label><textarea class="c-skills" rows="2" placeholder="Premiere Pro, 카페24, 채널톡">${esc(c.skills||'')}</textarea></div>
         <div class="field">
+          <label class="label">참고 링크</label>
+          <div class="ref-links-wrap">${(c.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
+          <button class="btn btn-outline btn-sm" onclick="addRefLink(this)" style="margin-top:6px;">+ 링크 추가</button>
+        </div>
+        <div class="field">
           <label class="label">이미지 갤러리</label>
           <div class="gallery-admin-wrap">${(c.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
           <button class="btn btn-outline btn-sm" onclick="addGalleryBlock(this)" style="margin-top:6px;">+ 갤러리 블록 추가</button>
@@ -879,6 +884,7 @@ function populateCases() {
       acc.querySelector('.case-acc-ttl').textContent = this.value || '(제목 없음)';
     });
     makeDraggable(acc.querySelector('.kpis-wrap'));
+    makeDraggable(acc.querySelector('.ref-links-wrap'));
     makeDraggable(acc.querySelector('.gallery-admin-wrap'));
   });
   makeDraggable(wrap);
@@ -1012,6 +1018,79 @@ async function loadGalleryImage(input) {
     alert('이미지 업로드에 실패했습니다. 다시 시도해 주세요.');
   }
   input.value = '';
+}
+
+// ── REF LINKS ─────────────────────────────────────────────────────────────
+function refLinkRowHtml(l) {
+  l = l || {};
+  const thumb = l.thumb || '';
+  return `<div class="dnd-row" draggable="true" style="flex-direction:column;align-items:stretch;gap:6px;padding:10px 12px;">
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span class="drag-handle" title="드래그하여 순서 변경">⠿</span>
+      <input type="text" class="ref-title" value="${esc(l.title||'')}" placeholder="제목 (필수)" style="flex:1;font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
+      <button class="row-del-btn" onclick="this.closest('.dnd-row').remove()" title="삭제">✕</button>
+    </div>
+    <input type="text" class="ref-desc" value="${esc(l.desc||'')}" placeholder="설명 (선택)" style="font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
+    <input type="text" class="ref-url" value="${esc(l.url||'')}" placeholder="URL (필수, https://...)" style="font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;">
+        썸네일 업로드
+        <input type="file" accept="image/*" style="display:none;" onchange="loadRefThumb(this)">
+      </label>
+      ${thumb ? `<img src="${esc(thumb)}" style="width:56px;height:38px;object-fit:cover;border-radius:4px;border:1px solid var(--border);" class="ref-thumb-preview">` : '<div class="ref-thumb-preview"></div>'}
+      <input type="hidden" class="ref-thumb-val" value="${esc(thumb)}">
+      ${thumb ? `<button class="btn btn-outline btn-sm" onclick="removeRefThumb(this)" style="font-size:11px;">썸네일 삭제</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function addRefLink(btn) {
+  const wrap = btn.previousElementSibling;
+  wrap.insertAdjacentHTML('beforeend', refLinkRowHtml({}));
+  makeDraggable(wrap);
+}
+
+async function loadRefThumb(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const label = input.closest('label');
+  if (label) label.childNodes[0].textContent = '업로드 중… ';
+  try {
+    const ext = file.name.split('.').pop() || 'jpg';
+    const filename = 'portfolio/refthumb/' + Date.now() + '_' + Math.random().toString(36).slice(2,7) + '.' + ext;
+    const ref = _storage.ref(filename);
+    await ref.put(file, { contentType: file.type || 'image/jpeg' });
+    const url = await ref.getDownloadURL();
+    const row = input.closest('.dnd-row');
+    row.querySelector('.ref-thumb-val').value = url;
+    let preview = row.querySelector('.ref-thumb-preview');
+    if (preview && preview.tagName !== 'IMG') {
+      const img = document.createElement('img');
+      img.style.cssText = 'width:56px;height:38px;object-fit:cover;border-radius:4px;border:1px solid var(--border);';
+      img.className = 'ref-thumb-preview';
+      preview.replaceWith(img);
+      preview = img;
+    }
+    if (preview) preview.src = url;
+    if (label) label.childNodes[0].textContent = '썸네일 업로드 ';
+  } catch(err) {
+    console.error('썸네일 업로드 실패:', err);
+    if (label) label.childNodes[0].textContent = '썸네일 업로드 ';
+    alert('썸네일 업로드에 실패했습니다.');
+  }
+  input.value = '';
+}
+
+function removeRefThumb(btn) {
+  const row = btn.closest('.dnd-row');
+  row.querySelector('.ref-thumb-val').value = '';
+  const preview = row.querySelector('.ref-thumb-preview');
+  if (preview && preview.tagName === 'IMG') {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'ref-thumb-preview';
+    preview.replaceWith(placeholder);
+  }
+  btn.remove();
 }
 
 async function loadGalleryImages(input) {
@@ -1189,6 +1268,12 @@ function collect() {
         label: r.querySelector('.kpi-lbl').value.trim(),
         color: 'green'
       })),
+      links: [...body.querySelectorAll('.ref-links-wrap .dnd-row')].map(r => ({
+        title: r.querySelector('.ref-title').value.trim(),
+        desc: r.querySelector('.ref-desc').value.trim(),
+        url: r.querySelector('.ref-url').value.trim(),
+        thumb: r.querySelector('.ref-thumb-val').value.trim()
+      })).filter(l => l.title && l.url),
       timeline: (DATA.cases[i] || {}).timeline || [],
       systems: (DATA.cases[i] || {}).systems || [],
       gallery: [...body.querySelectorAll('.gallery-admin-block')].map(blk => ({
