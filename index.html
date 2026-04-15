@@ -183,8 +183,9 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .pcard{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color var(--t);cursor:pointer;}
 .pcard:hover{border-color:var(--border2);background:var(--surface2);}
 .pt{font-size:13px;font-weight:600;}
-.ps{font-size:12px;color:var(--text2);margin-top:3px;}
-.pcard-more{display:inline-block;white-space:nowrap;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;margin-top:10px;}
+.ps{font-size:12px;color:var(--text2);}
+.pcard-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:6px;}
+.pcard-more{display:inline-block;white-space:nowrap;flex-shrink:0;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;}
 
 /* OTHER EXP MODAL */
 .oexp-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
@@ -883,16 +884,35 @@ document.addEventListener('keydown', e => {
 });
 
 // ── OTHER EXP MODAL ────────────────────────────────────────────────────────
-function oexpOpen(startIdx) {
-  const careers = (D.contact && D.contact.prevCareers) || [];
+function oexpOpen(careerIdx) {
+  const career = ((D.contact && D.contact.prevCareers) || [])[careerIdx];
+  if (!career) return;
+
+  // 구 형식 호환: projects 없으면 단일 프로젝트로 래핑
+  const projects = career.projects || [{
+    name: '', period: career.period || '', body: career.body || '',
+    gallery: career.gallery || [], links: career.links || []
+  }];
+
+  // 모달 헤더 타이틀 = 경력명
+  document.querySelector('#oexp-overlay .oexp-header-title').textContent = career.title;
+
   const tocEl = document.getElementById('oexp-toc');
   const bodyEl = document.getElementById('oexp-body');
 
-  tocEl.innerHTML = careers.map((p, i) =>
-    `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">· ${esc(p.title)}</span>`
-  ).join('');
+  // 목차: 프로젝트명이 있는 항목이 2개 이상일 때만 표시
+  const namedCount = projects.filter(p => p.name).length;
+  if (namedCount > 1) {
+    tocEl.style.display = '';
+    tocEl.innerHTML = projects.map((p, i) =>
+      p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">· ${esc(p.name)}</span>` : ''
+    ).join('');
+  } else {
+    tocEl.style.display = 'none';
+    tocEl.innerHTML = '';
+  }
 
-  bodyEl.innerHTML = careers.map((p, i) => {
+  function renderProject(p, i) {
     const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
     const galleryHtml = (p.gallery && p.gallery.length) ? renderGallery(p.gallery) : '';
     const refs = (p.links || []).filter(l => l.url && l.title);
@@ -911,25 +931,18 @@ function oexpOpen(startIdx) {
           </a>`).join('')}
         </div>
       </div>` : '';
-    const hasGallery = galleryHtml.trim().length > 0;
-    const gallerySection = hasGallery ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
+    const gallerySection = galleryHtml.trim() ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
     return `<div class="oexp-project" id="oexp-p-${i}">
-      <div class="oexp-project-title">${esc(p.title)}</div>
+      ${p.name ? `<div class="oexp-project-title">${esc(p.name)}</div>` : ''}
       ${p.period ? `<div class="oexp-project-period">${esc(p.period)}</div>` : ''}
       ${bodyHtml}${gallerySection}${linksHtml}
     </div>`;
-  }).join('');
+  }
 
+  bodyEl.innerHTML = projects.map(renderProject).join('');
   document.getElementById('oexp-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
-  if (startIdx > 0) {
-    requestAnimationFrame(() => {
-      const target = document.getElementById(`oexp-p-${startIdx}`);
-      if (target) target.scrollIntoView({ behavior: 'instant' });
-    });
-  } else {
-    bodyEl.scrollTop = 0;
-  }
+  bodyEl.scrollTop = 0;
 }
 function oexpScrollTo(idx) {
   const target = document.getElementById(`oexp-p-${idx}`);
@@ -1256,8 +1269,10 @@ function renderContact() {
       ${ct.prevCareers.map((p, i) => `
       <div class="pcard" onclick="oexpOpen(${i})">
         <div class="pt">${esc(p.title)}</div>
-        ${p.desc ? `<div class="ps">${esc(p.desc)}</div>` : ''}
-        <span class="pcard-more">자세히 보기 →</span>
+        <div class="pcard-bottom">
+          <div class="ps">${esc(p.desc||'')}</div>
+          <span class="pcard-more">자세히 보기 →</span>
+        </div>
       </div>`).join('')}
     </div>
   </div>

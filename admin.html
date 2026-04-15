@@ -545,9 +545,9 @@ const DEFAULTS = {
     title: "함께 일하고 싶으시다면\n언제든 연락주세요",
     image: "",
     prevCareers: [
-      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", period: "", body: "", gallery: [], links: [] },
-      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", period: "", body: "", gallery: [], links: [] },
-      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", period: "", body: "", gallery: [], links: [] }
+      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", projects: [{ name: "", period: "", body: "", gallery: [], links: [] }] },
+      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", projects: [{ name: "", period: "", body: "", gallery: [], links: [] }] },
+      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", projects: [{ name: "", period: "", body: "", gallery: [], links: [] }] }
     ]
   },
   insights: []
@@ -1150,43 +1150,61 @@ async function loadGalleryImage(input) {
 }
 
 // ── PREV CAREER BLOCKS ────────────────────────────────────────────────────
-function prevCareerBlockHtml(p) {
-  p = p || {};
-  return `<div class="prev-career-block" style="border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-      <span style="font-size:12px;font-weight:600;color:var(--text2);">프로젝트</span>
-      <div style="display:flex;gap:5px;">
-        <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,-1)" title="위로">↑</button>
-        <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,1)" title="아래로">↓</button>
-        <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-career-block').remove()" style="color:#e11d48;" title="삭제">삭제</button>
-      </div>
+function prevProjectBlockHtml(proj) {
+  proj = proj || {};
+  return `<div class="prev-project-block" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+      <span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;flex:1;">프로젝트</span>
+      <button class="btn btn-outline btn-sm" onclick="movePrevProject(this,-1)" title="위로">↑</button>
+      <button class="btn btn-outline btn-sm" onclick="movePrevProject(this,1)" title="아래로">↓</button>
+      <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-project-block').remove()" style="color:#e11d48;">삭제</button>
     </div>
     <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:3px;">프로젝트명 *</label>
-      <input type="text" class="pc-title" value="${esc(p.title||'')}" placeholder="예: 네스트앤드 — 커뮤니티 매니저" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
-    </div>
-    <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:3px;">한 줄 설명 (카드에 표시)</label>
-      <input type="text" class="pc-desc" value="${esc(p.desc||'')}" placeholder="예: 엑스포 참여자 50% 증가" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">프로젝트명</label>
+      <input type="text" class="pp-name" value="${esc(proj.name||'')}" placeholder="예: 커뮤니티 이벤트 기획" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
     </div>
     <div class="field" style="margin-bottom:8px;">
       <label class="label" style="font-size:11px;margin-bottom:3px;">기간</label>
-      <input type="text" class="pc-period" value="${esc(p.period||'')}" placeholder="예: 2023.03 – 2023.12" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+      <input type="text" class="pp-period" value="${esc(proj.period||'')}" placeholder="예: 2023.03 – 2023.12" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
     </div>
     <div class="field" style="margin-bottom:8px;">
       <label class="label" style="font-size:11px;margin-bottom:3px;">줄글 내용 — **굵게**, <u>밑줄</u>, ==하이라이트== 지원</label>
-      <textarea class="pc-body" rows="5" placeholder="프로젝트 상세 내용을 입력하세요..." style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;resize:vertical;font-family:inherit;">${esc(p.body||'')}</textarea>
+      <textarea class="pp-body" rows="5" placeholder="프로젝트 상세 내용을 입력하세요..." style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;resize:vertical;font-family:inherit;">${esc(proj.body||'')}</textarea>
     </div>
     <div class="field" style="margin-bottom:8px;">
       <label class="label" style="font-size:11px;margin-bottom:4px;">이미지 갤러리</label>
-      <div class="pc-gallery-wrap gallery-admin-wrap">${(p.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
+      <div class="pp-gallery-wrap gallery-admin-wrap">${(proj.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
       <button class="btn btn-outline btn-sm" onclick="addGalleryBlock(this)" style="margin-top:5px;font-size:11px;">+ 갤러리 블록 추가</button>
     </div>
     <div class="field">
       <label class="label" style="font-size:11px;margin-bottom:4px;">관련 영상</label>
-      <div class="pc-links-wrap">${(p.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
+      <div class="pp-links-wrap">${(proj.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
       <button class="btn btn-outline btn-sm" onclick="addPcLink(this)" style="margin-top:5px;">+ 링크 추가</button>
     </div>
+  </div>`;
+}
+
+function prevCareerBlockHtml(p) {
+  p = p || {};
+  const projects = p.projects || [{}];
+  return `<div class="prev-career-block" style="border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:12px;background:#fff;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span style="font-size:12px;font-weight:600;color:var(--text2);flex:1;">경력</span>
+      <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,-1)" title="위로">↑</button>
+      <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,1)" title="아래로">↓</button>
+      <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-career-block').remove()" style="color:#e11d48;">삭제</button>
+    </div>
+    <div class="field" style="margin-bottom:8px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">경력명 * (카드 타이틀 + 모달 헤더에 표시)</label>
+      <input type="text" class="pc-career-title" value="${esc(p.title||'')}" placeholder="예: 네스트앤드 — 커뮤니티 매니저" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label class="label" style="font-size:11px;margin-bottom:3px;">한 줄 설명 (카드에 표시)</label>
+      <input type="text" class="pc-career-desc" value="${esc(p.desc||'')}" placeholder="예: 엑스포 참여자 50% 증가" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;padding-bottom:6px;border-bottom:.5px solid var(--border);">프로젝트 목록</div>
+    <div class="pc-projects-wrap">${projects.map(proj => prevProjectBlockHtml(proj)).join('')}</div>
+    <button class="btn btn-outline btn-sm" onclick="addPrevProject(this)" style="margin-top:4px;width:100%;justify-content:center;">+ 프로젝트 추가</button>
   </div>`;
 }
 
@@ -1196,6 +1214,14 @@ function addPrevCareer(btn) {
   const newBlock = wrap.lastElementChild;
   initPrevCareerBlock(newBlock);
   newBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function addPrevProject(btn) {
+  const wrap = btn.previousElementSibling; // .pc-projects-wrap
+  wrap.insertAdjacentHTML('beforeend', prevProjectBlockHtml({}));
+  const newProj = wrap.lastElementChild;
+  initPrevProjectBlock(newProj);
+  newProj.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function movePrevCareer(btn, dir) {
@@ -1208,12 +1234,26 @@ function movePrevCareer(btn, dir) {
   }
 }
 
-function initPrevCareerBlock(block) {
-  const galleryWrap = block.querySelector('.pc-gallery-wrap');
+function movePrevProject(btn, dir) {
+  const block = btn.closest('.prev-project-block');
+  const wrap = block.parentElement;
+  if (dir === -1 && block.previousElementSibling) {
+    wrap.insertBefore(block, block.previousElementSibling);
+  } else if (dir === 1 && block.nextElementSibling) {
+    wrap.insertBefore(block.nextElementSibling, block);
+  }
+}
+
+function initPrevProjectBlock(projBlock) {
+  const galleryWrap = projBlock.querySelector('.pp-gallery-wrap');
   if (galleryWrap) makeDraggable(galleryWrap);
-  const linksWrap = block.querySelector('.pc-links-wrap');
+  const linksWrap = projBlock.querySelector('.pp-links-wrap');
   if (linksWrap) makeDraggable(linksWrap);
-  block.querySelectorAll('.gallery-imgs-wrap').forEach(makeImgRowsDraggable);
+  projBlock.querySelectorAll('.gallery-imgs-wrap').forEach(makeImgRowsDraggable);
+}
+
+function initPrevCareerBlock(block) {
+  block.querySelectorAll('.prev-project-block').forEach(initPrevProjectBlock);
 }
 
 function initPrevCareerBlocks() {
@@ -1404,12 +1444,18 @@ function populateAll() {
   v('f-resume-pdf').value = DATA.contact.resumePdf || '';
   v('pdf-filename').innerHTML = pdfStored ? '📄 업로드된 PDF 있음' : '';
   set('f-resume-name', DATA.contact.resumeName || '');
-  // 구 형식 호환: 누락 필드 기본값 채우기
+  // 구 형식 호환: period/body/gallery/links가 경력 레벨에 있으면 projects 배열로 마이그레이션
   (DATA.contact.prevCareers || []).forEach(p => {
-    if (p.period === undefined) p.period = '';
-    if (p.body === undefined) p.body = '';
-    if (!p.gallery) p.gallery = [];
-    if (!p.links) p.links = [];
+    if (!p.projects) {
+      p.projects = [{
+        name: '',
+        period: p.period || '',
+        body: p.body || '',
+        gallery: p.gallery || [],
+        links: p.links || []
+      }];
+      delete p.period; delete p.body; delete p.gallery; delete p.links;
+    }
   });
   v('prev-careers-wrap').innerHTML = DATA.contact.prevCareers.map(p => prevCareerBlockHtml(p)).join('');
   initPrevCareerBlocks();
@@ -1513,25 +1559,28 @@ function collect() {
   d.contact.resumePdf = pdfVal === '__stored__' ? '__stored__' : (pdfVal || '');
   d.contact.resumeName = gv('f-resume-name').trim();
   d.contact.prevCareers = [...v('prev-careers-wrap').querySelectorAll('.prev-career-block')].map(blk => ({
-    title: blk.querySelector('.pc-title').value.trim(),
-    desc: blk.querySelector('.pc-desc').value.trim(),
-    period: blk.querySelector('.pc-period').value.trim(),
-    body: blk.querySelector('.pc-body').value.trim(),
-    gallery: [...blk.querySelectorAll('.gallery-admin-block')].map(gb => ({
-      layout: gb.querySelector('.gallery-layout').value,
-      title: (gb.querySelector('.gallery-block-title').value || '').trim(),
-      images: [...gb.querySelectorAll('.gallery-img-row')].map(row => ({
-        src: row.querySelector('.gallery-img-src').value,
-        alt: row.querySelector('.gallery-img-alt').value.trim(),
-        caption: (row.querySelector('.gallery-img-caption').value || '').trim()
-      })).filter(img => img.src)
-    })),
-    links: [...blk.querySelectorAll('.pc-links-wrap .dnd-row')].map(r => ({
-      title: r.querySelector('.ref-title').value.trim(),
-      desc: r.querySelector('.ref-desc').value.trim(),
-      url: r.querySelector('.ref-url').value.trim(),
-      thumb: r.querySelector('.ref-thumb-val').value.trim()
-    })).filter(l => l.title && l.url)
+    title: blk.querySelector('.pc-career-title').value.trim(),
+    desc: blk.querySelector('.pc-career-desc').value.trim(),
+    projects: [...blk.querySelectorAll('.prev-project-block')].map(proj => ({
+      name: proj.querySelector('.pp-name').value.trim(),
+      period: proj.querySelector('.pp-period').value.trim(),
+      body: proj.querySelector('.pp-body').value.trim(),
+      gallery: [...proj.querySelectorAll('.gallery-admin-block')].map(gb => ({
+        layout: gb.querySelector('.gallery-layout').value,
+        title: (gb.querySelector('.gallery-block-title').value || '').trim(),
+        images: [...gb.querySelectorAll('.gallery-img-row')].map(row => ({
+          src: row.querySelector('.gallery-img-src').value,
+          alt: row.querySelector('.gallery-img-alt').value.trim(),
+          caption: (row.querySelector('.gallery-img-caption').value || '').trim()
+        })).filter(img => img.src)
+      })),
+      links: [...proj.querySelectorAll('.pp-links-wrap .dnd-row')].map(r => ({
+        title: r.querySelector('.ref-title').value.trim(),
+        desc: r.querySelector('.ref-desc').value.trim(),
+        url: r.querySelector('.ref-url').value.trim(),
+        thumb: r.querySelector('.ref-thumb-val').value.trim()
+      })).filter(l => l.title && l.url)
+    }))
   }));
 
   return d;
