@@ -179,12 +179,7 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .ins-detail-body blockquote{border-left:3px solid var(--accent);padding:12px 16px;margin:0 0 20px;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;color:var(--text2);}
 
 /* PREV CARDS */
-.prev-toggle-hd{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;margin-bottom:0;}
-.prev-toggle-hd:hover .tag{color:var(--text);}
-.prev-tog{background:none;border:none;font-size:13px;color:var(--text2);padding:2px 4px;cursor:pointer;line-height:1;transition:transform .2s;margin-left:auto;}
-.prev-toggle-hd.open .prev-tog{transform:rotate(180deg);}
-.prev-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;overflow:hidden;max-height:0;transition:max-height .28s ease,margin-top .28s ease;}
-.prev-list.open{max-height:2000px;margin-top:8px;}
+.prev-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
 /* PDF PREVIEW MODAL */
 .ppdf-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
 .ppdf-overlay.open{opacity:1;pointer-events:auto;}
@@ -193,7 +188,9 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .ppdf-modal-title{font-size:14px;font-weight:600;color:var(--text);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .ppdf-modal-close{background:none;border:none;font-size:18px;color:var(--text2);cursor:pointer;padding:4px;line-height:1;transition:color var(--t);}
 .ppdf-modal-close:hover{color:var(--text);}
-.ppdf-iframe{flex:1;width:100%;border:none;display:block;}
+.ppdf-body{flex:1;overflow-y:auto;background:#f0f0f0;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.ppdf-page-wrap{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.18);border-radius:2px;display:flex;}
+.ppdf-page-wrap canvas{display:block;max-width:100%;}
 .ppdf-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:background var(--t);}
 .ppdf-card:hover{background:var(--surface);}
 .ppdf-icon{font-size:24px;flex-shrink:0;line-height:1;}
@@ -403,6 +400,8 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
 }
 </style>
 <!-- Firebase SDK (compat) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if(typeof pdfjsLib!=='undefined'){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
@@ -438,7 +437,7 @@ footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border
       <span class="ppdf-modal-title" id="ppdf-title"></span>
       <button class="ppdf-modal-close" onclick="ppdfClose()" aria-label="닫기">✕</button>
     </div>
-    <iframe class="ppdf-iframe" id="ppdf-iframe" src=""></iframe>
+    <div class="ppdf-body" id="ppdf-body"></div>
   </div>
 </div>
 
@@ -917,23 +916,46 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ── PREV CAREER TOGGLE ────────────────────────────────────────────────────
-function prevToggle(hd) {
-  hd.classList.toggle('open');
-  hd.nextElementSibling.classList.toggle('open');
-}
-
 // ── PDF PREVIEW MODAL ─────────────────────────────────────────────────────
-function ppdfOpen(url, name) {
+let _ppdfTask = null;
+async function ppdfOpen(url, name) {
   document.getElementById('ppdf-title').textContent = name;
-  document.getElementById('ppdf-iframe').src = url;
+  const body = document.getElementById('ppdf-body');
+  body.innerHTML = '<div style="color:#999;font-size:13px;padding:40px;">로딩 중…</div>';
   document.getElementById('ppdf-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  try {
+    if (_ppdfTask) { _ppdfTask.destroy && _ppdfTask.destroy(); }
+    const loadingTask = pdfjsLib.getDocument({ url, cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/', cMapPacked: true });
+    _ppdfTask = loadingTask;
+    const pdf = await loadingTask.promise;
+    body.innerHTML = '';
+    const modalWidth = body.clientWidth - 32;
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const vp = page.getViewport({ scale: 1 });
+      const scale = Math.min(modalWidth / vp.width, 2);
+      const viewport = page.getViewport({ scale });
+      const wrap = document.createElement('div');
+      wrap.className = 'ppdf-page-wrap';
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      wrap.appendChild(canvas);
+      body.appendChild(wrap);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+    }
+  } catch(err) {
+    body.innerHTML = '<div style="color:#e11d48;font-size:13px;padding:40px;">PDF를 불러오지 못했습니다.</div>';
+    console.error('PDF load error:', err);
+  }
 }
 function ppdfClose(e) {
   if (e && e.target !== document.getElementById('ppdf-overlay')) return;
-  const ov = document.getElementById('ppdf-overlay');
-  ov.classList.remove('open');
-  setTimeout(() => { document.getElementById('ppdf-iframe').src = ''; }, 220);
+  document.getElementById('ppdf-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  if (_ppdfTask) { _ppdfTask.destroy && _ppdfTask.destroy(); _ppdfTask = null; }
+  setTimeout(() => { document.getElementById('ppdf-body').innerHTML = ''; }, 220);
 }
 
 // ── OTHER EXP MODAL ────────────────────────────────────────────────────────
@@ -1330,10 +1352,7 @@ function renderContact() {
   ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
   <div class="divider" style="margin:48px 0;"></div>
   <div class="block">
-    <div class="prev-toggle-hd" onclick="prevToggle(this)">
-      <div class="tag" style="margin-bottom:0;">기타 경력</div>
-      <button class="prev-tog" aria-label="펼치기/접기">▾</button>
-    </div>
+    <div class="tag">기타 경력</div>
     <div class="prev-list">
       ${ct.prevCareers.map((p, i) => `
       <div class="pcard" onclick="oexpOpen(${i})">
