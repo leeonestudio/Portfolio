@@ -1196,16 +1196,11 @@ function prevProjectBlockHtml(proj) {
       </div>
       <div class="field">
         <label class="label" style="font-size:11px;margin-bottom:4px;">관련 파일 (PDF)</label>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;">
-            PDF 업로드
-            <input type="file" accept=".pdf" style="display:none;" onchange="loadProjectPdf(this)">
-          </label>
-          <span class="pp-pdf-name" style="font-size:12px;color:var(--text2);">${proj.pdf ? '📄 ' + esc(proj.pdfName || 'PDF 업로드됨') : ''}</span>
-          <input type="hidden" class="pp-pdf-val" value="${esc(proj.pdf||'')}">
-          ${proj.pdf ? `<button class="btn btn-outline btn-sm pp-pdf-dl" onclick="downloadProjectPdf(this)" style="font-size:11px;">다운로드</button>` : ''}
-          ${proj.pdf ? `<button class="btn btn-outline btn-sm pp-pdf-del" onclick="removeProjectPdf(this)" style="font-size:11px;">파일 삭제</button>` : ''}
-        </div>
+        <div class="pp-pdf-list">${ppPdfListHtml(proj.pdfs || (proj.pdf ? [{url:proj.pdf,name:proj.pdfName||'PDF 파일'}] : []))}</div>
+        <label style="cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--text2);white-space:nowrap;margin-top:6px;">
+          + PDF 추가
+          <input type="file" accept=".pdf" multiple style="display:none;" onchange="loadProjectPdf(this)">
+        </label>
       </div>
     </div>
   </div>`;
@@ -1298,67 +1293,60 @@ function addPcLink(btn) {
 }
 
 // ── PROJECT PDF ───────────────────────────────────────────────────────────
+function ppPdfListHtml(pdfs) {
+  return (pdfs || []).map(f => ppPdfItemHtml(f)).join('');
+}
+
+function ppPdfItemHtml(f) {
+  f = f || {};
+  return `<div class="pp-pdf-item" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:.5px solid var(--border);">
+    <span style="font-size:18px;line-height:1;">📄</span>
+    <span class="pp-pdf-name" style="flex:1;font-size:12px;color:var(--text2);">📄 ${esc(f.name||'PDF 파일')}</span>
+    <input type="hidden" class="pp-pdf-val" value="${esc(f.url||'')}">
+    <button class="btn btn-outline btn-sm" onclick="downloadProjectPdf(this)" style="font-size:11px;">다운로드</button>
+    <button class="btn btn-outline btn-sm" onclick="removePpPdfItem(this)" style="font-size:11px;color:#e11d48;">삭제</button>
+  </div>`;
+}
+
 async function loadProjectPdf(input) {
-  const file = input.files[0];
-  if (!file) return;
+  const files = [...input.files];
+  if (!files.length) return;
   const label = input.closest('label');
   const projBlock = input.closest('.prev-project-block');
-  const nameEl = projBlock.querySelector('.pp-pdf-name');
-  const valEl = projBlock.querySelector('.pp-pdf-val');
-  if (label) label.childNodes[0].textContent = '업로드 중… ';
-  try {
-    const filename = 'portfolio/project_pdf/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const ref = _storage.ref(filename);
-    await ref.put(file, { contentType: 'application/pdf' });
-    const url = await ref.getDownloadURL();
-    valEl.value = url;
-    nameEl.textContent = '📄 ' + file.name;
-    // 다운로드/삭제 버튼 없으면 추가
-    if (!projBlock.querySelector('.pp-pdf-dl')) {
-      const dl = document.createElement('button');
-      dl.className = 'btn btn-outline btn-sm pp-pdf-dl';
-      dl.style.fontSize = '11px';
-      dl.textContent = '다운로드';
-      dl.onclick = () => downloadProjectPdf(dl);
-      nameEl.parentElement.appendChild(dl);
+  const listEl = projBlock.querySelector('.pp-pdf-list');
+  const origText = label.childNodes[0].textContent;
+  label.childNodes[0].textContent = '업로드 중… ';
+  let failed = 0;
+  for (const file of files) {
+    try {
+      const filename = 'portfolio/project_pdf/' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const ref = _storage.ref(filename);
+      await ref.put(file, { contentType: 'application/pdf' });
+      const url = await ref.getDownloadURL();
+      listEl.insertAdjacentHTML('beforeend', ppPdfItemHtml({ url, name: file.name }));
+    } catch(err) {
+      console.error('PDF 업로드 실패:', file.name, err);
+      failed++;
     }
-    if (!projBlock.querySelector('.pp-pdf-del')) {
-      const del = document.createElement('button');
-      del.className = 'btn btn-outline btn-sm pp-pdf-del';
-      del.style.fontSize = '11px';
-      del.textContent = '파일 삭제';
-      del.onclick = () => removeProjectPdf(del);
-      nameEl.parentElement.appendChild(del);
-    }
-    if (label) label.childNodes[0].textContent = 'PDF 업로드 ';
-    markUnsaved();
-  } catch(err) {
-    console.error('PDF 업로드 실패:', err);
-    if (label) label.childNodes[0].textContent = 'PDF 업로드 ';
-    alert('PDF 업로드에 실패했습니다.');
   }
+  label.childNodes[0].textContent = origText;
+  if (failed) alert(`${failed}개 파일 업로드에 실패했습니다.`);
+  markUnsaved();
   input.value = '';
 }
 
 function downloadProjectPdf(btn) {
-  const projBlock = btn.closest('.prev-project-block');
-  const url = projBlock.querySelector('.pp-pdf-val').value;
-  const name = projBlock.querySelector('.pp-pdf-name').textContent.replace(/^📄 /, '').trim() || 'file.pdf';
+  const item = btn.closest('.pp-pdf-item');
+  const url = item.querySelector('.pp-pdf-val').value;
+  const name = item.querySelector('.pp-pdf-name').textContent.replace(/^📄 /, '').trim() || 'file.pdf';
   if (!url) return;
   const a = document.createElement('a');
-  a.href = url;
-  a.download = name;
-  a.target = '_blank';
+  a.href = url; a.download = name; a.target = '_blank';
   a.click();
 }
 
-function removeProjectPdf(btn) {
-  const projBlock = btn.closest('.prev-project-block');
-  projBlock.querySelector('.pp-pdf-val').value = '';
-  projBlock.querySelector('.pp-pdf-name').textContent = '';
-  const dl = projBlock.querySelector('.pp-pdf-dl');
-  if (dl) dl.remove();
-  btn.remove();
+function removePpPdfItem(btn) {
+  btn.closest('.pp-pdf-item').remove();
   markUnsaved();
 }
 
@@ -1676,8 +1664,10 @@ function collect() {
         url: r.querySelector('.ref-url').value.trim(),
         thumb: r.querySelector('.ref-thumb-val').value.trim()
       })).filter(l => l.title && l.url),
-      pdf: proj.querySelector('.pp-pdf-val').value.trim(),
-      pdfName: proj.querySelector('.pp-pdf-name').textContent.replace(/^📄 /, '').trim()
+      pdfs: [...proj.querySelectorAll('.pp-pdf-item')].map(item => ({
+        url: item.querySelector('.pp-pdf-val').value.trim(),
+        name: item.querySelector('.pp-pdf-name').textContent.replace(/^📄 /, '').trim()
+      })).filter(f => f.url)
     }))
   }));
 

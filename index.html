@@ -917,20 +917,43 @@ document.addEventListener('keydown', e => {
 });
 
 // ── PDF PREVIEW MODAL ─────────────────────────────────────────────────────
+// workerSrc 재확인 (defer 로딩 이후 재설정 보장)
+function _ensurePdfWorker() {
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+}
 let _ppdfTask = null;
 async function ppdfOpen(url, name) {
+  _ensurePdfWorker();
   document.getElementById('ppdf-title').textContent = name;
   const body = document.getElementById('ppdf-body');
   body.innerHTML = '<div style="color:#999;font-size:13px;padding:40px;">로딩 중…</div>';
   document.getElementById('ppdf-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   try {
-    if (_ppdfTask) { _ppdfTask.destroy && _ppdfTask.destroy(); }
-    const loadingTask = pdfjsLib.getDocument({ url, cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/', cMapPacked: true });
+    if (_ppdfTask) { try { _ppdfTask.destroy(); } catch(_) {} _ppdfTask = null; }
+    // Firebase Storage URL은 XHR CORS 제한이 있으므로 fetch → ArrayBuffer로 우회
+    let docSrc;
+    try {
+      const resp = await fetch(url);
+      if (resp.ok) {
+        docSrc = { data: await resp.arrayBuffer() };
+      } else {
+        docSrc = { url };
+      }
+    } catch(_) {
+      docSrc = { url };
+    }
+    const loadingTask = pdfjsLib.getDocument({
+      ...docSrc,
+      cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+      cMapPacked: true
+    });
     _ppdfTask = loadingTask;
     const pdf = await loadingTask.promise;
     body.innerHTML = '';
-    const modalWidth = body.clientWidth - 32;
+    const modalWidth = Math.max(body.clientWidth - 32, 200);
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const vp = page.getViewport({ scale: 1 });
@@ -946,7 +969,7 @@ async function ppdfOpen(url, name) {
       await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
     }
   } catch(err) {
-    body.innerHTML = '<div style="color:#e11d48;font-size:13px;padding:40px;">PDF를 불러오지 못했습니다.</div>';
+    body.innerHTML = '<div style="color:#e11d48;font-size:13px;padding:40px;">PDF를 불러오지 못했습니다.<br><small style="color:#999;">' + (err && err.message ? err.message : '') + '</small></div>';
     console.error('PDF load error:', err);
   }
 }
@@ -954,7 +977,7 @@ function ppdfClose(e) {
   if (e && e.target !== document.getElementById('ppdf-overlay')) return;
   document.getElementById('ppdf-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  if (_ppdfTask) { _ppdfTask.destroy && _ppdfTask.destroy(); _ppdfTask = null; }
+  if (_ppdfTask) { try { _ppdfTask.destroy(); } catch(_) {} _ppdfTask = null; }
   setTimeout(() => { document.getElementById('ppdf-body').innerHTML = ''; }, 220);
 }
 
@@ -1008,16 +1031,21 @@ function oexpOpen(careerIdx) {
         </div>
       </div>` : '';
     const gallerySection = galleryHtml.trim() ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
-    const pdfName = p.pdfName || 'PDF 파일';
-    const pdfHtml = p.pdf ? `
+    // 구 형식(단일 pdf) → 배열로 통합
+    const pdfs = p.pdfs && p.pdfs.length ? p.pdfs
+      : p.pdf ? [{ url: p.pdf, name: p.pdfName || 'PDF 파일' }] : [];
+    const pdfHtml = pdfs.length ? `
       <div style="margin-top:12px;">
         <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 파일</div>
-        <div class="ppdf-card" onclick="event.stopPropagation();ppdfOpen('${esc(p.pdf)}','${esc(pdfName)}')">
-          <div class="ppdf-icon">📄</div>
-          <div class="ppdf-card-body">
-            <div class="ppdf-card-name">${esc(pdfName)}</div>
-            <div class="ppdf-card-hint">클릭해서 미리보기</div>
-          </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${pdfs.map(f => `
+          <div class="ppdf-card" onclick="event.stopPropagation();ppdfOpen('${esc(f.url)}','${esc(f.name||'PDF 파일')}')">
+            <div class="ppdf-icon">📄</div>
+            <div class="ppdf-card-body">
+              <div class="ppdf-card-name">${esc(f.name || 'PDF 파일')}</div>
+              <div class="ppdf-card-hint">클릭해서 미리보기</div>
+            </div>
+          </div>`).join('')}
         </div>
       </div>` : '';
     return `<div class="oexp-project" id="oexp-p-${i}">
