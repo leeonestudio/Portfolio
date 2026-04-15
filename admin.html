@@ -1203,7 +1203,8 @@ function prevProjectBlockHtml(proj) {
           </label>
           <span class="pp-pdf-name" style="font-size:12px;color:var(--text2);">${proj.pdf ? '📄 ' + esc(proj.pdfName || 'PDF 업로드됨') : ''}</span>
           <input type="hidden" class="pp-pdf-val" value="${esc(proj.pdf||'')}">
-          ${proj.pdf ? `<button class="btn btn-outline btn-sm" onclick="removeProjectPdf(this)" style="font-size:11px;">파일 삭제</button>` : ''}
+          ${proj.pdf ? `<button class="btn btn-outline btn-sm pp-pdf-dl" onclick="downloadProjectPdf(this)" style="font-size:11px;">다운로드</button>` : ''}
+          ${proj.pdf ? `<button class="btn btn-outline btn-sm pp-pdf-del" onclick="removeProjectPdf(this)" style="font-size:11px;">파일 삭제</button>` : ''}
         </div>
       </div>
     </div>
@@ -1312,7 +1313,15 @@ async function loadProjectPdf(input) {
     const url = await ref.getDownloadURL();
     valEl.value = url;
     nameEl.textContent = '📄 ' + file.name;
-    // 삭제 버튼 없으면 추가
+    // 다운로드/삭제 버튼 없으면 추가
+    if (!projBlock.querySelector('.pp-pdf-dl')) {
+      const dl = document.createElement('button');
+      dl.className = 'btn btn-outline btn-sm pp-pdf-dl';
+      dl.style.fontSize = '11px';
+      dl.textContent = '다운로드';
+      dl.onclick = () => downloadProjectPdf(dl);
+      nameEl.parentElement.appendChild(dl);
+    }
     if (!projBlock.querySelector('.pp-pdf-del')) {
       const del = document.createElement('button');
       del.className = 'btn btn-outline btn-sm pp-pdf-del';
@@ -1331,10 +1340,24 @@ async function loadProjectPdf(input) {
   input.value = '';
 }
 
+function downloadProjectPdf(btn) {
+  const projBlock = btn.closest('.prev-project-block');
+  const url = projBlock.querySelector('.pp-pdf-val').value;
+  const name = projBlock.querySelector('.pp-pdf-name').textContent.replace(/^📄 /, '').trim() || 'file.pdf';
+  if (!url) return;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.target = '_blank';
+  a.click();
+}
+
 function removeProjectPdf(btn) {
   const projBlock = btn.closest('.prev-project-block');
   projBlock.querySelector('.pp-pdf-val').value = '';
   projBlock.querySelector('.pp-pdf-name').textContent = '';
+  const dl = projBlock.querySelector('.pp-pdf-dl');
+  if (dl) dl.remove();
   btn.remove();
   markUnsaved();
 }
