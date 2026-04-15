@@ -197,7 +197,8 @@ h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-
 .oexp-hclose:hover{color:var(--text);}
 .oexp-toc{padding:10px 24px 14px;border-bottom:.5px solid var(--border);display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
 .oexp-toc-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
-.oexp-toc-item{font-size:12px;color:var(--text2);cursor:pointer;transition:color var(--t);}
+.oexp-toc-item{font-size:13px;color:var(--text2);cursor:pointer;transition:color var(--t);display:flex;align-items:center;gap:7px;}
+.oexp-toc-item::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
 .oexp-toc-item:hover{color:var(--green);}
 .oexp-toc-item:hover::after{content:' →';color:var(--green);}
 .oexp-body{flex:1;overflow-y:auto;padding:0 24px 48px;}
@@ -908,7 +909,7 @@ function oexpOpen(careerIdx) {
     tocEl.style.display = '';
     tocEl.innerHTML = '<div class="oexp-toc-label">프로젝트 목차</div>' +
       projects.map((p, i) =>
-        p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">· ${esc(p.name)}</span>` : ''
+        p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">${esc(p.name)}</span>` : ''
       ).join('');
   } else {
     tocEl.style.display = 'none';

@@ -131,6 +131,17 @@ textarea{resize:vertical;min-height:72px;line-height:1.6;}
 .case-sub-sec{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:12px;}
 .case-sub-sec+*{margin-top:0;}
 .case-sub-sec.mt{margin-top:20px;}
+/* ── PROJECT ACCORDION ── */
+.pp-acc{background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px;overflow:hidden;}
+.pp-acc:last-child{margin-bottom:0;}
+.pp-acc-hd{display:flex;align-items:center;gap:6px;padding:9px 12px;cursor:pointer;user-select:none;background:#fafafa;border-bottom:1px solid transparent;transition:background .15s;}
+.pp-acc-hd:hover{background:#f2f2f2;}
+.pp-acc.open>.pp-acc-hd{border-bottom-color:var(--border);}
+.pp-acc-name{flex:1;font-size:12px;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--text);}
+.pp-acc-tog{background:none;border:none;cursor:pointer;color:var(--text2);font-size:12px;padding:2px 4px;flex-shrink:0;transition:transform .2s;line-height:1;}
+.pp-acc.open>.pp-acc-hd>.pp-acc-tog{transform:rotate(180deg);}
+.pp-acc-body{padding:12px;display:none;}
+.pp-acc.open>.pp-acc-body{display:block;}
 
 /* ── KPI MINI ROWS ── */
 .kpis-wrap .dnd-row{padding:6px 8px;}
@@ -1152,44 +1163,49 @@ async function loadGalleryImage(input) {
 // ── PREV CAREER BLOCKS ────────────────────────────────────────────────────
 function prevProjectBlockHtml(proj) {
   proj = proj || {};
-  return `<div class="prev-project-block" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;">
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-      <span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;flex:1;">프로젝트</span>
-      <button class="btn btn-outline btn-sm" onclick="movePrevProject(this,-1)" title="위로">↑</button>
-      <button class="btn btn-outline btn-sm" onclick="movePrevProject(this,1)" title="아래로">↓</button>
-      <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-project-block').remove()" style="color:#e11d48;">삭제</button>
+  return `<div class="prev-project-block pp-acc">
+    <div class="pp-acc-hd" onclick="togglePpAcc(this)">
+      <span class="pp-acc-name">${esc(proj.name || '(프로젝트명 없음)')}</span>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevProject(this,-1)" title="위로">↑</button>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevProject(this,1)" title="아래로">↓</button>
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();this.closest('.prev-project-block').remove()" style="color:#e11d48;">삭제</button>
+      <button class="pp-acc-tog" onclick="event.stopPropagation();togglePpAcc(this.closest('.pp-acc-hd'))">▾</button>
     </div>
-    <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:3px;">프로젝트명</label>
-      <input type="text" class="pp-name" value="${esc(proj.name||'')}" placeholder="예: 커뮤니티 이벤트 기획" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
-    </div>
-    <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:3px;">기간</label>
-      <input type="text" class="pp-period" value="${esc(proj.period||'')}" placeholder="예: 2023.03 – 2023.12" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
-    </div>
-    <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:3px;">줄글 내용 — **굵게**, <u>밑줄</u>, ==하이라이트== 지원</label>
-      <textarea class="pp-body" rows="5" placeholder="프로젝트 상세 내용을 입력하세요..." style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;resize:vertical;font-family:inherit;">${esc(proj.body||'')}</textarea>
-    </div>
-    <div class="field" style="margin-bottom:8px;">
-      <label class="label" style="font-size:11px;margin-bottom:4px;">이미지 갤러리</label>
-      <div class="pp-gallery-wrap gallery-admin-wrap">${(proj.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
-      <button class="btn btn-outline btn-sm" onclick="addGalleryBlock(this)" style="margin-top:5px;font-size:11px;">+ 갤러리 블록 추가</button>
-    </div>
-    <div class="field">
-      <label class="label" style="font-size:11px;margin-bottom:4px;">관련 링크</label>
-      <div class="pp-links-wrap">${(proj.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
-      <button class="btn btn-outline btn-sm" onclick="addPcLink(this)" style="margin-top:5px;">+ 링크 추가</button>
+    <div class="pp-acc-body">
+      <div class="field" style="margin-bottom:8px;">
+        <label class="label" style="font-size:11px;margin-bottom:3px;">프로젝트명</label>
+        <input type="text" class="pp-name" value="${esc(proj.name||'')}" placeholder="예: 커뮤니티 이벤트 기획" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;" oninput="this.closest('.pp-acc').querySelector('.pp-acc-name').textContent=this.value||'(프로젝트명 없음)'">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label class="label" style="font-size:11px;margin-bottom:3px;">기간</label>
+        <input type="text" class="pp-period" value="${esc(proj.period||'')}" placeholder="예: 2023.03 – 2023.12" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label class="label" style="font-size:11px;margin-bottom:3px;">줄글 내용 — **굵게**, <u>밑줄</u>, ==하이라이트== 지원</label>
+        <textarea class="pp-body" rows="5" placeholder="프로젝트 상세 내용을 입력하세요..." style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;resize:vertical;font-family:inherit;">${esc(proj.body||'')}</textarea>
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label class="label" style="font-size:11px;margin-bottom:4px;">이미지 갤러리</label>
+        <div class="pp-gallery-wrap gallery-admin-wrap">${(proj.gallery||[]).map(blk => galleryBlockHtml(blk)).join('')}</div>
+        <button class="btn btn-outline btn-sm" onclick="addGalleryBlock(this)" style="margin-top:5px;font-size:11px;">+ 갤러리 블록 추가</button>
+      </div>
+      <div class="field">
+        <label class="label" style="font-size:11px;margin-bottom:4px;">관련 링크</label>
+        <div class="pp-links-wrap">${(proj.links||[]).map(l => refLinkRowHtml(l)).join('')}</div>
+        <button class="btn btn-outline btn-sm" onclick="addPcLink(this)" style="margin-top:5px;">+ 링크 추가</button>
+      </div>
     </div>
   </div>`;
 }
+
+function togglePpAcc(hd) { hd.closest('.pp-acc').classList.toggle('open'); }
 
 function prevCareerBlockHtml(p) {
   p = p || {};
   const projects = p.projects || [{}];
   return `<div class="prev-career-block" style="border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:12px;background:#fff;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-      <span style="font-size:12px;font-weight:600;color:var(--text2);flex:1;">경력</span>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+      <span style="font-size:12px;font-weight:700;color:var(--text);letter-spacing:.02em;flex:1;">경력</span>
       <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,-1)" title="위로">↑</button>
       <button class="btn btn-outline btn-sm" onclick="movePrevCareer(this,1)" title="아래로">↓</button>
       <button class="btn btn-outline btn-sm" onclick="this.closest('.prev-career-block').remove()" style="color:#e11d48;">삭제</button>
@@ -1198,13 +1214,15 @@ function prevCareerBlockHtml(p) {
       <label class="label" style="font-size:11px;margin-bottom:3px;">경력명 * (카드 타이틀 + 모달 헤더에 표시)</label>
       <input type="text" class="pc-career-title" value="${esc(p.title||'')}" placeholder="예: 네스트앤드 — 커뮤니티 매니저" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
     </div>
-    <div class="field" style="margin-bottom:14px;">
+    <div class="field" style="margin-bottom:20px;">
       <label class="label" style="font-size:11px;margin-bottom:3px;">한 줄 설명 (카드에 표시)</label>
       <input type="text" class="pc-career-desc" value="${esc(p.desc||'')}" placeholder="예: 엑스포 참여자 50% 증가" style="width:100%;padding:6px 9px;font-size:12px;border:1px solid var(--border);border-radius:5px;">
     </div>
-    <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;padding-bottom:6px;border-bottom:.5px solid var(--border);">프로젝트 목록</div>
+    <div style="border-top:1px solid var(--border);padding-top:14px;margin-bottom:10px;">
+      <span style="font-size:11px;font-weight:700;color:var(--text);letter-spacing:.03em;">프로젝트 목록</span>
+    </div>
     <div class="pc-projects-wrap">${projects.map(proj => prevProjectBlockHtml(proj)).join('')}</div>
-    <button class="btn btn-outline btn-sm" onclick="addPrevProject(this)" style="margin-top:4px;width:100%;justify-content:center;">+ 프로젝트 추가</button>
+    <button class="btn btn-outline btn-sm" onclick="addPrevProject(this)" style="margin-top:8px;width:100%;justify-content:center;">+ 프로젝트 추가</button>
   </div>`;
 }
 
