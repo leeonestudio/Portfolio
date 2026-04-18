@@ -1,762 +1,2401 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>김규수 — 콘텐츠로 매출을 만드는 마케터</title>
-<meta name="description" content="광고비 없이 유튜브 오가닉 콘텐츠만으로 자사몰 연매출 2.3배 성장을 이끈 콘텐츠 마케터 김규수의 포트폴리오">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#ffffff;--surface:#f5f5f5;--surface2:#ebebeb;
-  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.16);
-  --text:#111111;--text2:#6b6b6b;--text3:#bbbbbb;
-  --accent:#4F46E5;--accent-l:rgba(79,70,229,0.08);--accent-h:#3730a3;
-  --green:#059669;--orange:#D97706;--teal:#0891B2;
-  --r:10px;--r-sm:6px;--t:0.22s ease;
-}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Inter',sans-serif;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김규수 — 콘텐츠로 매출을 만드는 마케터</title>
+  <meta name="description" content="광고비 없이 유튜브 오가닉 콘텐츠만으로 자사몰 연매출 2.3배 성장을 이끈 콘텐츠 마케터 김규수의 포트폴리오">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;}
-.nav-logo{font-size:14px;font-weight:700;letter-spacing:-.02em;cursor:pointer;transition:opacity var(--t);}
-.nav-logo:hover{opacity:.55}
-.nav-links{display:flex;gap:28px;}
-.nav-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color var(--t);letter-spacing:.01em;}
-.nav-link:hover,.nav-link.on{color:var(--text);font-weight:500;}
+    :root {
+      --bg: #ffffff;
+      --surface: #f5f5f5;
+      --surface2: #ebebeb;
+      --border: rgba(0, 0, 0, 0.08);
+      --border2: rgba(0, 0, 0, 0.16);
+      --text: #111111;
+      --text2: #6b6b6b;
+      --text3: #bbbbbb;
+      --accent: #4F46E5;
+      --accent-l: rgba(79, 70, 229, 0.08);
+      --accent-h: #3730a3;
+      --green: #059669;
+      --orange: #D97706;
+      --teal: #0891B2;
+      --r: 10px;
+      --r-sm: 6px;
+      --t: 0.22s ease;
+    }
 
-/* PAGES */
-main{padding-top:52px;}
-.page{display:none;min-height:calc(100vh - 52px);}
-.page.on{display:block;animation:fadein .3s ease;}
-@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* LAYOUT */
-.w{max-width:720px;margin:0 auto;padding:52px 24px 100px;}
-.tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
-.block .tag{font-size:14px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--text2);}
-.divider{height:.5px;background:var(--border);margin:48px 0;}
-.block{margin-bottom:40px;}
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid var(--border);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
 
-/* TYPOGRAPHY */
-h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:-.035em;line-height:1.18;}
-h2{font-size:clamp(22px,3.5vw,28px);font-weight:700;letter-spacing:-.025em;line-height:1.25;}
-.sub{font-size:14px;color:var(--text2);line-height:1.75;margin-top:14px;}
+    .nav-logo {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      cursor: pointer;
+      transition: opacity var(--t);
+    }
 
-/* BADGE */
-.badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:22px;}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .nav-logo:hover {
+      opacity: .55
+    }
 
-/* METRICS */
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px;}
-.mc{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 14px;text-align:center;transition:border-color var(--t);}
-.mc:hover{border-color:var(--border2);}
-.mn{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:6px;}
-.metrics .mn{font-size:32px;}
-.ml{font-size:13px;color:var(--text2);}
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
 
-/* BTNS */
-.row{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:10px 22px;border-radius:var(--r-sm);cursor:pointer;border:none;font-family:inherit;transition:all var(--t);}
-.btn-p{background:var(--accent);color:#fff;}
-.btn-p:hover{background:var(--accent-h);}
-.btn-o{background:transparent;color:var(--text);border:.5px solid var(--border2);}
-.btn-o:hover{border-color:var(--text2);}
+    .nav-link {
+      font-size: 13px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: color var(--t);
+      letter-spacing: .01em;
+    }
 
-/* CASE CARDS */
-.case-list{display:flex;flex-direction:column;gap:10px;margin-top:28px;}
-.cc{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 18px;cursor:pointer;display:grid;grid-template-columns:1fr 140px;grid-template-rows:auto auto auto;gap:0 20px;transition:all var(--t);}
-.cc:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-1px);}
-.cc-num{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--text3);grid-column:1;grid-row:1;align-self:start;margin-bottom:2px;}
-.cc-title{font-size:15px;font-weight:600;color:var(--text);grid-column:1;grid-row:2;align-self:center;}
-.cc-kpi{font-family:'Inter',sans-serif;font-size:32px;font-weight:700;color:#10b981;grid-column:2;grid-row:2;align-self:center;text-align:right;white-space:nowrap;}
-.cc-sub{font-size:12px;color:var(--text2);grid-column:1;grid-row:3;align-self:end;margin-top:6px;}
-.cc-more{grid-column:2;grid-row:3;align-self:end;justify-self:end;display:inline-block;white-space:nowrap;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;margin-top:8px;}
+    .nav-link:hover,
+    .nav-link.on {
+      color: var(--text);
+      font-weight: 500;
+    }
 
-/* TIMELINE */
-.tl{display:flex;flex-direction:column;}
-.tl-item{display:flex;gap:14px;padding:16px 0;border-bottom:.5px solid var(--border);}
-.tl-item:last-child{border-bottom:none;}
-.tl-yr{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);min-width:76px;padding-top:3px;}
-.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);flex-shrink:0;margin-top:4px;}
-.tl-dot.on{background:var(--accent);box-shadow:0 0 8px rgba(79,70,229,.3);}
-.tl-co{font-size:14px;font-weight:600;}
-.tl-role{font-size:12px;color:var(--text2);margin-top:2px;}
-.tl-res{font-size:11px;color:var(--text3);margin-top:3px;}
+    /* PAGES */
+    main {
+      padding-top: 52px;
+    }
 
-/* SKILLS */
-.skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
-.sk{font-size:11px;color:var(--text2);background:var(--surface);border:.5px solid var(--border);border-radius:4px;padding:4px 10px;}
+    .page {
+      display: none;
+      min-height: calc(100vh - 52px);
+    }
 
-/* CASE DETAIL */
-.back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;margin-bottom:24px;transition:color var(--t);}
-.back:hover{color:var(--text);}
-.sar{display:flex;flex-direction:column;gap:0;}
-.sar-row{background:#fff;border:1px solid var(--border2);border-radius:var(--r);box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:20px 22px;margin-bottom:14px;}
-.sar-row:last-child{margin-bottom:0;}
-.sar-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.sar-badge{width:26px;height:26px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;letter-spacing:0;}
-.sar-label{font-size:14px;font-weight:600;color:var(--text2);letter-spacing:-.01em;}
-.sar-c{font-size:15px;color:var(--text2);line-height:1.75;}
-.sar-c strong{color:var(--text2);font-weight:700;}
-.case-period,.case-skills{font-size:15px;color:var(--text2);margin-top:8px;line-height:1.6;}
+    .page.on {
+      display: block;
+      animation: fadein .3s ease;
+    }
 
-/* MARKDOWN BODY (case detail only) */
-.md-body{font-size:15px;color:var(--text2);line-height:1.75;}
-.md-body strong{color:var(--text);font-weight:600;}
-.md-body em{font-style:italic;}
-.md-body u{text-decoration:underline;}
-.md-body mark{background:#10b981;color:#fff;padding:1px 5px;border-radius:3px;font-style:normal;}
-.md-body ul{margin:4px 0 4px 18px;padding:0;list-style:disc;}
-.md-body ul ul{list-style:circle;margin:2px 0 2px 18px;}
-.md-body ol{margin:4px 0 4px 18px;padding:0;list-style:decimal;}
-.md-body ol ol{list-style:lower-alpha;margin:2px 0 2px 18px;}
-.md-body li{margin:2px 0;}
-.md-body blockquote{border-left:3px solid var(--border2);padding:8px 14px;margin:6px 0;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;}
-.md-body span{white-space:pre-wrap;}
-.case-detail .block:not(.gallery-block) .tag{border-left:4px solid var(--green);padding-left:10px;font-size:17px;font-weight:600;}
-/* REF LINKS */
-.ref-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-.ref-card{display:flex;align-items:stretch;background:#fff;border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:background var(--t);text-decoration:none;}
-.ref-card:hover{background:var(--surface);}
-.ref-body{flex:1;padding:14px 16px;min-width:0;}
-.ref-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ref-desc{font-size:12px;color:var(--text2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px;}
-.ref-url{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ref-thumb{width:80px;flex-shrink:0;object-fit:cover;display:block;}
-.contrib-bar-wrap{display:flex;align-items:center;gap:8px;margin-top:12px;}
-.contrib-label{font-size:12px;color:var(--text3);white-space:nowrap;flex-shrink:0;}
-.contrib-track{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
-.contrib-fill{height:100%;background:var(--green);border-radius:2px;transition:width .6s ease;}
-.contrib-pct{font-size:12px;color:var(--green);white-space:nowrap;flex-shrink:0;font-family:'Inter',sans-serif;font-weight:600;}
-.case-detail .block+.block{border-top:.5px solid var(--border);padding-top:40px;}
-.case-detail .sar-row{display:flex;flex-direction:column;}
-.chart-box{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:20px 20px 12px;margin-top:8px;}
-.kpi-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px;}
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
 
-/* INSIGHTS LIST */
-.ins-header{padding:52px 0 28px;}
-.ins-cats{display:flex;align-items:center;border-bottom:.5px solid var(--border);margin-bottom:4px;}
-.ins-cat{font-size:13px;padding:10px 16px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:all var(--t);white-space:nowrap;}
-.ins-cat:first-child{padding-left:0;}
-.ins-cat.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
-.ins-search{margin-left:auto;display:flex;align-items:center;gap:6px;}
-.ins-q{border:none;outline:none;font-size:13px;font-family:inherit;color:var(--text);background:transparent;width:0;transition:width .3s ease;padding:0;}
-.ins-q.open{width:140px;border-bottom:.5px solid var(--border2);padding:2px 0;}
-.ins-search-btn{background:none;border:none;cursor:pointer;padding:4px;color:var(--text2);display:flex;align-items:center;transition:color var(--t);}
-.ins-search-btn:hover{color:var(--text);}
-.art-list{display:flex;flex-direction:column;}
-.art-row{display:flex;gap:24px;padding:28px 0;border-bottom:.5px solid var(--border);cursor:pointer;transition:opacity var(--t);}
-.art-row:hover{opacity:.65;}
-.art-body{flex:1;min-width:0;}
-.art-cat{font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
-.art-title{font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.35;margin-bottom:8px;color:var(--text);}
-.art-excerpt{font-size:13px;color:var(--text2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.art-meta{font-size:11px;color:var(--text3);margin-top:12px;}
-.art-img{width:96px;height:96px;flex-shrink:0;border-radius:var(--r-sm);overflow:hidden;background:var(--surface);}
-.art-img img{width:100%;height:100%;object-fit:cover;display:block;}
-.art-img-empty{width:100%;height:100%;background:var(--surface2);}
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
 
-/* PAGINATION */
-.pagination{display:flex;gap:4px;justify-content:center;margin-top:40px;}
-.pg-btn{width:32px;height:32px;border-radius:var(--r-sm);border:.5px solid var(--border);background:none;font-size:13px;cursor:pointer;font-family:inherit;color:var(--text2);transition:all var(--t);}
-.pg-btn.on{background:var(--accent);color:#fff;border-color:var(--accent);}
-.pg-btn:hover:not(.on){border-color:var(--border2);color:var(--text);}
+    /* LAYOUT */
+    .w {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 52px 24px 100px;
+    }
 
-/* INSIGHT DETAIL */
-.ins-detail-header{padding:52px 0 0;}
-.ins-detail-cat{font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;}
-.ins-detail-title{font-size:clamp(26px,4vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.25;}
-.ins-detail-sub{font-size:15px;color:var(--text2);margin-top:12px;line-height:1.7;}
-.ins-detail-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text3);padding:20px 0;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border);margin-top:28px;}
-.ins-detail-body{padding:36px 0;font-size:15px;line-height:1.9;color:var(--text2);}
-.ins-detail-body p{margin-bottom:20px;}
-.ins-detail-body strong{color:var(--text);}
-.ins-detail-body hr{border:none;border-top:.5px solid var(--border);margin:28px 0;}
-.ins-detail-body blockquote{border-left:3px solid var(--accent);padding:12px 16px;margin:0 0 20px;background:var(--surface);border-radius:0 var(--r-sm) var(--r-sm) 0;color:var(--text2);}
+    .tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 12px;
+    }
 
-/* PREV CARDS */
-.prev-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-/* PDF PREVIEW MODAL */
-.ppdf-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
-.ppdf-overlay.open{opacity:1;pointer-events:auto;}
-.ppdf-modal{background:#fff;width:min(860px,calc(100vw - 32px));height:min(90vh,840px);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;}
-.ppdf-modal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:.5px solid var(--border);flex-shrink:0;}
-.ppdf-modal-title{font-size:14px;font-weight:600;color:var(--text);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-.ppdf-modal-close{background:none;border:none;font-size:18px;color:var(--text2);cursor:pointer;padding:4px;line-height:1;transition:color var(--t);}
-.ppdf-modal-close:hover{color:var(--text);}
-.ppdf-body{flex:1;overflow-y:auto;background:#f0f0f0;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.ppdf-page-wrap{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.18);border-radius:2px;display:flex;}
-.ppdf-page-wrap canvas{display:block;max-width:100%;}
-.ppdf-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:background var(--t);}
-.ppdf-card:hover{background:var(--surface);}
-.ppdf-icon{font-size:24px;flex-shrink:0;line-height:1;}
-.ppdf-card-body{flex:1;min-width:0;}
-.ppdf-card-name{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ppdf-card-hint{font-size:12px;color:var(--text3);margin-top:2px;}
-.pcard{background:var(--surface);border:.5px solid var(--border);border-radius:var(--r);padding:16px 18px;transition:border-color var(--t);cursor:pointer;}
-.pcard:hover{border-color:var(--border2);background:var(--surface2);}
-.pt{font-size:13px;font-weight:600;}
-.ps{font-size:12px;color:var(--text2);}
-.pcard-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:6px;}
-.pcard-more{display:inline-block;white-space:nowrap;flex-shrink:0;font-size:11px;font-weight:500;color:#fff;background:#6b6b6b;border-radius:20px;padding:4px 14px;}
+    .block .tag {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .02em;
+      text-transform: none;
+      color: var(--text2);
+    }
 
-/* OTHER EXP MODAL */
-.oexp-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
-.oexp-overlay.open{opacity:1;pointer-events:auto;}
-.oexp-modal{background:#fff;width:min(680px,calc(100vw - 32px));max-height:min(90vh,860px);border-radius:12px;display:flex;flex-direction:column;overflow:hidden;}
-.oexp-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:.5px solid var(--border);flex-shrink:0;}
-.oexp-header-title{font-size:18px;font-weight:700;letter-spacing:-.025em;}
-.oexp-hclose{background:none;border:none;font-size:18px;color:var(--text2);cursor:pointer;padding:4px;line-height:1;transition:color var(--t);}
-.oexp-hclose:hover{color:var(--text);}
-.oexp-toc{padding:10px 24px 14px;border-bottom:.5px solid var(--border);display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
-.oexp-toc-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
-.oexp-toc-item{font-size:13px;color:var(--text2);cursor:pointer;transition:color var(--t);display:flex;align-items:center;gap:7px;}
-.oexp-toc-item::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
-.oexp-toc-item:hover{color:var(--green);}
-.oexp-toc-item:hover::after{content:' →';color:var(--green);}
-.oexp-body{flex:1;overflow-y:auto;padding:0 24px 48px;}
-.oexp-project{padding-top:32px;}
-.oexp-project+.oexp-project{border-top:.5px solid var(--border);margin-top:32px;}
-.oexp-project-title{font-size:15px;font-weight:500;letter-spacing:-.01em;margin-bottom:4px;}
-.oexp-project-period{font-size:12px;color:var(--text2);margin-bottom:14px;}
-.oexp-project-body{font-size:14px;line-height:1.8;margin-bottom:16px;}
+    .divider {
+      height: .5px;
+      background: var(--border);
+      margin: 48px 0;
+    }
 
-/* CONTACT */
-.contact-h{padding:64px 0 20px;}
-.ct-img-wrap{margin:0 0 0;border-radius:var(--r);overflow:hidden;}
-.ct-img{width:100%;height:auto;display:block;border-radius:var(--r);}
+    .block {
+      margin-bottom: 40px;
+    }
 
-/* TOAST */
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(16px);background:#111;color:#fff;padding:12px 24px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:all .3s ease;pointer-events:none;white-space:nowrap;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    /* TYPOGRAPHY */
+    h1 {
+      font-size: clamp(30px, 5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1.18;
+    }
 
-/* GALLERY */
-.gallery-block{margin-bottom:0;}
-.gallery-img{width:100%;height:auto;display:block;border-radius:var(--r-sm);}
-.gallery-wide .gallery-img{}
-.gallery-two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
-.gallery-two-col .gallery-img{}
-.gallery-three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:start;}
-.gallery-three-col .gallery-img{}
-.gallery-mixed-top .gallery-img{margin-bottom:8px;}
-.gallery-mixed-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
-.gallery-mixed-bottom .gallery-img{}
-.gallery-block-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;}
-.gallery-img-wrap{position:relative;}
-.gallery-img-caption{font-size:12px;color:var(--text3);margin-top:5px;text-align:left;line-height:1.5;}
-/* SLIDE */
-.gallery-slide{position:relative;width:100%;overflow:hidden;border-radius:var(--r-sm);}
-.gallery-slide-track{display:flex;transition:transform .35s ease;}
-.gallery-slide-track .gallery-slide-item{width:100%;flex-shrink:0;box-sizing:border-box;}
-.gallery-slide-track .gallery-slide-item .gallery-img{width:100%;height:auto;border-radius:0;cursor:zoom-in;display:block;}
-/* SLIDE MODAL */
-.slb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
-.slb-overlay.open{opacity:1;pointer-events:auto;}
-.slb-img-wrap{max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;}
-.slb-img-wrap img{max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);}
-.slb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:9001;line-height:1;}
-.slb-close:hover{background:rgba(255,255,255,.25);}
-.slb-counter{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-size:13px;font-weight:500;color:rgba(255,255,255,.7);letter-spacing:.04em;z-index:9001;pointer-events:none;}
-.slb-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;z-index:9001;transition:background .15s;line-height:1;}
-.slb-nav:hover{background:rgba(255,255,255,.28);}
-.slb-nav.prev{left:20px;}
-.slb-nav.next{right:20px;}
-.gallery-slide-caption{font-size:12px;color:var(--text3);text-align:left;line-height:1.5;height:40px;padding-top:6px;overflow:hidden;}
-.gallery-slide-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.38);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s;line-height:1;}
-.gallery-slide-btn:hover{background:rgba(0,0,0,0.6);}
-.gallery-slide-btn.prev{left:10px;}
-.gallery-slide-btn.next{right:10px;}
-.gallery-slide-dots{display:flex;justify-content:center;gap:6px;margin-top:8px;}
-.gallery-slide-dot{width:7px;height:7px;border-radius:50%;background:var(--border2);cursor:pointer;transition:background .2s;}
-.gallery-slide-dot.on{background:var(--green);}
+    h2 {
+      font-size: clamp(22px, 3.5vw, 28px);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1.25;
+    }
 
-/* LIGHTBOX */
-.lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;}
-.lb-overlay.open{opacity:1;pointer-events:auto;}
-.lb-img-wrap{max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;}
-.lb-img-wrap img{max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);transition:transform .22s ease;}
-.lb-close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;z-index:9001;line-height:1;}
-.lb-close:hover{background:rgba(255,255,255,.25);}
-.gallery-img{cursor:zoom-in;}
+    .sub {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.75;
+      margin-top: 14px;
+    }
 
-/* FOOTER */
-footer{text-align:center;padding:40px 0;font-size:11px;color:var(--text3);border-top:.5px solid var(--border);}
+    /* BADGE */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
 
-/* ── 태블릿 (768px ~ 1023px) ──────────────────────────────────────── */
-@media(min-width:768px) and (max-width:1023px){
-  .w{padding:44px 28px 80px;}
-  .metrics{gap:8px;}
-  .mn{font-size:22px;}
-  .metrics .mn{font-size:28px;}
-  .btn{min-height:44px;}
-  .pg-btn{width:40px;height:40px;}
-}
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
 
-/* ── 모바일 (max-width: 767px) ────────────────────────────────────── */
-@media(max-width:767px){
-  /* 네비게이션 */
-  nav{padding:0 16px;}
-  .nav-links{gap:16px;}
-  .nav-link{font-size:12px;}
+    @keyframes pulse {
 
-  /* 레이아웃 */
-  .w{padding:32px 16px 80px;}
-  .divider{margin:32px 0;}
-  .block{margin-bottom:28px;}
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
 
-  /* 서브 텍스트 */
-  .sub{font-size:13px;margin-top:10px;}
+      50% {
+        opacity: .4;
+        transform: scale(.7)
+      }
+    }
 
-  /* 수치 카드 */
-  .metrics{grid-template-columns:repeat(3,1fr);gap:7px;margin-top:20px;}
-  .mc{padding:12px 8px;}
-  .mn{font-size:18px;}
-  .metrics .mn{font-size:22px;}
-  .ml{font-size:11px;}
+    /* METRICS */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 34px;
+    }
 
-  /* 버튼 — 터치 최소 44px */
-  .row{flex-direction:column;gap:8px;margin-top:20px;}
-  .btn{justify-content:center;min-height:44px;width:100%;font-size:14px;padding:11px 20px;}
+    .mc {
+      background: var(--surface);
+      border: .5px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color var(--t);
+    }
 
-  /* 케이스 카드 */
-  .case-list{gap:8px;margin-top:20px;}
-  .cc{grid-template-columns:1fr auto;padding:14px 14px 12px;gap:0 10px;}
-  .cc-kpi{font-size:22px;}
-  .cc-title{font-size:14px;}
-  .cc-sub{font-size:11px;margin-top:4px;}
-  .cc-more{font-size:10px;padding:3px 10px;}
+    .mc:hover {
+      border-color: var(--border2);
+    }
 
-  /* KPI 그리드 */
-  .kpi-g{grid-template-columns:repeat(3,1fr);gap:8px;}
-  .kpi-g .mn{font-size:22px;}
-  .kpi-g .ml{font-size:11px;}
+    .mn {
+      font-family: 'Inter', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
 
-  /* 케이스 상세 */
-  .case-detail .block:not(.gallery-block) .tag{font-size:16px;}
-  .case-detail .block+.block{padding-top:28px;}
-  .sar-row{padding:16px 16px;margin-bottom:10px;}
-  .sar-c{font-size:14px;}
-  .md-body{font-size:14px;}
-  .case-period,.case-skills{font-size:14px;}
-  .back{min-height:44px;display:inline-flex;align-items:center;}
+    .metrics .mn {
+      font-size: 32px;
+    }
 
-  /* 타임라인 */
-  .tl-yr{min-width:58px;font-size:10px;}
-  .tl-item{gap:10px;}
+    .ml {
+      font-size: 13px;
+      color: var(--text2);
+    }
 
-  /* 인사이트 목록 */
-  .ins-header{padding:32px 0 18px;}
-  .ins-cats{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  .ins-cats::-webkit-scrollbar{display:none;}
-  .ins-cat{font-size:12px;padding:10px 10px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;}
-  .ins-cat:first-child{padding-left:2px;}
-  .ins-search-btn{min-width:44px;min-height:44px;justify-content:center;}
-  .ins-q.open{width:110px;}
-  .art-row{gap:14px;padding:20px 0;}
-  .art-img{width:68px;height:68px;flex-shrink:0;}
-  .art-title{font-size:15px;}
-  .art-excerpt{font-size:12px;}
-  .art-meta{font-size:11px;margin-top:8px;}
+    /* BTNS */
+    .row {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
 
-  /* 페이지네이션 — 터치 44px */
-  .pagination{gap:6px;margin-top:32px;}
-  .pg-btn{width:44px;height:44px;font-size:13px;}
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: all var(--t);
+    }
 
-  /* 인사이트 상세 */
-  .ins-detail-header{padding:32px 0 0;}
-  .ins-detail-title{font-size:clamp(22px,6vw,30px);}
-  .ins-detail-sub{font-size:14px;}
-  .ins-detail-meta{flex-direction:column;align-items:flex-start;gap:6px;padding:16px 0;}
-  .ins-detail-body{font-size:14px;line-height:1.85;padding:24px 0;}
-  .ins-detail-body p{margin-bottom:16px;}
+    .btn-p {
+      background: var(--accent);
+      color: #fff;
+    }
 
-  /* Contact */
-  .contact-h{padding:36px 0 14px;}
+    .btn-p:hover {
+      background: var(--accent-h);
+    }
 
-  /* 갤러리 */
-  .gallery-three-col{grid-template-columns:1fr 1fr;}
-  .gallery-two-col,.gallery-mixed-bottom{gap:6px;}
+    .btn-o {
+      background: transparent;
+      color: var(--text);
+      border: .5px solid var(--border2);
+    }
 
-  /* 라이트박스 */
-  .lb-close{width:44px;height:44px;top:12px;right:12px;font-size:18px;}
+    .btn-o:hover {
+      border-color: var(--text2);
+    }
 
-  /* 토스트 */
-  .toast{font-size:12px;padding:10px 18px;max-width:calc(100vw - 32px);white-space:normal;text-align:center;}
-}
+    /* CASE CARDS */
+    .case-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 28px;
+    }
 
-/* ── 소형 모바일 (max-width: 374px) ──────────────────────────────── */
-@media(max-width:374px){
-  .mn{font-size:16px;}
-  .metrics .mn{font-size:18px;}
-  .ml{font-size:10px;}
-  .mc{padding:10px 6px;}
-  .cc-kpi{font-size:18px;}
-  .kpi-g{grid-template-columns:1fr 1fr;}
-  .nav-links{gap:10px;}
-}
-</style>
-<!-- Firebase SDK (compat) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>if(typeof pdfjsLib!=='undefined'){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';}</script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
-<script src="firebase-config.js"></script>
-<script>
-  try {
-    firebase.initializeApp(FIREBASE_CONFIG);
-  } catch(e) {}
-  var _db      = firebase.firestore();
-  var _storage = firebase.storage();
-</script>
+    .cc {
+      background: var(--surface);
+      border: .5px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 20px 18px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      grid-template-rows: auto auto auto;
+      gap: 0 20px;
+      transition: all var(--t);
+    }
+
+    .cc:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+      transform: translateY(-1px);
+    }
+
+    .cc-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      color: var(--text3);
+      grid-column: 1;
+      grid-row: 1;
+      align-self: start;
+      margin-bottom: 2px;
+    }
+
+    .cc-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      grid-column: 1;
+      grid-row: 2;
+      align-self: center;
+    }
+
+    .cc-kpi {
+      font-family: 'Inter', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #10b981;
+      grid-column: 2;
+      grid-row: 2;
+      align-self: center;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .cc-sub {
+      font-size: 12px;
+      color: var(--text2);
+      grid-column: 1;
+      grid-row: 3;
+      align-self: end;
+      margin-top: 6px;
+    }
+
+    .cc-more {
+      grid-column: 2;
+      grid-row: 3;
+      align-self: end;
+      justify-self: end;
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 500;
+      color: #fff;
+      background: #6b6b6b;
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-top: 8px;
+    }
+
+    /* TIMELINE */
+    .tl {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: .5px solid var(--border);
+    }
+
+    .tl-item:last-child {
+      border-bottom: none;
+    }
+
+    .tl-yr {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--text3);
+      min-width: 76px;
+      padding-top: 3px;
+    }
+
+    .tl-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border2);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .tl-dot.on {
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(79, 70, 229, .3);
+    }
+
+    .tl-co {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .tl-role {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+
+    .tl-res {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 3px;
+    }
+
+    /* SKILLS */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 4px;
+    }
+
+    .sk {
+      font-size: 11px;
+      color: var(--text2);
+      background: var(--surface);
+      border: .5px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+    }
+
+    /* CASE DETAIL */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text2);
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: color var(--t);
+    }
+
+    .back:hover {
+      color: var(--text);
+    }
+
+    .sar {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sar-row {
+      background: #fff;
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+    }
+
+    .sar-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .sar-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .sar-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0;
+    }
+
+    .sar-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: -.01em;
+    }
+
+    .sar-c {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.75;
+    }
+
+    .sar-c strong {
+      color: var(--text2);
+      font-weight: 700;
+    }
+
+    .case-period,
+    .case-skills {
+      font-size: 15px;
+      color: var(--text2);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* MARKDOWN BODY (case detail only) */
+    .md-body {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.75;
+    }
+
+    .md-body strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .md-body em {
+      font-style: italic;
+    }
+
+    .md-body u {
+      text-decoration: underline;
+    }
+
+    .md-body mark {
+      background: #10b981;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-style: normal;
+    }
+
+    .md-body ul {
+      margin: 4px 0 4px 18px;
+      padding: 0;
+      list-style: disc;
+    }
+
+    .md-body ul ul {
+      list-style: circle;
+      margin: 2px 0 2px 18px;
+    }
+
+    .md-body ol {
+      margin: 4px 0 4px 18px;
+      padding: 0;
+      list-style: decimal;
+    }
+
+    .md-body ol ol {
+      list-style: lower-alpha;
+      margin: 2px 0 2px 18px;
+    }
+
+    .md-body li {
+      margin: 2px 0;
+    }
+
+    .md-body blockquote {
+      border-left: 3px solid var(--border2);
+      padding: 8px 14px;
+      margin: 6px 0;
+      background: var(--surface);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+
+    .md-body span {
+      white-space: pre-wrap;
+    }
+
+    .case-detail .block:not(.gallery-block) .tag {
+      border-left: 4px solid var(--green);
+      padding-left: 10px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    /* REF LINKS */
+    .ref-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .ref-card {
+      display: flex;
+      align-items: stretch;
+      background: #fff;
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      overflow: hidden;
+      cursor: pointer;
+      transition: background var(--t);
+      text-decoration: none;
+    }
+
+    .ref-card:hover {
+      background: var(--surface);
+    }
+
+    .ref-body {
+      flex: 1;
+      padding: 14px 16px;
+      min-width: 0;
+    }
+
+    .ref-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ref-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .ref-url {
+      font-size: 11px;
+      color: var(--text3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ref-thumb {
+      width: 80px;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
+    }
+
+    .contrib-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .contrib-label {
+      font-size: 12px;
+      color: var(--text3);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .contrib-track {
+      flex: 1;
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .contrib-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 2px;
+      transition: width .6s ease;
+    }
+
+    .contrib-pct {
+      font-size: 12px;
+      color: var(--green);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+    }
+
+    .case-detail .block+.block {
+      border-top: .5px solid var(--border);
+      padding-top: 40px;
+    }
+
+    .case-detail .sar-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-box {
+      background: var(--surface);
+      border: .5px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 20px 12px;
+      margin-top: 8px;
+    }
+
+    .kpi-g {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* INSIGHTS LIST */
+    .ins-header {
+      padding: 52px 0 28px;
+    }
+
+    .ins-cats {
+      display: flex;
+      align-items: center;
+      border-bottom: .5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .ins-cat {
+      font-size: 13px;
+      padding: 10px 16px;
+      cursor: pointer;
+      color: var(--text2);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -0.5px;
+      transition: all var(--t);
+      white-space: nowrap;
+    }
+
+    .ins-cat:first-child {
+      padding-left: 0;
+    }
+
+    .ins-cat.on {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 500;
+    }
+
+    .ins-search {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ins-q {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text);
+      background: transparent;
+      width: 0;
+      transition: width .3s ease;
+      padding: 0;
+    }
+
+    .ins-q.open {
+      width: 140px;
+      border-bottom: .5px solid var(--border2);
+      padding: 2px 0;
+    }
+
+    .ins-search-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      transition: color var(--t);
+    }
+
+    .ins-search-btn:hover {
+      color: var(--text);
+    }
+
+    .art-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .art-row {
+      display: flex;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: .5px solid var(--border);
+      cursor: pointer;
+      transition: opacity var(--t);
+    }
+
+    .art-row:hover {
+      opacity: .65;
+    }
+
+    .art-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .art-cat {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .art-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.35;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .art-excerpt {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .art-meta {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 12px;
+    }
+
+    .art-img {
+      width: 96px;
+      height: 96px;
+      flex-shrink: 0;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .art-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .art-img-empty {
+      width: 100%;
+      height: 100%;
+      background: var(--surface2);
+    }
+
+    /* PAGINATION */
+    .pagination {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .pg-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--r-sm);
+      border: .5px solid var(--border);
+      background: none;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text2);
+      transition: all var(--t);
+    }
+
+    .pg-btn.on {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .pg-btn:hover:not(.on) {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    /* INSIGHT DETAIL */
+    .ins-detail-header {
+      padding: 52px 0 0;
+    }
+
+    .ins-detail-cat {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .ins-detail-title {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.25;
+    }
+
+    .ins-detail-sub {
+      font-size: 15px;
+      color: var(--text2);
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    .ins-detail-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text3);
+      padding: 20px 0;
+      border-top: .5px solid var(--border);
+      border-bottom: .5px solid var(--border);
+      margin-top: 28px;
+    }
+
+    .ins-detail-body {
+      padding: 36px 0;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text2);
+    }
+
+    .ins-detail-body p {
+      margin-bottom: 20px;
+    }
+
+    .ins-detail-body strong {
+      color: var(--text);
+    }
+
+    .ins-detail-body hr {
+      border: none;
+      border-top: .5px solid var(--border);
+      margin: 28px 0;
+    }
+
+    .ins-detail-body blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      margin: 0 0 20px;
+      background: var(--surface);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      color: var(--text2);
+    }
+
+    /* PREV CARDS */
+    .prev-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    /* PDF PREVIEW MODAL */
+    .ppdf-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 9600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .ppdf-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ppdf-modal {
+      background: #fff;
+      width: min(860px, calc(100vw - 32px));
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ppdf-modal-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: .5px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .ppdf-modal-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ppdf-modal-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text2);
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      transition: color var(--t);
+    }
+
+    .ppdf-modal-close:hover {
+      color: var(--text);
+    }
+
+    .ppdf-iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      display: block;
+      background: #fff;
+    }
+
+    .ppdf-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #fff;
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: background var(--t);
+    }
+
+    .ppdf-card:hover {
+      background: var(--surface);
+    }
+
+    .ppdf-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .ppdf-card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ppdf-card-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ppdf-card-hint {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .pcard {
+      background: var(--surface);
+      border: .5px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px 18px;
+      transition: border-color var(--t);
+      cursor: pointer;
+    }
+
+    .pcard:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+    }
+
+    .pt {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .ps {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .pcard-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .pcard-more {
+      display: inline-block;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 500;
+      color: #fff;
+      background: #6b6b6b;
+      border-radius: 20px;
+      padding: 4px 14px;
+    }
+
+    /* OTHER EXP MODAL */
+    .oexp-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .oexp-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .oexp-modal {
+      background: #fff;
+      width: min(680px, calc(100vw - 32px));
+      max-height: min(90vh, 860px);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .oexp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: .5px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .oexp-header-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.025em;
+    }
+
+    .oexp-hclose {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text2);
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      transition: color var(--t);
+    }
+
+    .oexp-hclose:hover {
+      color: var(--text);
+    }
+
+    .oexp-toc {
+      padding: 10px 24px 14px;
+      border-bottom: .5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .oexp-toc-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 4px;
+    }
+
+    .oexp-toc-item {
+      font-size: 13px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: color var(--t);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .oexp-toc-item::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .oexp-toc-item:hover {
+      color: var(--green);
+    }
+
+    .oexp-toc-item:hover::after {
+      content: ' →';
+      color: var(--green);
+    }
+
+    .oexp-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 24px 48px;
+    }
+
+    .oexp-project {
+      padding-top: 32px;
+    }
+
+    .oexp-project+.oexp-project {
+      border-top: .5px solid var(--border);
+      margin-top: 32px;
+    }
+
+    .oexp-project-title {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      margin-bottom: 4px;
+    }
+
+    .oexp-project-period {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 14px;
+    }
+
+    .oexp-project-body {
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* CONTACT */
+    .contact-h {
+      padding: 64px 0 20px;
+    }
+
+    .ct-img-wrap {
+      margin: 0 0 0;
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .ct-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--r);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: #111;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      z-index: 9999;
+      opacity: 0;
+      transition: all .3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* GALLERY */
+    .gallery-block {
+      margin-bottom: 0;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--r-sm);
+    }
+
+    .gallery-wide .gallery-img {}
+
+    .gallery-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .gallery-two-col .gallery-img {}
+
+    .gallery-three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+
+    .gallery-three-col .gallery-img {}
+
+    .gallery-mixed-top .gallery-img {
+      margin-bottom: 8px;
+    }
+
+    .gallery-mixed-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .gallery-mixed-bottom .gallery-img {}
+
+    .gallery-block-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+
+    .gallery-img-wrap {
+      position: relative;
+    }
+
+    .gallery-img-caption {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 5px;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* SLIDE */
+    .gallery-slide {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: var(--r-sm);
+    }
+
+    .gallery-slide-track {
+      display: flex;
+      transition: transform .35s ease;
+    }
+
+    .gallery-slide-track .gallery-slide-item {
+      width: 100%;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+
+    .gallery-slide-track .gallery-slide-item .gallery-img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      cursor: zoom-in;
+      display: block;
+    }
+
+    /* SLIDE MODAL */
+    .slb-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .slb-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slb-img-wrap {
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slb-img-wrap img {
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 8px 48px rgba(0, 0, 0, .6);
+    }
+
+    .slb-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: rgba(255, 255, 255, .12);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s;
+      z-index: 9001;
+      line-height: 1;
+    }
+
+    .slb-close:hover {
+      background: rgba(255, 255, 255, .25);
+    }
+
+    .slb-counter {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .7);
+      letter-spacing: .04em;
+      z-index: 9001;
+      pointer-events: none;
+    }
+
+    .slb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, .12);
+      border: none;
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9001;
+      transition: background .15s;
+      line-height: 1;
+    }
+
+    .slb-nav:hover {
+      background: rgba(255, 255, 255, .28);
+    }
+
+    .slb-nav.prev {
+      left: 20px;
+    }
+
+    .slb-nav.next {
+      right: 20px;
+    }
+
+    .gallery-slide-caption {
+      font-size: 12px;
+      color: var(--text3);
+      text-align: left;
+      line-height: 1.5;
+      height: 40px;
+      padding-top: 6px;
+      overflow: hidden;
+    }
+
+    .gallery-slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.38);
+      border: none;
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: background .15s;
+      line-height: 1;
+    }
+
+    .gallery-slide-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .gallery-slide-btn.prev {
+      left: 10px;
+    }
+
+    .gallery-slide-btn.next {
+      right: 10px;
+    }
+
+    .gallery-slide-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .gallery-slide-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border2);
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .gallery-slide-dot.on {
+      background: var(--green);
+    }
+
+    /* LIGHTBOX */
+    .lb-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .lb-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lb-img-wrap {
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lb-img-wrap img {
+      max-width: 90vw;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 8px 48px rgba(0, 0, 0, .6);
+      transition: transform .22s ease;
+    }
+
+    .lb-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: rgba(255, 255, 255, .12);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s;
+      z-index: 9001;
+      line-height: 1;
+    }
+
+    .lb-close:hover {
+      background: rgba(255, 255, 255, .25);
+    }
+
+    .gallery-img {
+      cursor: zoom-in;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 11px;
+      color: var(--text3);
+      border-top: .5px solid var(--border);
+    }
+
+    /* ── 태블릿 (768px ~ 1023px) ──────────────────────────────────────── */
+    @media(min-width:768px) and (max-width:1023px) {
+      .w {
+        padding: 44px 28px 80px;
+      }
+
+      .metrics {
+        gap: 8px;
+      }
+
+      .mn {
+        font-size: 22px;
+      }
+
+      .metrics .mn {
+        font-size: 28px;
+      }
+
+      .btn {
+        min-height: 44px;
+      }
+
+      .pg-btn {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    /* ── 모바일 (max-width: 767px) ────────────────────────────────────── */
+    @media(max-width:767px) {
+
+      /* 네비게이션 */
+      nav {
+        padding: 0 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-link {
+        font-size: 12px;
+      }
+
+      /* 레이아웃 */
+      .w {
+        padding: 32px 16px 80px;
+      }
+
+      .divider {
+        margin: 32px 0;
+      }
+
+      .block {
+        margin-bottom: 28px;
+      }
+
+      /* 서브 텍스트 */
+      .sub {
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
+      /* 수치 카드 */
+      .metrics {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin-top: 20px;
+      }
+
+      .mc {
+        padding: 12px 8px;
+      }
+
+      .mn {
+        font-size: 18px;
+      }
+
+      .metrics .mn {
+        font-size: 22px;
+      }
+
+      .ml {
+        font-size: 11px;
+      }
+
+      /* 버튼 — 터치 최소 44px */
+      .row {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        justify-content: center;
+        min-height: 44px;
+        width: 100%;
+        font-size: 14px;
+        padding: 11px 20px;
+      }
+
+      /* 케이스 카드 */
+      .case-list {
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .cc {
+        grid-template-columns: 1fr auto;
+        padding: 14px 14px 12px;
+        gap: 0 10px;
+      }
+
+      .cc-kpi {
+        font-size: 22px;
+      }
+
+      .cc-title {
+        font-size: 14px;
+      }
+
+      .cc-sub {
+        font-size: 11px;
+        margin-top: 4px;
+      }
+
+      .cc-more {
+        font-size: 10px;
+        padding: 3px 10px;
+      }
+
+      /* KPI 그리드 */
+      .kpi-g {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .kpi-g .mn {
+        font-size: 22px;
+      }
+
+      .kpi-g .ml {
+        font-size: 11px;
+      }
+
+      /* 케이스 상세 */
+      .case-detail .block:not(.gallery-block) .tag {
+        font-size: 16px;
+      }
+
+      .case-detail .block+.block {
+        padding-top: 28px;
+      }
+
+      .sar-row {
+        padding: 16px 16px;
+        margin-bottom: 10px;
+      }
+
+      .sar-c {
+        font-size: 14px;
+      }
+
+      .md-body {
+        font-size: 14px;
+      }
+
+      .case-period,
+      .case-skills {
+        font-size: 14px;
+      }
+
+      .back {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      /* 타임라인 */
+      .tl-yr {
+        min-width: 58px;
+        font-size: 10px;
+      }
+
+      .tl-item {
+        gap: 10px;
+      }
+
+      /* 인사이트 목록 */
+      .ins-header {
+        padding: 32px 0 18px;
+      }
+
+      .ins-cats {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .ins-cats::-webkit-scrollbar {
+        display: none;
+      }
+
+      .ins-cat {
+        font-size: 12px;
+        padding: 10px 10px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+
+      .ins-cat:first-child {
+        padding-left: 2px;
+      }
+
+      .ins-search-btn {
+        min-width: 44px;
+        min-height: 44px;
+        justify-content: center;
+      }
+
+      .ins-q.open {
+        width: 110px;
+      }
+
+      .art-row {
+        gap: 14px;
+        padding: 20px 0;
+      }
+
+      .art-img {
+        width: 68px;
+        height: 68px;
+        flex-shrink: 0;
+      }
+
+      .art-title {
+        font-size: 15px;
+      }
+
+      .art-excerpt {
+        font-size: 12px;
+      }
+
+      .art-meta {
+        font-size: 11px;
+        margin-top: 8px;
+      }
+
+      /* 페이지네이션 — 터치 44px */
+      .pagination {
+        gap: 6px;
+        margin-top: 32px;
+      }
+
+      .pg-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 13px;
+      }
+
+      /* 인사이트 상세 */
+      .ins-detail-header {
+        padding: 32px 0 0;
+      }
+
+      .ins-detail-title {
+        font-size: clamp(22px, 6vw, 30px);
+      }
+
+      .ins-detail-sub {
+        font-size: 14px;
+      }
+
+      .ins-detail-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 16px 0;
+      }
+
+      .ins-detail-body {
+        font-size: 14px;
+        line-height: 1.85;
+        padding: 24px 0;
+      }
+
+      .ins-detail-body p {
+        margin-bottom: 16px;
+      }
+
+      /* Contact */
+      .contact-h {
+        padding: 36px 0 14px;
+      }
+
+      /* 갤러리 */
+      .gallery-three-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-two-col,
+      .gallery-mixed-bottom {
+        gap: 6px;
+      }
+
+      /* 라이트박스 */
+      .lb-close {
+        width: 44px;
+        height: 44px;
+        top: 12px;
+        right: 12px;
+        font-size: 18px;
+      }
+
+      /* 토스트 */
+      .toast {
+        font-size: 12px;
+        padding: 10px 18px;
+        max-width: calc(100vw - 32px);
+        white-space: normal;
+        text-align: center;
+      }
+    }
+
+    /* ── 소형 모바일 (max-width: 374px) ──────────────────────────────── */
+    @media(max-width:374px) {
+      .mn {
+        font-size: 16px;
+      }
+
+      .metrics .mn {
+        font-size: 18px;
+      }
+
+      .ml {
+        font-size: 10px;
+      }
+
+      .mc {
+        padding: 10px 6px;
+      }
+
+      .cc-kpi {
+        font-size: 18px;
+      }
+
+      .kpi-g {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        gap: 10px;
+      }
+    }
+  </style>
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    try {
+      firebase.initializeApp(FIREBASE_CONFIG);
+    } catch (e) { }
+    var _db = firebase.firestore();
+    var _storage = firebase.storage();
+  </script>
 </head>
+
 <body>
 
-<!-- Firebase 로딩 오버레이 -->
-<div id="fb-loading" style="position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;">
-  <div style="text-align:center;color:#aaa;font-size:13px;font-family:'Noto Sans KR',sans-serif;">
-    <div style="width:32px;height:32px;border:2px solid #eee;border-top-color:#4F46E5;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px;"></div>
-    불러오는 중…
-  </div>
-</div>
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-
-<nav id="nav-inner"></nav>
-<main id="main"></main>
-<footer id="footer"></footer>
-<div class="toast" id="toast"></div>
-
-<!-- PDF PREVIEW MODAL -->
-<div class="ppdf-overlay" id="ppdf-overlay" onclick="ppdfClose(event)">
-  <div class="ppdf-modal">
-    <div class="ppdf-modal-hd">
-      <span class="ppdf-modal-title" id="ppdf-title"></span>
-      <button class="ppdf-modal-close" onclick="ppdfClose()" aria-label="닫기">✕</button>
+  <!-- Firebase 로딩 오버레이 -->
+  <div id="fb-loading"
+    style="position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;">
+    <div style="text-align:center;color:#aaa;font-size:13px;font-family:'Noto Sans KR',sans-serif;">
+      <div
+        style="width:32px;height:32px;border:2px solid #eee;border-top-color:#4F46E5;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px;">
+      </div>
+      불러오는 중…
     </div>
-    <div class="ppdf-body" id="ppdf-body"></div>
   </div>
-</div>
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+  </style>
 
-<!-- OTHER EXP MODAL -->
-<div class="oexp-overlay" id="oexp-overlay" onclick="oexpClose(event)">
-  <div class="oexp-modal">
-    <div class="oexp-header">
-      <span class="oexp-header-title">기타 경력</span>
-      <button class="oexp-hclose" onclick="oexpClose()" aria-label="닫기">✕</button>
+  <nav id="nav-inner"></nav>
+  <main id="main"></main>
+  <footer id="footer"></footer>
+  <div class="toast" id="toast"></div>
+
+  <!-- PDF PREVIEW MODAL -->
+  <div class="ppdf-overlay" id="ppdf-overlay" onclick="ppdfClose(event)">
+    <div class="ppdf-modal">
+      <div class="ppdf-modal-hd">
+        <span class="ppdf-modal-title" id="ppdf-title"></span>
+        <button class="ppdf-modal-close" onclick="ppdfClose()" aria-label="닫기">✕</button>
+      </div>
+      <iframe class="ppdf-iframe" id="ppdf-iframe" src="" allow="autoplay" allowfullscreen></iframe>
     </div>
-    <div class="oexp-toc" id="oexp-toc"></div>
-    <div class="oexp-body" id="oexp-body"></div>
   </div>
-</div>
 
-<!-- SLIDE MODAL -->
-<div class="slb-overlay" id="slb-overlay" onclick="slideModalClose(event)">
-  <button class="slb-close" onclick="slideModalClose()" aria-label="닫기">✕</button>
-  <button class="slb-nav prev" id="slb-prev" onclick="slideModalStep(-1)">&#8249;</button>
-  <div class="slb-img-wrap">
-    <img id="slb-img" src="" alt="">
+  <!-- OTHER EXP MODAL -->
+  <div class="oexp-overlay" id="oexp-overlay" onclick="oexpClose(event)">
+    <div class="oexp-modal">
+      <div class="oexp-header">
+        <span class="oexp-header-title">기타 경력</span>
+        <button class="oexp-hclose" onclick="oexpClose()" aria-label="닫기">✕</button>
+      </div>
+      <div class="oexp-toc" id="oexp-toc"></div>
+      <div class="oexp-body" id="oexp-body"></div>
+    </div>
   </div>
-  <button class="slb-nav next" id="slb-next" onclick="slideModalStep(1)">&#8250;</button>
-  <div class="slb-counter" id="slb-counter"></div>
-</div>
 
-<!-- LIGHTBOX -->
-<div class="lb-overlay" id="lb-overlay" onclick="lbClose(event)">
-  <button class="lb-close" onclick="lbClose()" aria-label="닫기">✕</button>
-  <div class="lb-img-wrap">
-    <img id="lb-img" src="" alt="">
+  <!-- SLIDE MODAL -->
+  <div class="slb-overlay" id="slb-overlay" onclick="slideModalClose(event)">
+    <button class="slb-close" onclick="slideModalClose()" aria-label="닫기">✕</button>
+    <button class="slb-nav prev" id="slb-prev" onclick="slideModalStep(-1)">&#8249;</button>
+    <div class="slb-img-wrap">
+      <img id="slb-img" src="" alt="">
+    </div>
+    <button class="slb-nav next" id="slb-next" onclick="slideModalStep(1)">&#8250;</button>
+    <div class="slb-counter" id="slb-counter"></div>
   </div>
-</div>
 
-<script>
-// ── DEFAULTS ─────────────────────────────────────────────────────────────
-const DEFAULTS = {
-  name: "김규수",
-  badge: "콘텐츠 마케터 · 포트폴리오",
-  caseStudyLabel: "케이스 스터디",
-  caseStudyTitle: "성과로 증명한\n3가지 케이스",
-  caseStudySub: "실제 업무에서 이끌어낸 측정 가능한 결과물입니다.",
-  aboutLabel: "소개",
-  tagline: "콘텐츠로\n매출을 만드는\n마케터",
-  subtitle: "광고비 없이 유튜브 오가닉 콘텐츠만으로\n자사몰 연매출 2.3배 성장을 이끌었습니다.",
-  insightsPage: {
-    title: "문제를 해결하며 배운 것들",
-    subtitle: "실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다."
-  },
-  motionBanner: {
-    title: "데이터로 이야기하겠습니다.",
-    tag: "Revenue Growth · 2024",
-    subtitle: "자사몰 연매출 성장 · 광고비 0원\n오가닉 콘텐츠 전략만으로",
-    kpiValue: 131,
-    startLabel: "2024년",
-    endLabel: "2025년"
-  },
-  metrics: [
-    { value: "+131%", label: "자사몰 연매출 성장", animate: true },
-    { value: "1.15만", label: "유튜브 구독자", animate: false },
-    { value: "756%", label: "텀블벅 달성률", animate: true }
-  ],
-  about: {
-    title: "콘텐츠를 매출 전환 구조로\n설계하는 사람",
-    subtitle: "콘텐츠 전략 · 상품 기획 · 브랜드 운영 — 브랜드 한 사이클 전체를 다룹니다.",
-    timeline: [
-      { year: "2024~현재", company: "비즈타민", role: "B2C 브랜드 총괄", desc: "오가닉 콘텐츠 기반 자사몰 연매출 +131%", active: true },
-      { year: "2023", company: "네스트앤드", role: "커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", active: false },
-      { year: "2021~2023", company: "백스테이션", role: "콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", active: false },
-      { year: "2020~2021", company: "바닐라", role: "콘텐츠 크리에이터", desc: "", active: false },
-      { year: "2019~2020", company: "뉴에라프로젝트", role: "영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", active: false }
-    ],
-    skills: ["Notion", "카페24", "채널톡", "Premiere Pro", "Photoshop", "Figma", "Google Sheets"]
-  },
-  cases: [
-    {
-      id: "01",
-      title: "오가닉 콘텐츠로 자사몰 연매출 2.3배 성장",
-      subtitle: "유튜브 오가닉 전략 · 채널 운영 · 커머스 연결",
-      kpi: "+131%", kpiColor: "#10b981", moreColor: "#6b6b6b",
-      sar: {
-        s: "광고 예산 없음, 구독자 100명, 매출 정체 상태에서 시작",
-        a: "콘텐츠 전략 수립 → <strong>롱폼 100편 · 숏폼 80편</strong> 기획·제작 → 커머스 연결 구조 설계",
-        r: "<strong>구독자 1.15만</strong> · 연매출 +131% · 숏폼 최고 조회수 <strong>30만</strong>"
+  <!-- LIGHTBOX -->
+  <div class="lb-overlay" id="lb-overlay" onclick="lbClose(event)">
+    <button class="lb-close" onclick="lbClose()" aria-label="닫기">✕</button>
+    <div class="lb-img-wrap">
+      <img id="lb-img" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    // ── DEFAULTS ─────────────────────────────────────────────────────────────
+    const DEFAULTS = {
+      name: "김규수",
+      badge: "콘텐츠 마케터 · 포트폴리오",
+      caseStudyLabel: "케이스 스터디",
+      caseStudyTitle: "성과로 증명한\n3가지 케이스",
+      caseStudySub: "실제 업무에서 이끌어낸 측정 가능한 결과물입니다.",
+      aboutLabel: "소개",
+      tagline: "콘텐츠로\n매출을 만드는\n마케터",
+      subtitle: "광고비 없이 유튜브 오가닉 콘텐츠만으로\n자사몰 연매출 2.3배 성장을 이끌었습니다.",
+      insightsPage: {
+        title: "문제를 해결하며 배운 것들",
+        subtitle: "실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다."
       },
-      kpis: [
-        { value: "1.15만", label: "유튜브 구독자", color: "green" },
-        { value: "+131%", label: "연매출 성장률", color: "green" },
-        { value: "30만", label: "숏폼 최고 조회수", color: "green" }
-      ],
-      timeline: [], systems: [], gallery: []
-    },
-    {
-      id: "02",
-      title: "고객 데이터 기반 상품 기획으로 자사몰 매출 1위",
-      subtitle: "페인포인트 발굴 · 상품 기획 · 데이터 기반 고도화",
-      kpi: "480만", kpiColor: "#10b981", moreColor: "#6b6b6b",
-      sar: {
-        s: "평균 단가 1~2만원, 히트 상품 없음, 고객 데이터 축적 중",
-        a: "페인포인트 발굴 → <strong>초기 기획</strong> → 반응 데이터 기반 후속 고도화",
-        r: "<strong>초심자 DIY 세트</strong> 누적 480만원 매출 1위 · <strong>젬젬젬</strong> 3개월 연속 1위"
+      motionBanner: {
+        title: "데이터로 이야기하겠습니다.",
+        tag: "Revenue Growth · 2024",
+        subtitle: "자사몰 연매출 성장 · 광고비 0원\n오가닉 콘텐츠 전략만으로",
+        kpiValue: 131,
+        startLabel: "2024년",
+        endLabel: "2025년"
       },
-      kpis: [],
-      timeline: [
-        { month: "12월", event: "비즈 갤럭시 출시", desc: "초기 상품 라인업 확대" },
-        { month: "1월", event: "젬젬젬 출시", desc: "1개월 만에 자사몰 매출 1위" },
-        { month: "5월", event: "초심자 DIY 세트 출시", desc: "현재까지 자사몰 매출 1위 · 누적 480만원" },
-        { month: "6월", event: "미니 젬젬젬 출시", desc: "3개월 연속 매출 1위" }
+      metrics: [
+        { value: "+131%", label: "자사몰 연매출 성장", animate: true },
+        { value: "1.15만", label: "유튜브 구독자", animate: false },
+        { value: "756%", label: "텀블벅 달성률", animate: true }
       ],
-      systems: [], gallery: []
-    },
-    {
-      id: "03",
-      title: "브랜드 시스템 0→1 구축",
-      subtitle: "브랜드 가이드 · Notion · 채널톡 · AI 보정",
-      kpi: "2× 효율", kpiColor: "#10b981", moreColor: "#6b6b6b",
-      sar: {
-        s: "브랜드 가이드 없음, 카톡 기반 소통, CS 병목 발생",
-        a: "<strong>브랜드 가이드</strong> 제작 · <strong>Notion · 채널톡</strong> 도입 · AI 보정 프로세스 구축",
-        r: "<strong>CS 병목 해소</strong> · 반복업무 2배 효율화 · 브랜드 일관성 확보"
+      about: {
+        title: "콘텐츠를 매출 전환 구조로\n설계하는 사람",
+        subtitle: "콘텐츠 전략 · 상품 기획 · 브랜드 운영 — 브랜드 한 사이클 전체를 다룹니다.",
+        timeline: [
+          { year: "2024~현재", company: "비즈타민", role: "B2C 브랜드 총괄", desc: "오가닉 콘텐츠 기반 자사몰 연매출 +131%", active: true },
+          { year: "2023", company: "네스트앤드", role: "커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장", active: false },
+          { year: "2021~2023", company: "백스테이션", role: "콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발", active: false },
+          { year: "2020~2021", company: "바닐라", role: "콘텐츠 크리에이터", desc: "", active: false },
+          { year: "2019~2020", company: "뉴에라프로젝트", role: "영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰", active: false }
+        ],
+        skills: ["Notion", "카페24", "채널톡", "Premiere Pro", "Photoshop", "Figma", "Google Sheets"]
       },
-      kpis: [
-        { value: "해소", label: "CS 병목", color: "teal" },
-        { value: "2×", label: "반복업무 효율화", color: "teal" },
-        { value: "확보", label: "브랜드 일관성", color: "teal" }
+      cases: [
+        {
+          id: "01",
+          title: "오가닉 콘텐츠로 자사몰 연매출 2.3배 성장",
+          subtitle: "유튜브 오가닉 전략 · 채널 운영 · 커머스 연결",
+          kpi: "+131%", kpiColor: "#10b981", moreColor: "#6b6b6b",
+          sar: {
+            s: "광고 예산 없음, 구독자 100명, 매출 정체 상태에서 시작",
+            a: "콘텐츠 전략 수립 → <strong>롱폼 100편 · 숏폼 80편</strong> 기획·제작 → 커머스 연결 구조 설계",
+            r: "<strong>구독자 1.15만</strong> · 연매출 +131% · 숏폼 최고 조회수 <strong>30만</strong>"
+          },
+          kpis: [
+            { value: "1.15만", label: "유튜브 구독자", color: "green" },
+            { value: "+131%", label: "연매출 성장률", color: "green" },
+            { value: "30만", label: "숏폼 최고 조회수", color: "green" }
+          ],
+          timeline: [], systems: [], gallery: []
+        },
+        {
+          id: "02",
+          title: "고객 데이터 기반 상품 기획으로 자사몰 매출 1위",
+          subtitle: "페인포인트 발굴 · 상품 기획 · 데이터 기반 고도화",
+          kpi: "480만", kpiColor: "#10b981", moreColor: "#6b6b6b",
+          sar: {
+            s: "평균 단가 1~2만원, 히트 상품 없음, 고객 데이터 축적 중",
+            a: "페인포인트 발굴 → <strong>초기 기획</strong> → 반응 데이터 기반 후속 고도화",
+            r: "<strong>초심자 DIY 세트</strong> 누적 480만원 매출 1위 · <strong>젬젬젬</strong> 3개월 연속 1위"
+          },
+          kpis: [],
+          timeline: [
+            { month: "12월", event: "비즈 갤럭시 출시", desc: "초기 상품 라인업 확대" },
+            { month: "1월", event: "젬젬젬 출시", desc: "1개월 만에 자사몰 매출 1위" },
+            { month: "5월", event: "초심자 DIY 세트 출시", desc: "현재까지 자사몰 매출 1위 · 누적 480만원" },
+            { month: "6월", event: "미니 젬젬젬 출시", desc: "3개월 연속 매출 1위" }
+          ],
+          systems: [], gallery: []
+        },
+        {
+          id: "03",
+          title: "브랜드 시스템 0→1 구축",
+          subtitle: "브랜드 가이드 · Notion · 채널톡 · AI 보정",
+          kpi: "2× 효율", kpiColor: "#10b981", moreColor: "#6b6b6b",
+          sar: {
+            s: "브랜드 가이드 없음, 카톡 기반 소통, CS 병목 발생",
+            a: "<strong>브랜드 가이드</strong> 제작 · <strong>Notion · 채널톡</strong> 도입 · AI 보정 프로세스 구축",
+            r: "<strong>CS 병목 해소</strong> · 반복업무 2배 효율화 · 브랜드 일관성 확보"
+          },
+          kpis: [
+            { value: "해소", label: "CS 병목", color: "teal" },
+            { value: "2×", label: "반복업무 효율화", color: "teal" },
+            { value: "확보", label: "브랜드 일관성", color: "teal" }
+          ],
+          timeline: [],
+          systems: ["Notion 워크스페이스", "채널톡 CS 자동화", "브랜드 가이드 문서화", "AI 이미지 보정 프로세스"],
+          gallery: []
+        }
       ],
-      timeline: [],
-      systems: ["Notion 워크스페이스", "채널톡 CS 자동화", "브랜드 가이드 문서화", "AI 이미지 보정 프로세스"],
-      gallery: []
+      contact: {
+        email: "",
+        title: "함께 일하고 싶으시다면\n언제든 연락주세요",
+        image: "",
+        prevCareers: [
+          { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장" },
+          { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발" },
+          { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰" }
+        ]
+      },
+      insights: [
+        {
+          id: "ins-001",
+          title: "콘텐츠가 매출로 연결되는 구조를 어떻게 만들었나",
+          excerpt: "유튜브 채널을 만든다고 매출이 오르지 않는다. 콘텐츠와 커머스 사이의 연결 구조를 설계해야 한다.",
+          category: "콘텐츠 전략",
+          author: "김규수",
+          date: "2025-02-10",
+          image: "",
+          content: "유튜브 채널을 운영하면서 가장 많이 받는 질문이 있다.\n\n\"조회수는 있는데 왜 매출이 안 오르나요?\"\n\n이 질문에 답하기 위해 내가 직접 겪은 과정을 정리해보려 한다.\n\n콘텐츠와 커머스는 자동으로 연결되지 않는다. 콘텐츠를 보고 감동받은 사람이 바로 구매 버튼을 누르는 일은 드물다. 그 사이에 연결 구조가 필요하다.\n\n내가 설계한 구조는 단순했다. 영상 끝에 다음 행동을 명확히 제시하는 것. 댓글로 질문을 유도하고, 그 질문에 답하는 콘텐츠를 다시 만드는 것. 그리고 자연스럽게 상품 페이지로 연결하는 것.\n\n이 구조를 만들고 6개월 후, 매출이 눈에 띄게 달라졌다.",
+          published: true
+        },
+        {
+          id: "ins-002",
+          title: "고객 페인포인트에서 히트 상품이 나온다",
+          excerpt: "상품 기획의 시작은 시장 조사가 아니라 고객의 불편함이다. 댓글 하나에서 480만원짜리 아이디어가 나왔다.",
+          category: "상품 기획",
+          author: "김규수",
+          date: "2025-01-20",
+          image: "",
+          content: "상품 기획을 처음 맡았을 때 나는 경쟁사를 분석하고 시장 트렌드를 공부했다.\n\n하지만 히트 상품은 그 방향에서 나오지 않았다.\n\n댓글 하나가 시작이었다. \"초보자인데 어디서부터 시작해야 할지 모르겠어요.\" 이 한 줄이 초심자 DIY 세트의 시작이었다.\n\n고객은 이미 답을 알고 있다. 우리가 그것을 듣고 있지 않을 뿐이다.\n\n페인포인트를 발굴하는 방법은 단순하다. 댓글을 읽고, 질문을 기록하고, 반복되는 패턴을 찾는 것. 데이터는 화려한 분석 툴이 아니라 고객의 목소리에 있었다.",
+          published: true
+        },
+        {
+          id: "ins-003",
+          title: "브랜드 가이드 없이 성장하면 생기는 일",
+          excerpt: "빠르게 성장할수록 브랜드는 흔들린다. 일관성을 잃는 순간 고객의 신뢰도 함께 흔들린다.",
+          category: "브랜드 운영",
+          author: "김규수",
+          date: "2025-01-05",
+          image: "",
+          content: "급성장하는 브랜드가 가장 먼저 잃는 것은 일관성이다.\n\n콘텐츠 제작이 늘고, 외부 협력이 생기면서 우리 브랜드답지 않은 결과물이 나오기 시작했다. 톤앤매너가 달랐고, 컬러 사용이 제각각이었다.\n\n이때 브랜드 가이드의 필요성을 절감했다.\n\n가이드를 만드는 것은 단순히 규칙을 정하는 게 아니다. 우리가 어떤 브랜드인가를 명확히 하는 작업이다. 이것이 정해지면 모든 결정이 빨라진다.\n\n채널톡 CS 자동화, AI 이미지 보정 프로세스, Notion 워크스페이스 구축. 이 모든 것은 브랜드 가이드가 있었기에 가능했다.",
+          published: true
+        }
+      ]
+    };
+
+    // ── DATA LOADING ─────────────────────────────────────────────────────────
+    function deepMerge(base, over) {
+      if (!over || typeof over !== 'object') return base;
+      const r = Array.isArray(base) ? [...base] : { ...base };
+      for (const k of Object.keys(over)) {
+        if (over[k] === null || over[k] === undefined) continue;
+        if (Array.isArray(over[k])) { r[k] = over[k]; }
+        else if (typeof over[k] === 'object' && base[k] && typeof base[k] === 'object' && !Array.isArray(base[k])) {
+          r[k] = deepMerge(base[k], over[k]);
+        } else { r[k] = over[k]; }
+      }
+      return r;
     }
-  ],
-  contact: {
-    email: "",
-    title: "함께 일하고 싶으시다면\n언제든 연락주세요",
-    image: "",
-    prevCareers: [
-      { title: "네스트앤드 — 커뮤니티 매니저", desc: "엑스포 참여자 50% 증가 · 공연 참여자 166% 성장" },
-      { title: "백스테이션 — 콘텐츠 마케터", desc: "텀블벅 756% 달성 · 3D 프린팅 시제품 개발" },
-      { title: "뉴에라프로젝트 — 영상 PD", desc: "구독자 0→8만 · 최고 조회수 150만뷰" }
-    ]
-  },
-  insights: [
-    {
-      id: "ins-001",
-      title: "콘텐츠가 매출로 연결되는 구조를 어떻게 만들었나",
-      excerpt: "유튜브 채널을 만든다고 매출이 오르지 않는다. 콘텐츠와 커머스 사이의 연결 구조를 설계해야 한다.",
-      category: "콘텐츠 전략",
-      author: "김규수",
-      date: "2025-02-10",
-      image: "",
-      content: "유튜브 채널을 운영하면서 가장 많이 받는 질문이 있다.\n\n\"조회수는 있는데 왜 매출이 안 오르나요?\"\n\n이 질문에 답하기 위해 내가 직접 겪은 과정을 정리해보려 한다.\n\n콘텐츠와 커머스는 자동으로 연결되지 않는다. 콘텐츠를 보고 감동받은 사람이 바로 구매 버튼을 누르는 일은 드물다. 그 사이에 연결 구조가 필요하다.\n\n내가 설계한 구조는 단순했다. 영상 끝에 다음 행동을 명확히 제시하는 것. 댓글로 질문을 유도하고, 그 질문에 답하는 콘텐츠를 다시 만드는 것. 그리고 자연스럽게 상품 페이지로 연결하는 것.\n\n이 구조를 만들고 6개월 후, 매출이 눈에 띄게 달라졌다.",
-      published: true
-    },
-    {
-      id: "ins-002",
-      title: "고객 페인포인트에서 히트 상품이 나온다",
-      excerpt: "상품 기획의 시작은 시장 조사가 아니라 고객의 불편함이다. 댓글 하나에서 480만원짜리 아이디어가 나왔다.",
-      category: "상품 기획",
-      author: "김규수",
-      date: "2025-01-20",
-      image: "",
-      content: "상품 기획을 처음 맡았을 때 나는 경쟁사를 분석하고 시장 트렌드를 공부했다.\n\n하지만 히트 상품은 그 방향에서 나오지 않았다.\n\n댓글 하나가 시작이었다. \"초보자인데 어디서부터 시작해야 할지 모르겠어요.\" 이 한 줄이 초심자 DIY 세트의 시작이었다.\n\n고객은 이미 답을 알고 있다. 우리가 그것을 듣고 있지 않을 뿐이다.\n\n페인포인트를 발굴하는 방법은 단순하다. 댓글을 읽고, 질문을 기록하고, 반복되는 패턴을 찾는 것. 데이터는 화려한 분석 툴이 아니라 고객의 목소리에 있었다.",
-      published: true
-    },
-    {
-      id: "ins-003",
-      title: "브랜드 가이드 없이 성장하면 생기는 일",
-      excerpt: "빠르게 성장할수록 브랜드는 흔들린다. 일관성을 잃는 순간 고객의 신뢰도 함께 흔들린다.",
-      category: "브랜드 운영",
-      author: "김규수",
-      date: "2025-01-05",
-      image: "",
-      content: "급성장하는 브랜드가 가장 먼저 잃는 것은 일관성이다.\n\n콘텐츠 제작이 늘고, 외부 협력이 생기면서 우리 브랜드답지 않은 결과물이 나오기 시작했다. 톤앤매너가 달랐고, 컬러 사용이 제각각이었다.\n\n이때 브랜드 가이드의 필요성을 절감했다.\n\n가이드를 만드는 것은 단순히 규칙을 정하는 게 아니다. 우리가 어떤 브랜드인가를 명확히 하는 작업이다. 이것이 정해지면 모든 결정이 빨라진다.\n\n채널톡 CS 자동화, AI 이미지 보정 프로세스, Notion 워크스페이스 구축. 이 모든 것은 브랜드 가이드가 있었기에 가능했다.",
-      published: true
+
+    let D = JSON.parse(JSON.stringify(DEFAULTS)); // Firebase 로드 전 기본값
+
+    // ── HELPERS ───────────────────────────────────────────────────────────────
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const nl2br = s => esc(s).replace(/\n/g, '<br>');
+    const nl2brRaw = s => String(s || '').replace(/\n/g, '<br>');
+    function mdInline(s) {
+      return s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/_(.*?)_/g, '<em>$1</em>');
     }
-  ]
-};
 
-// ── DATA LOADING ─────────────────────────────────────────────────────────
-function deepMerge(base, over) {
-  if (!over || typeof over !== 'object') return base;
-  const r = Array.isArray(base) ? [...base] : { ...base };
-  for (const k of Object.keys(over)) {
-    if (over[k] === null || over[k] === undefined) continue;
-    if (Array.isArray(over[k])) { r[k] = over[k]; }
-    else if (typeof over[k] === 'object' && base[k] && typeof base[k] === 'object' && !Array.isArray(base[k])) {
-      r[k] = deepMerge(base[k], over[k]);
-    } else { r[k] = over[k]; }
-  }
-  return r;
-}
+    // ── MARKDOWN RENDERER (case detail only) ─────────────────────────────────
+    function renderMd(raw) {
+      if (!raw) return '';
 
-let D = JSON.parse(JSON.stringify(DEFAULTS)); // Firebase 로드 전 기본값
+      // Regex to match allowed passthrough HTML tags — built via new RegExp to avoid /.../ literal issues
+      var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
 
-// ── HELPERS ───────────────────────────────────────────────────────────────
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-const nl2br = s => esc(s).replace(/\n/g,'<br>');
-const nl2brRaw = s => String(s||'').replace(/\n/g,'<br>');
-function mdInline(s) {
-  return s.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/_(.*?)_/g,'<em>$1</em>');
-}
+      function inlineMd(text) {
+        var saved = [];
+        var t = String(text).replace(PASS_TAG, function (m) {
+          saved.push(m);
+          return '\x00T' + (saved.length - 1) + '\x00';
+        });
+        // Escape remaining HTML
+        t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // Preserve spaces: leading spaces → &nbsp;, internal 2+ spaces → &nbsp;
+        t = t.replace(/^( +)/, function (m) { return m.replace(/ /g, '&nbsp;'); });
+        t = t.replace(/( {2,})/g, function (m) { return m.replace(/ /g, '&nbsp;'); });
+        // Markdown transforms
+        t = t.replace(/==(.*?)==/g, '<mark>$1</mark>');
+        t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        t = t.replace(/_(.*?)_/g, '<em>$1</em>');
+        // Restore saved tags
+        t = t.replace(/\x00T(\d+)\x00/g, function (_, i) { return saved[+i]; });
+        return t;
+      }
 
-// ── MARKDOWN RENDERER (case detail only) ─────────────────────────────────
-function renderMd(raw) {
-  if (!raw) return '';
+      var lines = String(raw).split('\n');
+      var html = '';
+      var outerList = null; // 'ul' | 'ol' | null
+      var innerList = null; // 'ul' | 'ol' | null
 
-  // Regex to match allowed passthrough HTML tags — built via new RegExp to avoid /.../ literal issues
-  var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
+      function closeInner() {
+        if (innerList === 'ul') { html += '</ul>'; innerList = null; }
+        else if (innerList === 'ol') { html += '</ol>'; innerList = null; }
+      }
+      function closeOuter() {
+        closeInner();
+        if (outerList === 'ul') { html += '</ul>'; outerList = null; }
+        else if (outerList === 'ol') { html += '</ol>'; outerList = null; }
+      }
 
-  function inlineMd(text) {
-    var saved = [];
-    var t = String(text).replace(PASS_TAG, function(m) {
-      saved.push(m);
-      return '\x00T' + (saved.length - 1) + '\x00';
-    });
-    // Escape remaining HTML
-    t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    // Preserve spaces: leading spaces → &nbsp;, internal 2+ spaces → &nbsp;
-    t = t.replace(/^( +)/, function(m) { return m.replace(/ /g, '&nbsp;'); });
-    t = t.replace(/( {2,})/g, function(m) { return m.replace(/ /g, '&nbsp;'); });
-    // Markdown transforms
-    t = t.replace(/==(.*?)==/g, '<mark>$1</mark>');
-    t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    t = t.replace(/_(.*?)_/g, '<em>$1</em>');
-    // Restore saved tags
-    t = t.replace(/\x00T(\d+)\x00/g, function(_, i) { return saved[+i]; });
-    return t;
-  }
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trimEnd();
+        if (!line) { closeOuter(); continue; }
 
-  var lines = String(raw).split('\n');
-  var html = '';
-  var outerList = null; // 'ul' | 'ol' | null
-  var innerList = null; // 'ul' | 'ol' | null
-
-  function closeInner() {
-    if (innerList === 'ul') { html += '</ul>'; innerList = null; }
-    else if (innerList === 'ol') { html += '</ol>'; innerList = null; }
-  }
-  function closeOuter() {
-    closeInner();
-    if (outerList === 'ul') { html += '</ul>'; outerList = null; }
-    else if (outerList === 'ol') { html += '</ol>'; outerList = null; }
-  }
-
-  for (var i = 0; i < lines.length; i++) {
-    var line = lines[i].trimEnd();
-    if (!line) { closeOuter(); continue; }
-
-    // Sub-bullet: 2+ spaces then "- "
-    if (/^ {2,}- /.test(line)) {
-      if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
-      if (innerList !== 'ul') { closeInner(); html += '<ul>'; innerList = 'ul'; }
-      html += '<li>' + inlineMd(line.replace(/^ +- /, '')) + '</li>';
-      continue;
-    }
-    // Sub-alpha: 2+ spaces then letter/dot
-    if (/^ {2,}[a-zA-Z]\. /.test(line)) {
-      if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
-      if (innerList !== 'ol') { closeInner(); html += '<ol type="a">'; innerList = 'ol'; }
-      html += '<li>' + inlineMd(line.replace(/^ +[a-zA-Z]\. /, '')) + '</li>';
-      continue;
-    }
-    // Bullet: starts with "- "
-    if (/^- /.test(line)) {
-      closeInner();
-      if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
-      html += '<li>' + inlineMd(line.slice(2)) + '</li>';
-      continue;
-    }
-    // Numbered: starts with "1. " etc.
-    if (/^\d+\. /.test(line)) {
-      closeInner();
-      if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
-      html += '<li>' + inlineMd(line.replace(/^\d+\. /, '')) + '</li>';
-      continue;
-    }
-    // Blockquote: starts with '"'
-    if (/^"/.test(line)) {
+        // Sub-bullet: 2+ spaces then "- "
+        if (/^ {2,}- /.test(line)) {
+          if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
+          if (innerList !== 'ul') { closeInner(); html += '<ul>'; innerList = 'ul'; }
+          html += '<li>' + inlineMd(line.replace(/^ +- /, '')) + '</li>';
+          continue;
+        }
+        // Sub-alpha: 2+ spaces then letter/dot
+        if (/^ {2,}[a-zA-Z]\. /.test(line)) {
+          if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
+          if (innerList !== 'ol') { closeInner(); html += '<ol type="a">'; innerList = 'ol'; }
+          html += '<li>' + inlineMd(line.replace(/^ +[a-zA-Z]\. /, '')) + '</li>';
+          continue;
+        }
+        // Bullet: starts with "- "
+        if (/^- /.test(line)) {
+          closeInner();
+          if (outerList !== 'ul') { closeOuter(); html += '<ul>'; outerList = 'ul'; }
+          html += '<li>' + inlineMd(line.slice(2)) + '</li>';
+          continue;
+        }
+        // Numbered: starts with "1. " etc.
+        if (/^\d+\. /.test(line)) {
+          closeInner();
+          if (outerList !== 'ol') { closeOuter(); html += '<ol>'; outerList = 'ol'; }
+          html += '<li>' + inlineMd(line.replace(/^\d+\. /, '')) + '</li>';
+          continue;
+        }
+        // Blockquote: starts with '"'
+        if (/^"/.test(line)) {
+          closeOuter();
+          html += '<blockquote>' + inlineMd(line.replace(/^"\s?/, '')) + '</blockquote>';
+          continue;
+        }
+        // Plain text
+        closeOuter();
+        html += '<span style="display:block;white-space:pre-wrap">' + inlineMd(line) + '</span>';
+      }
       closeOuter();
-      html += '<blockquote>' + inlineMd(line.replace(/^"\s?/, '')) + '</blockquote>';
-      continue;
+      return html;
     }
-    // Plain text
-    closeOuter();
-    html += '<span style="display:block;white-space:pre-wrap">' + inlineMd(line) + '</span>';
-  }
-  closeOuter();
-  return html;
-}
-const nl2p = s => s.split(/\n\n+/).map(p => {
-  const t = p.trim();
-  if (!t) return '';
-  if (/^<img /i.test(t)) return t;
-  if (t === '---') return '<hr>';
-  if (t.startsWith('> ')) {
-    const inner = t.split('\n').map(l => mdInline(esc(l.replace(/^> ?/,'')))).join('<br>');
-    return `<blockquote>${inner}</blockquote>`;
-  }
-  return `<p>${mdInline(esc(t)).replace(/\n/g,'<br>')}</p>`;
-}).join('');
-function fmtDate(d) {
-  if (!d) return '';
-  const dt = new Date(d);
-  if (isNaN(dt)) return d;
-  return dt.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric' });
-}
+    const nl2p = s => s.split(/\n\n+/).map(p => {
+      const t = p.trim();
+      if (!t) return '';
+      if (/^<img /i.test(t)) return t;
+      if (t === '---') return '<hr>';
+      if (t.startsWith('> ')) {
+        const inner = t.split('\n').map(l => mdInline(esc(l.replace(/^> ?/, '')))).join('<br>');
+        return `<blockquote>${inner}</blockquote>`;
+      }
+      return `<p>${mdInline(esc(t)).replace(/\n/g, '<br>')}</p>`;
+    }).join('');
+    function fmtDate(d) {
+      if (!d) return '';
+      const dt = new Date(d);
+      if (isNaN(dt)) return d;
+      return dt.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
 
-// ── RENDER: MOTION BANNER ─────────────────────────────────────────────────
-function renderMotionBanner() {
-  const mb = D.motionBanner;
-  const kv = Math.max(1, Number(mb.kpiValue) || 131);
-  const endY = Math.max(15, Math.round(400 - (kv / 131) * 320));
-  const h = 378 - endY;
-  const ratios = [0.027, 0.087, 0.141, 0.279, 0.470, 0.597, 0.738];
-  const cy = ratios.map(p => Math.round(378 - h * p));
-  const curvePath = `M 28,378 C 140,376 260,${cy[0]} 370,${cy[1]} C 460,${cy[2]} 545,${cy[3]} 620,${cy[4]} C 665,${cy[5]} 700,${cy[6]} 748,${endY}`;
-  const fillPath  = `${curvePath} L 748,400 L 28,400 Z`;
-  const arrowAngle = Math.round(Math.atan2(-h * 0.262, 48) * 180 / Math.PI);
-  return `
+    // ── RENDER: MOTION BANNER ─────────────────────────────────────────────────
+    function renderMotionBanner() {
+      const mb = D.motionBanner;
+      const kv = Math.max(1, Number(mb.kpiValue) || 131);
+      const endY = Math.max(15, Math.round(400 - (kv / 131) * 320));
+      const h = 378 - endY;
+      const ratios = [0.027, 0.087, 0.141, 0.279, 0.470, 0.597, 0.738];
+      const cy = ratios.map(p => Math.round(378 - h * p));
+      const curvePath = `M 28,378 C 140,376 260,${cy[0]} 370,${cy[1]} C 460,${cy[2]} 545,${cy[3]} 620,${cy[4]} C 665,${cy[5]} 700,${cy[6]} 748,${endY}`;
+      const fillPath = `${curvePath} L 748,400 L 28,400 Z`;
+      const arrowAngle = Math.round(Math.atan2(-h * 0.262, 48) * 180 / Math.PI);
+      return `
 <style>
   @keyframes mbFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   .mb-title{animation:mbFadeUp .5s ease .1s both}
@@ -813,23 +2452,23 @@ function renderMotionBanner() {
     <div class="mb-sub" style="margin-top:clamp(8px,1.2vw,14px);font-size:clamp(11px,1.4vw,16px);color:rgba(255,255,255,.38);line-height:1.75;">${nl2br(mb.subtitle)}</div>
   </div>
 </div>`;
-}
+    }
 
-// ── RENDER: NAV ───────────────────────────────────────────────────────────
-function renderNav() {
-  return `
+    // ── RENDER: NAV ───────────────────────────────────────────────────────────
+    function renderNav() {
+      return `
     <div class="nav-logo" onclick="go('work')">${esc(D.name)}</div>
     <div class="nav-links">
       <span class="nav-link" id="n-work" onclick="go('work')">Work</span>
       <span class="nav-link" id="n-insights" onclick="go('insights')">Insights</span>
       <span class="nav-link" id="n-contact" onclick="go('contact')">Contact</span>
     </div>`;
-}
+    }
 
-// ── RENDER: WORK ──────────────────────────────────────────────────────────
-function renderWork() {
-  const a = D.about;
-  return `
+    // ── RENDER: WORK ──────────────────────────────────────────────────────────
+    function renderWork() {
+      const a = D.about;
+      return `
 <div id="p-work" class="page">
   ${renderMotionBanner()}
   <div class="w">
@@ -838,7 +2477,7 @@ function renderWork() {
       <h1>${nl2br(D.tagline)}</h1>
       <p class="sub">${nl2br(D.subtitle)}</p>
       <div class="metrics">
-        ${D.metrics.map((m,i) => `
+        ${D.metrics.map((m, i) => `
         <div class="mc">
           <div class="mn" id="cnt${i}">${nl2br(m.value)}</div>
           <div class="ml">${nl2br(m.label)}</div>
@@ -854,10 +2493,10 @@ function renderWork() {
         ${D.cases.map(c => `
         <div class="cc" onclick="go('case-${esc(c.id)}')">
           <div class="cc-num">CASE ${esc(c.id)}</div>
-          <div class="cc-kpi" style="color:${esc(c.kpiColor||'#10b981')}">${esc(c.kpi)}</div>
+          <div class="cc-kpi" style="color:${esc(c.kpiColor || '#10b981')}">${esc(c.kpi)}</div>
           <div class="cc-title">${nl2br(c.title)}</div>
           <div class="cc-sub">${nl2br(c.subtitle)}</div>
-          <div class="cc-more" style="background:${esc(c.moreColor||'#1a1a1a')}">자세히 보기 →</div>
+          <div class="cc-more" style="background:${esc(c.moreColor || '#1a1a1a')}">자세히 보기 →</div>
         </div>`).join('')}
       </div>
     </div>
@@ -890,132 +2529,91 @@ function renderWork() {
     </div>
   </div>
 </div>`;
-}
+    }
 
-// ── LIGHTBOX ──────────────────────────────────────────────────────────────
-function lbOpen(src, alt) {
-  const ov = document.getElementById('lb-overlay');
-  const im = document.getElementById('lb-img');
-  im.src = src;
-  im.alt = alt || '';
-  ov.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function lbClose(e) {
-  if (e && e.target === document.getElementById('lb-img')) return;
-  const ov = document.getElementById('lb-overlay');
-  ov.classList.remove('open');
-  document.body.style.overflow = '';
-  setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { ppdfClose(); lbClose(); slideModalClose(); oexpClose(); }
-  if (document.getElementById('slb-overlay').classList.contains('open')) {
-    if (e.key === 'ArrowLeft') slideModalStep(-1);
-    if (e.key === 'ArrowRight') slideModalStep(1);
-  }
-});
-
-// ── PDF PREVIEW MODAL ─────────────────────────────────────────────────────
-// workerSrc 재확인 (defer 로딩 이후 재설정 보장)
-function _ensurePdfWorker() {
-  if (typeof pdfjsLib !== 'undefined') {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
-}
-let _ppdfTask = null;
-async function ppdfOpen(url, name) {
-  _ensurePdfWorker();
-  document.getElementById('ppdf-title').textContent = name;
-  const body = document.getElementById('ppdf-body');
-  body.innerHTML = '<div style="color:#999;font-size:13px;padding:40px;">로딩 중…</div>';
-  document.getElementById('ppdf-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  try {
-    if (_ppdfTask) { try { _ppdfTask.destroy(); } catch(_) {} _ppdfTask = null; }
-    // Firebase Storage URL은 XHR CORS 제한이 있으므로 fetch → ArrayBuffer로 우회
-    let docSrc;
-    try {
-      const resp = await fetch(url);
-      if (resp.ok) {
-        docSrc = { data: await resp.arrayBuffer() };
-      } else {
-        docSrc = { url };
+    // ── LIGHTBOX ──────────────────────────────────────────────────────────────
+    function lbOpen(src, alt) {
+      const ov = document.getElementById('lb-overlay');
+      const im = document.getElementById('lb-img');
+      im.src = src;
+      im.alt = alt || '';
+      ov.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function lbClose(e) {
+      if (e && e.target === document.getElementById('lb-img')) return;
+      const ov = document.getElementById('lb-overlay');
+      ov.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { ppdfClose(); lbClose(); slideModalClose(); oexpClose(); }
+      if (document.getElementById('slb-overlay').classList.contains('open')) {
+        if (e.key === 'ArrowLeft') slideModalStep(-1);
+        if (e.key === 'ArrowRight') slideModalStep(1);
       }
-    } catch(_) {
-      docSrc = { url };
-    }
-    const loadingTask = pdfjsLib.getDocument({
-      ...docSrc,
-      cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
-      cMapPacked: true
     });
-    _ppdfTask = loadingTask;
-    const pdf = await loadingTask.promise;
-    body.innerHTML = '';
-    const modalWidth = Math.max(body.clientWidth - 32, 200);
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale: 1 });
-      const scale = Math.min(modalWidth / vp.width, 2);
-      const viewport = page.getViewport({ scale });
-      const wrap = document.createElement('div');
-      wrap.className = 'ppdf-page-wrap';
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      wrap.appendChild(canvas);
-      body.appendChild(wrap);
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+
+    // ── FILE PREVIEW MODAL (Google Drive) ────────────────────────────────────
+    function getDrivePreviewUrl(url) {
+      if (!url) return '';
+      const regExp = /\/file\/d\/([a-zA-Z0-9_-]+)|id=([a-zA-Z0-9_-]+)/;
+      const match = url.match(regExp);
+      const id = match ? (match[1] || match[2]) : null;
+      return id ? `https://drive.google.com/file/d/${id}/preview` : url;
     }
-  } catch(err) {
-    body.innerHTML = '<div style="color:#e11d48;font-size:13px;padding:40px;">PDF를 불러오지 못했습니다.<br><small style="color:#999;">' + (err && err.message ? err.message : '') + '</small></div>';
-    console.error('PDF load error:', err);
-  }
-}
-function ppdfClose(e) {
-  if (e && e.target !== document.getElementById('ppdf-overlay')) return;
-  document.getElementById('ppdf-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-  if (_ppdfTask) { try { _ppdfTask.destroy(); } catch(_) {} _ppdfTask = null; }
-  setTimeout(() => { document.getElementById('ppdf-body').innerHTML = ''; }, 220);
-}
 
-// ── OTHER EXP MODAL ────────────────────────────────────────────────────────
-function oexpOpen(careerIdx) {
-  const career = ((D.contact && D.contact.prevCareers) || [])[careerIdx];
-  if (!career) return;
+    function ppdfOpen(url, name) {
+      document.getElementById('ppdf-title').textContent = name;
+      const iframe = document.getElementById('ppdf-iframe');
+      iframe.src = getDrivePreviewUrl(url);
+      document.getElementById('ppdf-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
 
-  // 구 형식 호환: projects 없으면 단일 프로젝트로 래핑
-  const projects = career.projects || [{
-    name: '', period: career.period || '', body: career.body || '',
-    gallery: career.gallery || [], links: career.links || []
-  }];
+    function ppdfClose(e) {
+      if (e && e.target !== document.getElementById('ppdf-overlay')) return;
+      document.getElementById('ppdf-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { document.getElementById('ppdf-iframe').src = ''; }, 220);
+    }
 
-  // 모달 헤더 타이틀 = 경력명
-  document.querySelector('#oexp-overlay .oexp-header-title').textContent = career.title;
+    // ── OTHER EXP MODAL ────────────────────────────────────────────────────────
+    function oexpOpen(careerIdx) {
+      const career = ((D.contact && D.contact.prevCareers) || [])[careerIdx];
+      if (!career) return;
 
-  const tocEl = document.getElementById('oexp-toc');
-  const bodyEl = document.getElementById('oexp-body');
+      // 구 형식 호환: projects 없으면 단일 프로젝트로 래핑
+      const projects = career.projects || [{
+        name: '', period: career.period || '', body: career.body || '',
+        gallery: career.gallery || [], links: career.links || []
+      }];
 
-  // 목차: 프로젝트명이 있는 항목이 2개 이상일 때만 표시
-  const namedCount = projects.filter(p => p.name).length;
-  if (namedCount > 1) {
-    tocEl.style.display = '';
-    tocEl.innerHTML = '<div class="oexp-toc-label">프로젝트 목차</div>' +
-      projects.map((p, i) =>
-        p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">${esc(p.name)}</span>` : ''
-      ).join('');
-  } else {
-    tocEl.style.display = 'none';
-    tocEl.innerHTML = '';
-  }
+      // 모달 헤더 타이틀 = 경력명
+      document.querySelector('#oexp-overlay .oexp-header-title').textContent = career.title;
 
-  function renderProject(p, i) {
-    const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
-    const galleryHtml = (p.gallery && p.gallery.length) ? renderGallery(p.gallery) : '';
-    const refs = (p.links || []).filter(l => l.url && l.title);
-    const linksHtml = refs.length ? `
+      const tocEl = document.getElementById('oexp-toc');
+      const bodyEl = document.getElementById('oexp-body');
+
+      // 목차: 프로젝트명이 있는 항목이 2개 이상일 때만 표시
+      const namedCount = projects.filter(p => p.name).length;
+      if (namedCount > 1) {
+        tocEl.style.display = '';
+        tocEl.innerHTML = '<div class="oexp-toc-label">프로젝트 목차</div>' +
+          projects.map((p, i) =>
+            p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">${esc(p.name)}</span>` : ''
+          ).join('');
+      } else {
+        tocEl.style.display = 'none';
+        tocEl.innerHTML = '';
+      }
+
+      function renderProject(p, i) {
+        const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
+        const galleryHtml = (p.gallery && p.gallery.length) ? renderGallery(p.gallery) : '';
+        const refs = (p.links || []).filter(l => l.url && l.title);
+        const linksHtml = refs.length ? `
       <div style="margin-top:12px;">
         <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 링크</div>
         <div class="ref-list">
@@ -1030,16 +2628,16 @@ function oexpOpen(careerIdx) {
           </a>`).join('')}
         </div>
       </div>` : '';
-    const gallerySection = galleryHtml.trim() ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
-    // 구 형식(단일 pdf) → 배열로 통합
-    const pdfs = p.pdfs && p.pdfs.length ? p.pdfs
-      : p.pdf ? [{ url: p.pdf, name: p.pdfName || 'PDF 파일' }] : [];
-    const pdfHtml = pdfs.length ? `
+        const gallerySection = galleryHtml.trim() ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
+        // 구 형식(단일 pdf) → 배열로 통합
+        const pdfs = p.pdfs && p.pdfs.length ? p.pdfs
+          : p.pdf ? [{ url: p.pdf, name: p.pdfName || 'PDF 파일' }] : [];
+        const pdfHtml = pdfs.length ? `
       <div style="margin-top:12px;">
         <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 파일</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           ${pdfs.map(f => `
-          <div class="ppdf-card" onclick="event.stopPropagation();ppdfOpen('${esc(f.url)}','${esc(f.name||'PDF 파일')}')">
+          <div class="ppdf-card" onclick="event.stopPropagation();ppdfOpen('${esc(f.url)}','${esc(f.name || 'PDF 파일')}')">
             <div class="ppdf-icon">📄</div>
             <div class="ppdf-card-body">
               <div class="ppdf-card-name">${esc(f.name || 'PDF 파일')}</div>
@@ -1048,154 +2646,154 @@ function oexpOpen(careerIdx) {
           </div>`).join('')}
         </div>
       </div>` : '';
-    return `<div class="oexp-project" id="oexp-p-${i}">
+        return `<div class="oexp-project" id="oexp-p-${i}">
       ${p.name ? `<div class="oexp-project-title">${esc(p.name)}</div>` : ''}
       ${p.period ? `<div class="oexp-project-period">${esc(p.period)}</div>` : ''}
       ${bodyHtml}${gallerySection}${linksHtml}${pdfHtml}
     </div>`;
-  }
+      }
 
-  bodyEl.innerHTML = projects.map(renderProject).join('');
-  document.getElementById('oexp-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  bodyEl.scrollTop = 0;
-}
-function oexpScrollTo(idx) {
-  const target = document.getElementById(`oexp-p-${idx}`);
-  if (target) target.scrollIntoView({ behavior: 'smooth' });
-}
-function oexpClose(e) {
-  if (e && e.target !== document.getElementById('oexp-overlay')) return;
-  document.getElementById('oexp-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
+      bodyEl.innerHTML = projects.map(renderProject).join('');
+      document.getElementById('oexp-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      bodyEl.scrollTop = 0;
+    }
+    function oexpScrollTo(idx) {
+      const target = document.getElementById(`oexp-p-${idx}`);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+    function oexpClose(e) {
+      if (e && e.target !== document.getElementById('oexp-overlay')) return;
+      document.getElementById('oexp-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-// ── SLIDE MODAL ────────────────────────────────────────────────────────────
-let _slbId = null, _slbIdx = 0, _slbSrcs = [];
-function slideModalOpen(id, idx) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const imgs = el.querySelectorAll('.gallery-slide-item img');
-  _slbId = id;
-  _slbSrcs = Array.from(imgs).map(img => ({ src: img.src, alt: img.alt }));
-  _slbIdx = idx;
-  _slbUpdate();
-  document.getElementById('slb-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function _slbUpdate() {
-  const item = _slbSrcs[_slbIdx];
-  if (!item) return;
-  document.getElementById('slb-img').src = item.src;
-  document.getElementById('slb-img').alt = item.alt || '';
-  document.getElementById('slb-counter').textContent = _slbSrcs.length > 1 ? `${_slbIdx + 1} / ${_slbSrcs.length}` : '';
-  document.getElementById('slb-prev').style.display = _slbSrcs.length > 1 ? '' : 'none';
-  document.getElementById('slb-next').style.display = _slbSrcs.length > 1 ? '' : 'none';
-}
-function slideModalStep(dir) {
-  _slbIdx = (_slbIdx + dir + _slbSrcs.length) % _slbSrcs.length;
-  _slbUpdate();
-}
-function slideModalClose(e) {
-  if (e && e.target === document.getElementById('slb-img')) return;
-  const ov = document.getElementById('slb-overlay');
-  ov.classList.remove('open');
-  document.body.style.overflow = '';
-  setTimeout(() => { document.getElementById('slb-img').src = ''; }, 220);
-}
+    // ── SLIDE MODAL ────────────────────────────────────────────────────────────
+    let _slbId = null, _slbIdx = 0, _slbSrcs = [];
+    function slideModalOpen(id, idx) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const imgs = el.querySelectorAll('.gallery-slide-item img');
+      _slbId = id;
+      _slbSrcs = Array.from(imgs).map(img => ({ src: img.src, alt: img.alt }));
+      _slbIdx = idx;
+      _slbUpdate();
+      document.getElementById('slb-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function _slbUpdate() {
+      const item = _slbSrcs[_slbIdx];
+      if (!item) return;
+      document.getElementById('slb-img').src = item.src;
+      document.getElementById('slb-img').alt = item.alt || '';
+      document.getElementById('slb-counter').textContent = _slbSrcs.length > 1 ? `${_slbIdx + 1} / ${_slbSrcs.length}` : '';
+      document.getElementById('slb-prev').style.display = _slbSrcs.length > 1 ? '' : 'none';
+      document.getElementById('slb-next').style.display = _slbSrcs.length > 1 ? '' : 'none';
+    }
+    function slideModalStep(dir) {
+      _slbIdx = (_slbIdx + dir + _slbSrcs.length) % _slbSrcs.length;
+      _slbUpdate();
+    }
+    function slideModalClose(e) {
+      if (e && e.target === document.getElementById('slb-img')) return;
+      const ov = document.getElementById('slb-overlay');
+      ov.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => { document.getElementById('slb-img').src = ''; }, 220);
+    }
 
-// ── RENDER: GALLERY ───────────────────────────────────────────────────────
-let _slideIdx = {};
-function imgTag(img) {
-  const caption = img.caption ? `<div class="gallery-img-caption">${esc(img.caption)}</div>` : '';
-  return `<div class="gallery-img-wrap"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}" onclick="lbOpen('${esc(img.src)}','${esc(img.alt||'')}')" loading="lazy">${caption}</div>`;
-}
+    // ── RENDER: GALLERY ───────────────────────────────────────────────────────
+    let _slideIdx = {};
+    function imgTag(img) {
+      const caption = img.caption ? `<div class="gallery-img-caption">${esc(img.caption)}</div>` : '';
+      return `<div class="gallery-img-wrap"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt || '')}" onclick="lbOpen('${esc(img.src)}','${esc(img.alt || '')}')" loading="lazy">${caption}</div>`;
+    }
 
-let _slideCount = 0;
-const _slideCaptions = {};
-function renderSlide(imgs) {
-  const id = 'slide-' + (_slideCount++);
-  _slideCaptions[id] = imgs.map(img => img.caption || '');
-  const items = imgs.map((img, i) =>
-    `<div class="gallery-slide-item"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt||'')}" loading="lazy" onclick="slideModalOpen('${id}',${i})"></div>`
-  ).join('');
-  const dots = imgs.map((_, i) => `<span class="gallery-slide-dot${i===0?' on':''}" onclick="slideTo('${id}',${i})"></span>`).join('');
-  const firstCaption = imgs[0] && imgs[0].caption ? imgs[0].caption : '';
-  return `<div class="gallery-slide" id="${id}">
+    let _slideCount = 0;
+    const _slideCaptions = {};
+    function renderSlide(imgs) {
+      const id = 'slide-' + (_slideCount++);
+      _slideCaptions[id] = imgs.map(img => img.caption || '');
+      const items = imgs.map((img, i) =>
+        `<div class="gallery-slide-item"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt || '')}" loading="lazy" onclick="slideModalOpen('${id}',${i})"></div>`
+      ).join('');
+      const dots = imgs.map((_, i) => `<span class="gallery-slide-dot${i === 0 ? ' on' : ''}" onclick="slideTo('${id}',${i})"></span>`).join('');
+      const firstCaption = imgs[0] && imgs[0].caption ? imgs[0].caption : '';
+      return `<div class="gallery-slide" id="${id}">
     <div class="gallery-slide-track">${items}</div>
     ${imgs.length > 1 ? `<button class="gallery-slide-btn prev" onclick="slideStep('${id}',-1)">&#8249;</button><button class="gallery-slide-btn next" onclick="slideStep('${id}',1)">&#8250;</button>` : ''}
   </div>
   ${imgs.length > 1 ? `<div class="gallery-slide-dots" id="${id}-dots">${dots}</div>` : ''}
   <div class="gallery-slide-caption" id="${id}-caption">${esc(firstCaption)}</div>`;
-}
-
-function slideTo(id, idx) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const track = el.querySelector('.gallery-slide-track');
-  const total = track.children.length;
-  idx = (idx + total) % total;
-  _slideIdx[id] = idx;
-  track.style.transform = `translateX(-${idx * 100}%)`;
-  const dotsEl = document.getElementById(id + '-dots');
-  if (dotsEl) dotsEl.querySelectorAll('.gallery-slide-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
-  const captionEl = document.getElementById(id + '-caption');
-  if (captionEl) captionEl.textContent = (_slideCaptions[id] || [])[idx] || '';
-}
-
-function slideStep(id, dir) {
-  slideTo(id, (_slideIdx[id] || 0) + dir);
-}
-
-function renderGallery(gallery) {
-  if (!gallery || !gallery.length) return '';
-  return gallery.map(block => {
-    const imgs = (block.images || []).filter(img => img.src);
-    if (!imgs.length) return '';
-    const layout = block.layout || 'wide';
-    const titleHtml = block.title ? `<div class="gallery-block-title">${esc(block.title)}</div>` : '';
-    let inner = '';
-    if (layout === 'wide') {
-      inner = `<div class="gallery-wide">${imgTag(imgs[0])}</div>`;
-    } else if (layout === 'two-col') {
-      inner = `<div class="gallery-two-col">${imgs.slice(0,2).map(imgTag).join('')}</div>`;
-    } else if (layout === 'three-col') {
-      inner = `<div class="gallery-three-col">${imgs.slice(0,3).map(imgTag).join('')}</div>`;
-    } else if (layout === 'mixed') {
-      inner = `<div class="gallery-mixed-top">${imgTag(imgs[0])}</div>
-               <div class="gallery-mixed-bottom">${imgs.slice(1,3).map(imgTag).join('')}</div>`;
-    } else if (layout === 'slide') {
-      inner = renderSlide(imgs);
     }
-    return `<div class="block gallery-block">${titleHtml}${inner}</div>`;
-  }).join('');
-}
 
-function sarHtml(raw) {
-  if (!raw) return '';
-  var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
-  var saved = [];
-  var t = String(raw).replace(PASS_TAG, function(m) {
-    saved.push(m);
-    return '\x00T' + (saved.length - 1) + '\x00';
-  });
-  t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  t = t.split('\n').map(function(line) {
-    return line.replace(/^( +)/, function(m) {
-      return m.replace(/ /g, '&nbsp;');
-    });
-  }).join('<br>');
-  t = t.replace(/( {2,})/g, function(m) { return m.replace(/ /g, '&nbsp;'); });
-  t = t.replace(/==(.*?)==/g, '<mark style="background:#10b981;color:#fff;padding:1px 5px;border-radius:3px;font-weight:500">$1</mark>');
-  t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  t = t.replace(/_(.*?)_/g, '<em>$1</em>');
-  t = t.replace(/\x00T(\d+)\x00/g, function(_, i) { return saved[+i]; });
-  return t;
-}
+    function slideTo(id, idx) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const track = el.querySelector('.gallery-slide-track');
+      const total = track.children.length;
+      idx = (idx + total) % total;
+      _slideIdx[id] = idx;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      const dotsEl = document.getElementById(id + '-dots');
+      if (dotsEl) dotsEl.querySelectorAll('.gallery-slide-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+      const captionEl = document.getElementById(id + '-caption');
+      if (captionEl) captionEl.textContent = (_slideCaptions[id] || [])[idx] || '';
+    }
 
-// ── RENDER: CASE DETAIL ───────────────────────────────────────────────────
-function renderCaseDetail(c) {
-  const kpisHtml = c.kpis && c.kpis.length ? `
+    function slideStep(id, dir) {
+      slideTo(id, (_slideIdx[id] || 0) + dir);
+    }
+
+    function renderGallery(gallery) {
+      if (!gallery || !gallery.length) return '';
+      return gallery.map(block => {
+        const imgs = (block.images || []).filter(img => img.src);
+        if (!imgs.length) return '';
+        const layout = block.layout || 'wide';
+        const titleHtml = block.title ? `<div class="gallery-block-title">${esc(block.title)}</div>` : '';
+        let inner = '';
+        if (layout === 'wide') {
+          inner = `<div class="gallery-wide">${imgTag(imgs[0])}</div>`;
+        } else if (layout === 'two-col') {
+          inner = `<div class="gallery-two-col">${imgs.slice(0, 2).map(imgTag).join('')}</div>`;
+        } else if (layout === 'three-col') {
+          inner = `<div class="gallery-three-col">${imgs.slice(0, 3).map(imgTag).join('')}</div>`;
+        } else if (layout === 'mixed') {
+          inner = `<div class="gallery-mixed-top">${imgTag(imgs[0])}</div>
+               <div class="gallery-mixed-bottom">${imgs.slice(1, 3).map(imgTag).join('')}</div>`;
+        } else if (layout === 'slide') {
+          inner = renderSlide(imgs);
+        }
+        return `<div class="block gallery-block">${titleHtml}${inner}</div>`;
+      }).join('');
+    }
+
+    function sarHtml(raw) {
+      if (!raw) return '';
+      var PASS_TAG = new RegExp('<(\\/?(?:u|strong|em|br\\s*\\/?)\\s*)>', 'gi');
+      var saved = [];
+      var t = String(raw).replace(PASS_TAG, function (m) {
+        saved.push(m);
+        return '\x00T' + (saved.length - 1) + '\x00';
+      });
+      t = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      t = t.split('\n').map(function (line) {
+        return line.replace(/^( +)/, function (m) {
+          return m.replace(/ /g, '&nbsp;');
+        });
+      }).join('<br>');
+      t = t.replace(/( {2,})/g, function (m) { return m.replace(/ /g, '&nbsp;'); });
+      t = t.replace(/==(.*?)==/g, '<mark style="background:#10b981;color:#fff;padding:1px 5px;border-radius:3px;font-weight:500">$1</mark>');
+      t = t.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      t = t.replace(/_(.*?)_/g, '<em>$1</em>');
+      t = t.replace(/\x00T(\d+)\x00/g, function (_, i) { return saved[+i]; });
+      return t;
+    }
+
+    // ── RENDER: CASE DETAIL ───────────────────────────────────────────────────
+    function renderCaseDetail(c) {
+      const kpisHtml = c.kpis && c.kpis.length ? `
   <div class="block">
     <div class="tag">주요 지표</div>
     <div class="kpi-g">
@@ -1206,18 +2804,18 @@ function renderCaseDetail(c) {
       </div>`).join('')}
     </div>
   </div>` : '';
-  const periodHtml = c.period ? `
+      const periodHtml = c.period ? `
   <div class="block">
     <div class="tag">기간</div>
     <div class="case-period">${sarHtml(c.period)}</div>
   </div>` : '';
-  const skillsHtml = c.skills ? `
+      const skillsHtml = c.skills ? `
   <div class="block">
     <div class="tag">기술</div>
     <div class="case-skills">${sarHtml(c.skills)}</div>
   </div>` : '';
-  const refs = (c.links || []).filter(l => l.url && l.title);
-  const refHtml = refs.length ? `
+      const refs = (c.links || []).filter(l => l.url && l.title);
+      const refHtml = refs.length ? `
   <div class="block">
     <div class="tag">참고 링크</div>
     <div class="ref-list">
@@ -1232,7 +2830,7 @@ function renderCaseDetail(c) {
       </a>`).join('')}
     </div>
   </div>` : '';
-  return `
+      return `
 <div id="p-case-${esc(c.id)}" class="page case-detail">
 <div class="w">
   <div class="back" onclick="go('work')">← Work</div>
@@ -1242,8 +2840,8 @@ function renderCaseDetail(c) {
   ${(c.contrib != null && c.contrib !== '') ? `
   <div class="contrib-bar-wrap" id="contrib-wrap-${esc(c.id)}">
     <span class="contrib-label">기여도</span>
-    <div class="contrib-track"><div class="contrib-fill" style="width:${Math.min(100,Math.max(0,Number(c.contrib)))}%"></div></div>
-    <span class="contrib-pct">${Math.min(100,Math.max(0,Number(c.contrib)))}%</span>
+    <div class="contrib-track"><div class="contrib-fill" style="width:${Math.min(100, Math.max(0, Number(c.contrib)))}%"></div></div>
+    <span class="contrib-pct">${Math.min(100, Math.max(0, Number(c.contrib)))}%</span>
   </div>` : ''}
   <div class="divider"></div>
   ${kpisHtml}
@@ -1258,44 +2856,44 @@ function renderCaseDetail(c) {
   </div>
   ${skillsHtml}
   ${refHtml}
-  ${renderGallery(c.gallery||[])}
+  ${renderGallery(c.gallery || [])}
 </div>
 </div>`;
-}
+    }
 
-// ── RENDER: INSIGHTS PAGE SHELL ───────────────────────────────────────────
-let insCat = '전체';
-let insQuery = '';
-let insPage = 1;
-const INS_PER_PAGE = 8;
-const INS_CATS = ['전체', '콘텐츠 전략', '상품 기획', '브랜드 운영'];
+    // ── RENDER: INSIGHTS PAGE SHELL ───────────────────────────────────────────
+    let insCat = '전체';
+    let insQuery = '';
+    let insPage = 1;
+    const INS_PER_PAGE = 8;
+    const INS_CATS = ['전체', '콘텐츠 전략', '상품 기획', '브랜드 운영'];
 
-function renderInsights() {
-  return `<div id="p-insights" class="page"><div class="w" id="ins-wrap"></div></div>`;
-}
+    function renderInsights() {
+      return `<div id="p-insights" class="page"><div class="w" id="ins-wrap"></div></div>`;
+    }
 
-function renderInsightsContent() {
-  const wrap = document.getElementById('ins-wrap');
-  if (!wrap) return;
-  const articles = (D.insights || []).filter(a => a.published !== false);
-  const filtered = articles.filter(a => {
-    const catOk = insCat === '전체' || a.category === insCat;
-    const qOk = !insQuery || a.title.toLowerCase().includes(insQuery.toLowerCase());
-    return catOk && qOk;
-  });
-  const totalPages = Math.max(1, Math.ceil(filtered.length / INS_PER_PAGE));
-  insPage = Math.min(insPage, totalPages);
-  const paged = filtered.slice((insPage-1)*INS_PER_PAGE, insPage*INS_PER_PAGE);
-  wrap.innerHTML = `
+    function renderInsightsContent() {
+      const wrap = document.getElementById('ins-wrap');
+      if (!wrap) return;
+      const articles = (D.insights || []).filter(a => a.published !== false);
+      const filtered = articles.filter(a => {
+        const catOk = insCat === '전체' || a.category === insCat;
+        const qOk = !insQuery || a.title.toLowerCase().includes(insQuery.toLowerCase());
+        return catOk && qOk;
+      });
+      const totalPages = Math.max(1, Math.ceil(filtered.length / INS_PER_PAGE));
+      insPage = Math.min(insPage, totalPages);
+      const paged = filtered.slice((insPage - 1) * INS_PER_PAGE, insPage * INS_PER_PAGE);
+      wrap.innerHTML = `
     <div class="ins-header">
       <div class="tag">Insights</div>
-      <h2>${nl2br((D.insightsPage||{}).title||'문제를 해결하며 배운 것들')}</h2>
-      <p class="sub">${nl2br((D.insightsPage||{}).subtitle||'실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다.')}</p>
+      <h2>${nl2br((D.insightsPage || {}).title || '문제를 해결하며 배운 것들')}</h2>
+      <p class="sub">${nl2br((D.insightsPage || {}).subtitle || '실무에서 맞다뜨린 문제와 해결 과정을 글로 기록합니다.')}</p>
     </div>
     <div class="ins-cats">
-      ${INS_CATS.map(c => `<span class="ins-cat${insCat===c?' on':''}" onclick="setInsCat('${c}')">${esc(c)}</span>`).join('')}
+      ${INS_CATS.map(c => `<span class="ins-cat${insCat === c ? ' on' : ''}" onclick="setInsCat('${c}')">${esc(c)}</span>`).join('')}
       <div class="ins-search">
-        <input type="text" id="ins-q" class="ins-q${insQuery?' open':''}" placeholder="검색" value="${esc(insQuery)}" autocomplete="off">
+        <input type="text" id="ins-q" class="ins-q${insQuery ? ' open' : ''}" placeholder="검색" value="${esc(insQuery)}" autocomplete="off">
         <button class="ins-search-btn" onclick="toggleSearch()" title="검색">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
@@ -1317,35 +2915,35 @@ function renderInsightsContent() {
     </div>
     ${totalPages > 1 ? `
     <div class="pagination">
-      ${Array.from({length:totalPages},(_,i)=>`<button class="pg-btn${insPage===i+1?' on':''}" onclick="setInsPage(${i+1})">${i+1}</button>`).join('')}
+      ${Array.from({ length: totalPages }, (_, i) => `<button class="pg-btn${insPage === i + 1 ? ' on' : ''}" onclick="setInsPage(${i + 1})">${i + 1}</button>`).join('')}
     </div>` : ''}
   `;
-  _bindSearch();
-}
+      _bindSearch();
+    }
 
-function _bindSearch() {
-  const el = document.getElementById('ins-q');
-  if (!el || el._bound) return;
-  el._bound = true;
-  let composing = false;
-  el.addEventListener('compositionstart', () => { composing = true; });
-  el.addEventListener('compositionend', e => { composing = false; setInsQuery(e.target.value); });
-  el.addEventListener('input', e => { if (!composing) setInsQuery(e.target.value); });
-}
-function setInsCat(cat) { insCat = cat; insPage = 1; renderInsightsContent(); }
-function setInsPage(p) { insPage = p; renderInsightsContent(); window.scrollTo(0,52); }
-function setInsQuery(q) { insQuery = q; insPage = 1; renderInsightsContent(); }
-function toggleSearch() {
-  const el = document.getElementById('ins-q');
-  if (!el) return;
-  el.classList.toggle('open');
-  if (el.classList.contains('open')) { el.focus(); }
-  else { insQuery = ''; el.value = ''; renderInsightsContent(); }
-}
+    function _bindSearch() {
+      const el = document.getElementById('ins-q');
+      if (!el || el._bound) return;
+      el._bound = true;
+      let composing = false;
+      el.addEventListener('compositionstart', () => { composing = true; });
+      el.addEventListener('compositionend', e => { composing = false; setInsQuery(e.target.value); });
+      el.addEventListener('input', e => { if (!composing) setInsQuery(e.target.value); });
+    }
+    function setInsCat(cat) { insCat = cat; insPage = 1; renderInsightsContent(); }
+    function setInsPage(p) { insPage = p; renderInsightsContent(); window.scrollTo(0, 52); }
+    function setInsQuery(q) { insQuery = q; insPage = 1; renderInsightsContent(); }
+    function toggleSearch() {
+      const el = document.getElementById('ins-q');
+      if (!el) return;
+      el.classList.toggle('open');
+      if (el.classList.contains('open')) { el.focus(); }
+      else { insQuery = ''; el.value = ''; renderInsightsContent(); }
+    }
 
-// ── RENDER: INSIGHT DETAIL ────────────────────────────────────────────────
-function renderInsightDetail(a) {
-  return `
+    // ── RENDER: INSIGHT DETAIL ────────────────────────────────────────────────
+    function renderInsightDetail(a) {
+      return `
 <div id="p-insight-${esc(a.id)}" class="page">
 <div class="w">
   <div class="back" onclick="go('insights')">← Insights</div>
@@ -1361,12 +2959,12 @@ function renderInsightDetail(a) {
   <div class="ins-detail-body">${nl2p(a.content || '')}</div>
 </div>
 </div>`;
-}
+    }
 
-// ── RENDER: CONTACT ───────────────────────────────────────────────────────
-function renderContact() {
-  const ct = D.contact;
-  return `
+    // ── RENDER: CONTACT ───────────────────────────────────────────────────────
+    function renderContact() {
+      const ct = D.contact;
+      return `
 <div id="p-contact" class="page">
 <div class="w">
   <div class="contact-h">
@@ -1386,7 +2984,7 @@ function renderContact() {
       <div class="pcard" onclick="oexpOpen(${i})">
         <div class="pt">${esc(p.title)}</div>
         <div class="pcard-bottom">
-          <div class="ps">${esc(p.desc||'')}</div>
+          <div class="ps">${esc(p.desc || '')}</div>
           <span class="pcard-more">자세히 보기 →</span>
         </div>
       </div>`).join('')}
@@ -1394,182 +2992,183 @@ function renderContact() {
   </div>
 </div>
 </div>`;
-}
-
-// ── TOAST & EMAIL COPY ────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._tid);
-  t._tid = setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function initResumeBtn() {
-  const btn = document.getElementById('btn-resume');
-  if (!btn) return;
-  const pdfVal = D.contact && D.contact.resumePdf;
-  const hasPdf = (pdfVal && pdfVal.startsWith('http')) || !!localStorage.getItem('portfolio_resume_pdf');
-  if (hasPdf) {
-    btn.disabled = false;
-    btn.style.opacity = '';
-    btn.style.cursor = '';
-    btn.style.pointerEvents = '';
-  } else {
-    btn.disabled = true;
-    btn.style.opacity = '0.4';
-    btn.style.cursor = 'not-allowed';
-    btn.style.pointerEvents = 'none';
-  }
-}
-function downloadResume() {
-  const pdfVal = D.contact && D.contact.resumePdf;
-  // Firebase Storage URL
-  if (pdfVal && pdfVal.startsWith('http')) {
-    window.open(pdfVal, '_blank');
-    return;
-  }
-  // 레거시: localStorage
-  const pdf = localStorage.getItem('portfolio_resume_pdf');
-  if (!pdf) return;
-  const rawName = (D.contact.resumeName || '이력서').trim();
-  const name = rawName.endsWith('.pdf') ? rawName : rawName + '.pdf';
-  const a = document.createElement('a');
-  a.href = pdf;
-  a.download = name;
-  a.click();
-}
-function copyEmail() {
-  if (!D.contact.email) return;
-  navigator.clipboard.writeText(D.contact.email)
-    .then(() => showToast('✓ 이메일이 복사되었습니다'))
-    .catch(() => showToast('이메일: ' + D.contact.email));
-}
-
-// ── RENDER ────────────────────────────────────────────────────────────────
-function renderAll() {
-  document.getElementById('nav-inner').innerHTML = renderNav();
-  document.getElementById('main').innerHTML =
-    renderWork() +
-    D.cases.map(renderCaseDetail).join('') +
-    renderInsights() +
-    (D.insights || []).map(renderInsightDetail).join('') +
-    renderContact();
-  document.getElementById('footer').innerHTML = `© 2026 ${esc(D.name)} · AI 코딩 툴로 직접 제작`;
-}
-
-// ── NAVIGATION ────────────────────────────────────────────────────────────
-const NAV_MAP = {
-  work:'n-work',
-  'case-01':'n-work','case-02':'n-work','case-03':'n-work',
-  insights:'n-insights',
-  contact:'n-contact'
-};
-
-function go(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('on'));
-  const pg = document.getElementById('p-' + id);
-  if (pg) pg.classList.add('on');
-  const nk = NAV_MAP[id] || (id.startsWith('insight-') ? 'n-insights' : null);
-  if (nk) { const n = document.getElementById(nk); if (n) n.classList.add('on'); }
-  location.hash = id;
-  window.scrollTo(0, 0);
-  if (id === 'work') { runCounters(); startMotionCounter(); }
-  if (id === 'insights') renderInsightsContent();
-  if (id === 'contact') initResumeBtn();
-  if (id.startsWith('case-')) setTimeout(syncContribWidths, 350);
-}
-
-// ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
-let mbCounted = false;
-function startMotionCounter() {
-  if (mbCounted) return; mbCounted = true;
-  const kv = Math.max(1, Number((D.motionBanner||{}).kpiValue) || 131);
-  const dur = 1600, delay = 300;
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-  let start = null;
-  function tick(ts) {
-    if (!start) start = ts;
-    const elapsed = ts - start - delay;
-    if (elapsed < 0) { requestAnimationFrame(tick); return; }
-    const t = Math.min(elapsed / dur, 1);
-    const el = document.getElementById('mb-num');
-    if (el) el.textContent = '+' + Math.round(easeOut(t) * kv) + '%';
-    if (t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-// ── COUNTERS ──────────────────────────────────────────────────────────────
-let counted = false;
-function runCounters() {
-  if (counted) return; counted = true;
-  D.metrics.forEach((m, i) => {
-    if (!m.animate) return;
-    const el = document.getElementById('cnt' + i);
-    if (!el) return;
-    const numMatch = String(m.value).match(/([\d.]+)/);
-    if (!numMatch) return;
-    const target = parseFloat(numMatch[1]);
-    const prefix = String(m.value).slice(0, numMatch.index);
-    const suffix = String(m.value).slice(numMatch.index + numMatch[0].length);
-    const dur = 1200 + i * 200;
-    let s = 0, step = target / (dur / 16);
-    const isInt = Number.isInteger(target);
-    const tick = () => {
-      s = Math.min(s + step, target);
-      el.innerHTML = nl2br(prefix) + (isInt ? Math.floor(s) : s.toFixed(2)) + nl2br(suffix);
-      if (s < target) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  });
-}
-
-// ── CONTRIB BAR WIDTH SYNC ────────────────────────────────────────────────
-function syncContribWidths() {
-  document.querySelectorAll('.contrib-bar-wrap').forEach(wrap => {
-    const id = wrap.id.replace('contrib-wrap-', '');
-    const sub = document.getElementById('sub-' + id);
-    if (!sub) return;
-    const w = sub.getBoundingClientRect().width;
-    if (w > 0) wrap.style.width = w + 'px';
-  });
-}
-window.addEventListener('resize', syncContribWidths);
-
-// ── START (Firebase 비동기 초기화) ─────────────────────────────────────────
-(async function() {
-  try {
-    const snap = await _db.collection('portfolio').doc('main').get();
-    if (snap.exists) {
-      D = deepMerge(DEFAULTS, snap.data());
-    } else {
-      // Firestore에 데이터 없음 → localStorage 확인
-      const saved = localStorage.getItem('portfolio_v1');
-      if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
     }
-  } catch(e) {
-    // Firebase 연결 실패 → localStorage 폴백
-    try {
-      const saved = localStorage.getItem('portfolio_v1');
-      if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
-    } catch {}
-  }
 
-  // 로딩 오버레이 제거 후 렌더
-  const loader = document.getElementById('fb-loading');
-  if (loader) loader.style.display = 'none';
-  renderAll();
+    // ── TOAST & EMAIL COPY ────────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._tid);
+      t._tid = setTimeout(() => t.classList.remove('show'), 2500);
+    }
 
-  const hash = location.hash.replace('#', '') || 'work';
-  go(hash);
-})();
+    function initResumeBtn() {
+      const btn = document.getElementById('btn-resume');
+      if (!btn) return;
+      const pdfVal = D.contact && D.contact.resumePdf;
+      const hasPdf = (pdfVal && pdfVal.startsWith('http')) || !!localStorage.getItem('portfolio_resume_pdf');
+      if (hasPdf) {
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = '';
+        btn.style.pointerEvents = '';
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+        btn.style.pointerEvents = 'none';
+      }
+    }
+    function downloadResume() {
+      const pdfVal = D.contact && D.contact.resumePdf;
+      // Firebase Storage URL
+      if (pdfVal && pdfVal.startsWith('http')) {
+        window.open(pdfVal, '_blank');
+        return;
+      }
+      // 레거시: localStorage
+      const pdf = localStorage.getItem('portfolio_resume_pdf');
+      if (!pdf) return;
+      const rawName = (D.contact.resumeName || '이력서').trim();
+      const name = rawName.endsWith('.pdf') ? rawName : rawName + '.pdf';
+      const a = document.createElement('a');
+      a.href = pdf;
+      a.download = name;
+      a.click();
+    }
+    function copyEmail() {
+      if (!D.contact.email) return;
+      navigator.clipboard.writeText(D.contact.email)
+        .then(() => showToast('✓ 이메일이 복사되었습니다'))
+        .catch(() => showToast('이메일: ' + D.contact.email));
+    }
 
-window.addEventListener('hashchange', () => {
-  const hash = location.hash.replace('#', '') || 'work';
-  go(hash);
-});
-</script>
+    // ── RENDER ────────────────────────────────────────────────────────────────
+    function renderAll() {
+      document.getElementById('nav-inner').innerHTML = renderNav();
+      document.getElementById('main').innerHTML =
+        renderWork() +
+        D.cases.map(renderCaseDetail).join('') +
+        renderInsights() +
+        (D.insights || []).map(renderInsightDetail).join('') +
+        renderContact();
+      document.getElementById('footer').innerHTML = `© 2026 ${esc(D.name)} · AI 코딩 툴로 직접 제작`;
+    }
+
+    // ── NAVIGATION ────────────────────────────────────────────────────────────
+    const NAV_MAP = {
+      work: 'n-work',
+      'case-01': 'n-work', 'case-02': 'n-work', 'case-03': 'n-work',
+      insights: 'n-insights',
+      contact: 'n-contact'
+    };
+
+    function go(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('on'));
+      const pg = document.getElementById('p-' + id);
+      if (pg) pg.classList.add('on');
+      const nk = NAV_MAP[id] || (id.startsWith('insight-') ? 'n-insights' : null);
+      if (nk) { const n = document.getElementById(nk); if (n) n.classList.add('on'); }
+      location.hash = id;
+      window.scrollTo(0, 0);
+      if (id === 'work') { runCounters(); startMotionCounter(); }
+      if (id === 'insights') renderInsightsContent();
+      if (id === 'contact') initResumeBtn();
+      if (id.startsWith('case-')) setTimeout(syncContribWidths, 350);
+    }
+
+    // ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
+    let mbCounted = false;
+    function startMotionCounter() {
+      if (mbCounted) return; mbCounted = true;
+      const kv = Math.max(1, Number((D.motionBanner || {}).kpiValue) || 131);
+      const dur = 1600, delay = 300;
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+      let start = null;
+      function tick(ts) {
+        if (!start) start = ts;
+        const elapsed = ts - start - delay;
+        if (elapsed < 0) { requestAnimationFrame(tick); return; }
+        const t = Math.min(elapsed / dur, 1);
+        const el = document.getElementById('mb-num');
+        if (el) el.textContent = '+' + Math.round(easeOut(t) * kv) + '%';
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // ── COUNTERS ──────────────────────────────────────────────────────────────
+    let counted = false;
+    function runCounters() {
+      if (counted) return; counted = true;
+      D.metrics.forEach((m, i) => {
+        if (!m.animate) return;
+        const el = document.getElementById('cnt' + i);
+        if (!el) return;
+        const numMatch = String(m.value).match(/([\d.]+)/);
+        if (!numMatch) return;
+        const target = parseFloat(numMatch[1]);
+        const prefix = String(m.value).slice(0, numMatch.index);
+        const suffix = String(m.value).slice(numMatch.index + numMatch[0].length);
+        const dur = 1200 + i * 200;
+        let s = 0, step = target / (dur / 16);
+        const isInt = Number.isInteger(target);
+        const tick = () => {
+          s = Math.min(s + step, target);
+          el.innerHTML = nl2br(prefix) + (isInt ? Math.floor(s) : s.toFixed(2)) + nl2br(suffix);
+          if (s < target) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }
+
+    // ── CONTRIB BAR WIDTH SYNC ────────────────────────────────────────────────
+    function syncContribWidths() {
+      document.querySelectorAll('.contrib-bar-wrap').forEach(wrap => {
+        const id = wrap.id.replace('contrib-wrap-', '');
+        const sub = document.getElementById('sub-' + id);
+        if (!sub) return;
+        const w = sub.getBoundingClientRect().width;
+        if (w > 0) wrap.style.width = w + 'px';
+      });
+    }
+    window.addEventListener('resize', syncContribWidths);
+
+    // ── START (Firebase 비동기 초기화) ─────────────────────────────────────────
+    (async function () {
+      try {
+        const snap = await _db.collection('portfolio').doc('main').get();
+        if (snap.exists) {
+          D = deepMerge(DEFAULTS, snap.data());
+        } else {
+          // Firestore에 데이터 없음 → localStorage 확인
+          const saved = localStorage.getItem('portfolio_v1');
+          if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
+        }
+      } catch (e) {
+        // Firebase 연결 실패 → localStorage 폴백
+        try {
+          const saved = localStorage.getItem('portfolio_v1');
+          if (saved) D = deepMerge(DEFAULTS, JSON.parse(saved));
+        } catch { }
+      }
+
+      // 로딩 오버레이 제거 후 렌더
+      const loader = document.getElementById('fb-loading');
+      if (loader) loader.style.display = 'none';
+      renderAll();
+
+      const hash = location.hash.replace('#', '') || 'work';
+      go(hash);
+    })();
+
+    window.addEventListener('hashchange', () => {
+      const hash = location.hash.replace('#', '') || 'work';
+      go(hash);
+    });
+  </script>
 </body>
+
 </html>
