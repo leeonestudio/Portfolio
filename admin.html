@@ -2319,6 +2319,7 @@
       <button class="btn btn-outline btn-sm" onclick="removePpPdfItem(this)" style="font-size:11px;color:#e11d48;">삭제</button>
     </div>
     <input type="text" class="pp-pdf-name" value="${esc(f.name || '')}" placeholder="파일명/제목 (필수)" style="width:100%;padding:5px 8px;font-size:12px;border:1px solid var(--border);border-radius:5px;margin-bottom:5px;" oninput="markUnsaved()">
+    <input type="text" class="pp-pdf-desc" value="${esc(f.desc || '')}" placeholder="설명 (선택)" style="width:100%;padding:5px 8px;font-size:12px;border:1px solid var(--border);border-radius:5px;margin-bottom:5px;" oninput="markUnsaved()">
     <input type="text" class="pp-pdf-val" value="${esc(f.url || '')}" placeholder="구글 드라이브 링크 URL (필수)" style="width:100%;padding:5px 8px;font-size:12px;border:1px solid var(--border);border-radius:5px;" oninput="markUnsaved()">
   </div>`;
     }
@@ -2650,7 +2651,8 @@
           })).filter(l => l.title && l.url),
           pdfs: [...proj.querySelectorAll('.pp-pdf-item')].map(item => ({
             url: item.querySelector('.pp-pdf-val').value.trim(),
-            name: item.querySelector('.pp-pdf-name').value.trim()
+            name: item.querySelector('.pp-pdf-name').value.trim(),
+            desc: item.querySelector('.pp-pdf-desc').value.trim()
           })).filter(f => f.url && f.name)
         }))
       }));

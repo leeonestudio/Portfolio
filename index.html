@@ -2643,6 +2643,7 @@
             <div class="ppdf-icon">📄</div>
             <div class="ppdf-card-body">
               <div class="ppdf-card-name">${esc(f.name || 'PDF 파일')}</div>
+              ${f.desc ? `<div class="ref-desc" style="-webkit-line-clamp:unset;">${esc(f.desc)}</div>` : ''}
               <div class="ppdf-card-hint">클릭해서 미리보기</div>
             </div>
           </div>`).join('')}
