@@ -1602,7 +1602,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.88);
-      z-index: 9000;
+      z-index: 9700;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1652,7 +1652,7 @@
       align-items: center;
       justify-content: center;
       transition: background .15s;
-      z-index: 9001;
+      z-index: 9701;
       line-height: 1;
     }
 
@@ -2544,7 +2544,9 @@
       if (e && e.target === document.getElementById('lb-img')) return;
       const ov = document.getElementById('lb-overlay');
       ov.classList.remove('open');
-      document.body.style.overflow = '';
+      // oexp/ppdf 모달이 열려 있으면 overflow:hidden 유지
+      const anyModalOpen = ['oexp-overlay','ppdf-overlay'].some(id => document.getElementById(id).classList.contains('open'));
+      if (!anyModalOpen) document.body.style.overflow = '';
       setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
     }
     document.addEventListener('keydown', e => {
