@@ -2552,12 +2552,118 @@
       setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
     }
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { ppdfClose(); lbClose(); slideModalClose(); oexpClose(); }
+      if (e.key === 'Escape') {
+        if (document.querySelector('.oexp-lb-ov')) return; // dynamic lb가 자체 처리
+        ppdfClose(); lbClose(); slideModalClose(); oexpClose();
+      }
       if (document.getElementById('slb-overlay').classList.contains('open')) {
         if (e.key === 'ArrowLeft') slideModalStep(-1);
         if (e.key === 'ArrowRight') slideModalStep(1);
       }
     });
+
+    // ── OEXP IMAGE LIGHTBOX (body에 동적 생성/제거) ──────────────────────────
+    let _oexpGalReg = {};
+    function oexpLbOpen(uid, startIdx) {
+      const images = _oexpGalReg[uid];
+      if (!images || !images.length) return;
+      let current = startIdx;
+
+      const ov = document.createElement('div');
+      ov.className = 'oexp-lb-ov';
+      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99999;display:flex;align-items:center;justify-content:center;';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.style.cssText = 'max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;';
+
+      const imgEl = document.createElement('img');
+      imgEl.style.cssText = 'max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);cursor:default;';
+      imgEl.onclick = e => e.stopPropagation();
+      imgWrap.appendChild(imgEl);
+
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = '✕';
+      closeBtn.setAttribute('aria-label', '닫기');
+      closeBtn.style.cssText = 'position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;';
+
+      function show(i) {
+        current = ((i % images.length) + images.length) % images.length;
+        imgEl.src = images[current].src || '';
+        imgEl.alt = images[current].alt || '';
+      }
+
+      function close() {
+        if (!ov.parentNode) return;
+        document.body.removeChild(ov);
+        document.removeEventListener('keydown', onKey);
+        const anyOpen = ['oexp-overlay', 'ppdf-overlay'].some(id => {
+          const el = document.getElementById(id);
+          return el && el.classList.contains('open');
+        });
+        if (!anyOpen) document.body.style.overflow = '';
+      }
+
+      function onKey(e) {
+        if (e.key === 'Escape') { close(); return; }
+        if (images.length > 1) {
+          if (e.key === 'ArrowLeft') show(current - 1);
+          if (e.key === 'ArrowRight') show(current + 1);
+        }
+      }
+
+      closeBtn.onclick = e => { e.stopPropagation(); close(); };
+      ov.onclick = e => { if (e.target === ov) close(); };
+
+      if (images.length > 1) {
+        const bs = 'position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;font-size:36px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;';
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '&#8249;';
+        prevBtn.style.cssText = bs + 'left:16px;';
+        prevBtn.onclick = e => { e.stopPropagation(); show(current - 1); };
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '&#8250;';
+        nextBtn.style.cssText = bs + 'right:16px;';
+        nextBtn.onclick = e => { e.stopPropagation(); show(current + 1); };
+        ov.appendChild(prevBtn);
+        ov.appendChild(nextBtn);
+      }
+
+      ov.appendChild(closeBtn);
+      ov.appendChild(imgWrap);
+      document.addEventListener('keydown', onKey);
+      show(startIdx);
+      document.body.appendChild(ov);
+    }
+
+    function oexpRenderGallery(gallery) {
+      if (!gallery || !gallery.length) return '';
+      return gallery.map(block => {
+        const imgs = (block.images || []).filter(img => img.src);
+        if (!imgs.length) return '';
+        const layout = block.layout || 'wide';
+        const titleHtml = block.title ? `<div class="gallery-block-title">${esc(block.title)}</div>` : '';
+        const uid = 'og' + Math.random().toString(36).slice(2, 9);
+        _oexpGalReg[uid] = imgs;
+        function oexpImgTag(img, idx) {
+          const caption = img.caption ? `<div class="gallery-img-caption">${esc(img.caption)}</div>` : '';
+          return `<div class="gallery-img-wrap"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt || '')}" onclick="event.stopPropagation();oexpLbOpen('${uid}',${idx})" loading="lazy">${caption}</div>`;
+        }
+        let inner = '';
+        if (layout === 'wide') {
+          inner = `<div class="gallery-wide">${oexpImgTag(imgs[0], 0)}</div>`;
+        } else if (layout === 'two-col') {
+          inner = `<div class="gallery-two-col">${imgs.slice(0, 2).map((img, i) => oexpImgTag(img, i)).join('')}</div>`;
+        } else if (layout === 'three-col') {
+          inner = `<div class="gallery-three-col">${imgs.slice(0, 3).map((img, i) => oexpImgTag(img, i)).join('')}</div>`;
+        } else if (layout === 'mixed') {
+          inner = `<div class="gallery-mixed-top">${oexpImgTag(imgs[0], 0)}</div>
+                   <div class="gallery-mixed-bottom">${imgs.slice(1, 3).map((img, i) => oexpImgTag(img, i + 1)).join('')}</div>`;
+        } else if (layout === 'slide') {
+          inner = renderSlide(imgs);
+        }
+        return `<div class="block gallery-block">${titleHtml}${inner}</div>`;
+      }).join('');
+    }
 
     // ── FILE PREVIEW MODAL (Google Drive) ────────────────────────────────────
     function getDrivePreviewUrl(url) {
@@ -2615,7 +2721,7 @@
 
       function renderProject(p, i) {
         const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
-        const galleryHtml = (p.gallery && p.gallery.length) ? renderGallery(p.gallery) : '';
+        const galleryHtml = (p.gallery && p.gallery.length) ? oexpRenderGallery(p.gallery) : '';
         const refs = (p.links || []).filter(l => l.url && l.title);
         const linksHtml = refs.length ? `
       <div style="margin-top:12px;">
@@ -2674,6 +2780,7 @@
       if (e && e.target !== document.getElementById('oexp-overlay')) return;
       document.getElementById('oexp-overlay').classList.remove('open');
       document.body.style.overflow = '';
+      _oexpGalReg = {}; // 갤러리 레지스트리 초기화
     }
 
     // ── SLIDE MODAL ────────────────────────────────────────────────────────────
