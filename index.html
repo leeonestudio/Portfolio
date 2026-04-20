@@ -2534,6 +2534,7 @@
     // ── LIGHTBOX ──────────────────────────────────────────────────────────────
     function lbOpen(src, alt) {
       const ov = document.getElementById('lb-overlay');
+      document.body.appendChild(ov); // body 마지막으로 이동 → 항상 최상단 렌더링
       const im = document.getElementById('lb-img');
       im.src = src;
       im.alt = alt || '';
