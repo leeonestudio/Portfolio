@@ -2534,10 +2534,11 @@
     // ── LIGHTBOX ──────────────────────────────────────────────────────────────
     function lbOpen(src, alt) {
       const ov = document.getElementById('lb-overlay');
-      document.body.appendChild(ov); // body 마지막으로 이동 → 항상 최상단 렌더링
+      document.body.appendChild(ov); // body 마지막으로 이동 (oexp-overlay 뒤)
       const im = document.getElementById('lb-img');
       im.src = src;
       im.alt = alt || '';
+      void ov.offsetHeight; // 강제 reflow → DOM 이동이 compositor에 반영된 후 transition 시작
       ov.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -2658,7 +2659,10 @@
       }
 
       bodyEl.innerHTML = projects.map(renderProject).join('');
-      document.getElementById('oexp-overlay').classList.add('open');
+      const oexpOv = document.getElementById('oexp-overlay');
+      document.body.appendChild(oexpOv); // body 마지막으로 이동
+      void oexpOv.offsetHeight;          // 강제 reflow → compositor 반영
+      oexpOv.classList.add('open');
       document.body.style.overflow = 'hidden';
       bodyEl.scrollTop = 0;
     }
