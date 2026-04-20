@@ -628,7 +628,7 @@
     }
 
     .case-acc.open>.case-acc-hd>.case-acc-tog {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
 
     .case-acc-body {
@@ -709,7 +709,7 @@
     }
 
     .pc-acc.open>.pc-acc-hd>.pc-acc-tog {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
 
     .pc-acc-body {
@@ -777,7 +777,7 @@
     }
 
     .pp-acc.open>.pp-acc-hd>.pp-acc-tog {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
     }
 
     .pp-acc-body {
@@ -1431,8 +1431,7 @@
         <div class="field">
           <label class="label">기타 경력</label>
           <div id="prev-careers-wrap"></div>
-          <button class="btn btn-outline btn-sm" onclick="addPrevCareer(this)" style="margin-top:8px;">+ 프로젝트
-            추가</button>
+          <button class="btn btn-outline btn-sm" onclick="addPrevCareer(this)" style="margin-top:8px;">+ 기타경력 추가</button>
         </div>
       </div>
 
@@ -1859,7 +1858,7 @@
         <span class="drag-handle" onclick="event.stopPropagation()" title="드래그하여 순서 변경">⠿</span>
         <span class="case-acc-num">CASE ${String(i + 1).padStart(2, '0')}</span>
         <span class="case-acc-ttl">${esc(c.title || '(제목 없음)')}</span>
-        <span class="case-acc-tog">▾</span>
+        <span class="case-acc-tog">▶</span>
         <button class="row-del-btn" onclick="event.stopPropagation();deleteCaseItem(this)" title="삭제">✕</button>
       </div>
       <div class="case-acc-body">
@@ -2177,7 +2176,7 @@
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevProject(this,-1)" title="위로">↑</button>
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevProject(this,1)" title="아래로">↓</button>
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();this.closest('.prev-project-block').remove()" style="color:#e11d48;">삭제</button>
-      <button class="pp-acc-tog" onclick="event.stopPropagation();togglePpAcc(this.closest('.pp-acc-hd'))">▾</button>
+      <button class="pp-acc-tog" onclick="event.stopPropagation();togglePpAcc(this.closest('.pp-acc-hd'))">▶</button>
     </div>
     <div class="pp-acc-body">
       <div class="field" style="margin-bottom:8px;">
@@ -2213,9 +2212,7 @@
 
     function togglePpAcc(hd) { hd.closest('.pp-acc').classList.toggle('open'); }
     function togglePcAcc(btn) {
-      const block = btn.closest('.prev-career-block');
-      const isOpen = block.classList.toggle('open');
-      btn.textContent = isOpen ? '∧' : '∨';
+      btn.closest('.prev-career-block').classList.toggle('open');
     }
 
     function prevCareerBlockHtml(p) {
@@ -2228,7 +2225,7 @@
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevCareer(this,-1)" title="위로">↑</button>
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();movePrevCareer(this,1)" title="아래로">↓</button>
       <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();this.closest('.prev-career-block').remove()" style="color:#e11d48;">삭제</button>
-      <button class="pc-acc-tog" onclick="togglePcAcc(this)">∨</button>
+      <button class="pc-acc-tog" onclick="togglePcAcc(this)">▶</button>
     </div>
     <div class="pc-acc-body">
       <div class="field" style="margin-bottom:8px;">
