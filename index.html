@@ -2519,6 +2519,9 @@
             </div>
           </div>`).join('')}
         </div>
+        <div style="border-top:.5px solid var(--border);margin-top:20px;padding-top:14px;display:flex;justify-content:flex-end;">
+          <button onclick="goToOtherCareer()" style="background:none;border:1px solid var(--accent);color:var(--accent);border-radius:6px;padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--accent-l)'" onmouseout="this.style.background='none'">이전 경력 · 프로젝트 자세히 보기 →</button>
+        </div>
       </div>
       <div style="margin-top:28px;">
         <div class="tag">스킬</div>
@@ -3092,7 +3095,7 @@
   </div>
   ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
   <div class="divider" style="margin:48px 0;"></div>
-  <div class="block">
+  <div class="block" id="other-career">
     <div class="tag">기타 경력</div>
     <div class="prev-list">
       ${ct.prevCareers.map((p, i) => `
@@ -3192,6 +3195,13 @@
       if (id === 'insights') renderInsightsContent();
       if (id === 'contact') initResumeBtn();
       if (id.startsWith('case-')) setTimeout(syncContribWidths, 350);
+    }
+    function goToOtherCareer() {
+      go('contact');
+      setTimeout(() => {
+        const el = document.getElementById('other-career');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
     }
 
     // ── MOTION BANNER COUNTER ─────────────────────────────────────────────────
