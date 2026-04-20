@@ -2289,6 +2289,8 @@
       if (galleryWrap) makeDraggable(galleryWrap);
       const linksWrap = projBlock.querySelector('.pp-links-wrap');
       if (linksWrap) makeDraggable(linksWrap);
+      const pdfList = projBlock.querySelector('.pp-pdf-list');
+      if (pdfList) makeDraggable(pdfList);
       projBlock.querySelectorAll('.gallery-imgs-wrap').forEach(makeImgRowsDraggable);
     }
 
@@ -2313,8 +2315,9 @@
 
     function ppPdfItemHtml(f) {
       f = f || {};
-      return `<div class="pp-pdf-item" style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:6px;">
+      return `<div class="pp-pdf-item dnd-row" draggable="true" style="flex-direction:column;align-items:stretch;gap:0;padding:10px 12px;background:var(--surface);">
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+      <span class="drag-handle" title="드래그하여 순서 변경" style="cursor:grab;font-size:14px;color:var(--text3);flex-shrink:0;user-select:none;">⠿</span>
       <span style="font-size:11px;font-weight:600;color:var(--text3);flex:1;">관련 파일 (구글 드라이브)</span>
       <button class="btn btn-outline btn-sm" onclick="removePpPdfItem(this)" style="font-size:11px;color:#e11d48;">삭제</button>
     </div>
@@ -2327,6 +2330,7 @@
     function addPpFileItem(btn) {
       const listEl = btn.previousElementSibling;
       listEl.insertAdjacentHTML('beforeend', ppPdfItemHtml({}));
+      makeDraggable(listEl);
       markUnsaved();
     }
 
