@@ -1156,146 +1156,6 @@
       padding: 4px 14px;
     }
 
-    /* OTHER EXP MODAL */
-    .oexp-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 9500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .22s ease;
-    }
-
-    .oexp-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .oexp-modal {
-      background: #fff;
-      width: min(680px, calc(100vw - 32px));
-      max-height: min(90vh, 860px);
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .oexp-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 24px;
-      border-bottom: .5px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .oexp-header-title {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -.025em;
-    }
-
-    .oexp-hclose {
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: var(--text2);
-      cursor: pointer;
-      padding: 4px;
-      line-height: 1;
-      transition: color var(--t);
-    }
-
-    .oexp-hclose:hover {
-      color: var(--text);
-    }
-
-    .oexp-toc {
-      padding: 10px 24px 14px;
-      border-bottom: .5px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .oexp-toc-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text3);
-      margin-bottom: 4px;
-    }
-
-    .oexp-toc-item {
-      font-size: 13px;
-      color: var(--text2);
-      cursor: pointer;
-      transition: color var(--t);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .oexp-toc-item::before {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      flex-shrink: 0;
-    }
-
-    .oexp-toc-item:hover {
-      color: var(--green);
-    }
-
-    .oexp-toc-item:hover::after {
-      content: ' →';
-      color: var(--green);
-    }
-
-    .oexp-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0 24px 48px;
-    }
-
-    .oexp-project {
-      padding-top: 32px;
-    }
-
-    .oexp-project+.oexp-project {
-      border-top: .5px solid var(--border);
-      margin-top: 32px;
-    }
-
-    .oexp-project-title {
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: -.01em;
-      margin-bottom: 4px;
-    }
-
-    .oexp-project-period {
-      font-size: 12px;
-      color: var(--text2);
-      margin-bottom: 14px;
-    }
-
-    .oexp-project-body {
-      font-size: 14px;
-      line-height: 1.8;
-      margin-bottom: 16px;
-    }
-
     /* CONTACT */
     .contact-h {
       padding: 64px 0 20px;
@@ -2080,18 +1940,6 @@
     </div>
   </div>
 
-  <!-- OTHER EXP MODAL -->
-  <div class="oexp-overlay" id="oexp-overlay" onclick="oexpClose(event)">
-    <div class="oexp-modal">
-      <div class="oexp-header">
-        <span class="oexp-header-title">기타 경력</span>
-        <button class="oexp-hclose" onclick="oexpClose()" aria-label="닫기">✕</button>
-      </div>
-      <div class="oexp-toc" id="oexp-toc"></div>
-      <div class="oexp-body" id="oexp-body"></div>
-    </div>
-  </div>
-
   <!-- SLIDE MODAL -->
   <div class="slb-overlay" id="slb-overlay" onclick="slideModalClose(event)">
     <button class="slb-close" onclick="slideModalClose()" aria-label="닫기">✕</button>
@@ -2537,7 +2385,7 @@
     // ── LIGHTBOX ──────────────────────────────────────────────────────────────
     function lbOpen(src, alt) {
       const ov = document.getElementById('lb-overlay');
-      document.body.appendChild(ov); // body 마지막으로 이동 (oexp-overlay 뒤)
+      document.body.appendChild(ov); // body 마지막으로 이동
       const im = document.getElementById('lb-img');
       im.src = src;
       im.alt = alt || '';
@@ -2549,124 +2397,19 @@
       if (e && e.target === document.getElementById('lb-img')) return;
       const ov = document.getElementById('lb-overlay');
       ov.classList.remove('open');
-      // oexp/ppdf 모달이 열려 있으면 overflow:hidden 유지
-      const anyModalOpen = ['oexp-overlay','ppdf-overlay'].some(id => document.getElementById(id).classList.contains('open'));
+      const anyModalOpen = ['ppdf-overlay'].some(id => document.getElementById(id).classList.contains('open'));
       if (!anyModalOpen) document.body.style.overflow = '';
       setTimeout(() => { document.getElementById('lb-img').src = ''; }, 220);
     }
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        if (document.querySelector('.oexp-lb-ov')) return; // dynamic lb가 자체 처리
-        ppdfClose(); lbClose(); slideModalClose(); oexpClose();
+        ppdfClose(); lbClose(); slideModalClose();
       }
       if (document.getElementById('slb-overlay').classList.contains('open')) {
         if (e.key === 'ArrowLeft') slideModalStep(-1);
         if (e.key === 'ArrowRight') slideModalStep(1);
       }
     });
-
-    // ── OEXP IMAGE LIGHTBOX (body에 동적 생성/제거) ──────────────────────────
-    let _oexpGalReg = {};
-    function oexpLbOpen(uid, startIdx) {
-      const images = _oexpGalReg[uid];
-      if (!images || !images.length) return;
-      let current = startIdx;
-
-      const ov = document.createElement('div');
-      ov.className = 'oexp-lb-ov';
-      ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99999;display:flex;align-items:center;justify-content:center;';
-
-      const imgWrap = document.createElement('div');
-      imgWrap.style.cssText = 'max-width:90vw;max-height:90vh;display:flex;align-items:center;justify-content:center;';
-
-      const imgEl = document.createElement('img');
-      imgEl.style.cssText = 'max-width:90vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:6px;display:block;box-shadow:0 8px 48px rgba(0,0,0,.6);cursor:default;';
-      imgEl.onclick = e => e.stopPropagation();
-      imgWrap.appendChild(imgEl);
-
-      const closeBtn = document.createElement('button');
-      closeBtn.textContent = '✕';
-      closeBtn.setAttribute('aria-label', '닫기');
-      closeBtn.style.cssText = 'position:fixed;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;';
-
-      function show(i) {
-        current = ((i % images.length) + images.length) % images.length;
-        imgEl.src = images[current].src || '';
-        imgEl.alt = images[current].alt || '';
-      }
-
-      function close() {
-        if (!ov.parentNode) return;
-        document.body.removeChild(ov);
-        document.removeEventListener('keydown', onKey);
-        const anyOpen = ['oexp-overlay', 'ppdf-overlay'].some(id => {
-          const el = document.getElementById(id);
-          return el && el.classList.contains('open');
-        });
-        if (!anyOpen) document.body.style.overflow = '';
-      }
-
-      function onKey(e) {
-        if (e.key === 'Escape') { close(); return; }
-        if (images.length > 1) {
-          if (e.key === 'ArrowLeft') show(current - 1);
-          if (e.key === 'ArrowRight') show(current + 1);
-        }
-      }
-
-      closeBtn.onclick = e => { e.stopPropagation(); close(); };
-      ov.onclick = e => { if (e.target === ov) close(); };
-
-      if (images.length > 1) {
-        const bs = 'position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;font-size:36px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;';
-        const prevBtn = document.createElement('button');
-        prevBtn.innerHTML = '&#8249;';
-        prevBtn.style.cssText = bs + 'left:16px;';
-        prevBtn.onclick = e => { e.stopPropagation(); show(current - 1); };
-        const nextBtn = document.createElement('button');
-        nextBtn.innerHTML = '&#8250;';
-        nextBtn.style.cssText = bs + 'right:16px;';
-        nextBtn.onclick = e => { e.stopPropagation(); show(current + 1); };
-        ov.appendChild(prevBtn);
-        ov.appendChild(nextBtn);
-      }
-
-      ov.appendChild(closeBtn);
-      ov.appendChild(imgWrap);
-      document.addEventListener('keydown', onKey);
-      show(startIdx);
-      document.body.appendChild(ov);
-    }
-
-    function oexpRenderGallery(gallery) {
-      if (!gallery || !gallery.length) return '';
-      return gallery.map(block => {
-        const imgs = (block.images || []).filter(img => img.src);
-        if (!imgs.length) return '';
-        const layout = block.layout || 'wide';
-        const titleHtml = block.title ? `<div class="gallery-block-title">${esc(block.title)}</div>` : '';
-        const uid = 'og' + Math.random().toString(36).slice(2, 9);
-        _oexpGalReg[uid] = imgs;
-        function oexpImgTag(img, idx) {
-          const caption = img.caption ? `<div class="gallery-img-caption">${esc(img.caption)}</div>` : '';
-          return `<div class="gallery-img-wrap"><img class="gallery-img" src="${esc(img.src)}" alt="${esc(img.alt || '')}" onclick="event.stopPropagation();oexpLbOpen('${uid}',${idx})" loading="lazy">${caption}</div>`;
-        }
-        let inner = '';
-        if (layout === 'wide') {
-          inner = `<div class="gallery-wide">${oexpImgTag(imgs[0], 0)}</div>`;
-        } else if (layout === 'two-col') {
-          inner = `<div class="gallery-two-col">${imgs.slice(0, 2).map((img, i) => oexpImgTag(img, i)).join('')}</div>`;
-        } else if (layout === 'three-col') {
-          inner = `<div class="gallery-three-col">${imgs.slice(0, 3).map((img, i) => oexpImgTag(img, i)).join('')}</div>`;
-        } else if (layout === 'mixed') {
-          inner = `<div class="gallery-mixed-top">${oexpImgTag(imgs[0], 0)}</div>
-                   <div class="gallery-mixed-bottom">${imgs.slice(1, 3).map((img, i) => oexpImgTag(img, i + 1)).join('')}</div>`;
-        } else if (layout === 'slide') {
-          inner = renderSlide(imgs);
-        }
-        return `<div class="block gallery-block">${titleHtml}${inner}</div>`;
-      }).join('');
-    }
 
     // ── FILE PREVIEW MODAL (Google Drive) ────────────────────────────────────
     function getDrivePreviewUrl(url) {
@@ -2690,100 +2433,6 @@
       document.getElementById('ppdf-overlay').classList.remove('open');
       document.body.style.overflow = '';
       setTimeout(() => { document.getElementById('ppdf-iframe').src = ''; }, 220);
-    }
-
-    // ── OTHER EXP MODAL ────────────────────────────────────────────────────────
-    function oexpOpen(careerIdx) {
-      const career = ((D.contact && D.contact.prevCareers) || [])[careerIdx];
-      if (!career) return;
-
-      // 구 형식 호환: projects 없으면 단일 프로젝트로 래핑
-      const projects = career.projects || [{
-        name: '', period: career.period || '', body: career.body || '',
-        gallery: career.gallery || [], links: career.links || []
-      }];
-
-      // 모달 헤더 타이틀 = 경력명
-      document.querySelector('#oexp-overlay .oexp-header-title').textContent = career.title;
-
-      const tocEl = document.getElementById('oexp-toc');
-      const bodyEl = document.getElementById('oexp-body');
-
-      // 목차: 프로젝트명이 있는 항목이 2개 이상일 때만 표시
-      const namedCount = projects.filter(p => p.name).length;
-      if (namedCount > 1) {
-        tocEl.style.display = '';
-        tocEl.innerHTML = '<div class="oexp-toc-label">프로젝트 목차</div>' +
-          projects.map((p, i) =>
-            p.name ? `<span class="oexp-toc-item" onclick="event.stopPropagation();oexpScrollTo(${i})">${esc(p.name)}</span>` : ''
-          ).join('');
-      } else {
-        tocEl.style.display = 'none';
-        tocEl.innerHTML = '';
-      }
-
-      function renderProject(p, i) {
-        const bodyHtml = p.body ? `<div class="oexp-project-body">${sarHtml(p.body)}</div>` : '';
-        const galleryHtml = (p.gallery && p.gallery.length) ? oexpRenderGallery(p.gallery) : '';
-        const refs = (p.links || []).filter(l => l.url && l.title);
-        const linksHtml = refs.length ? `
-      <div style="margin-top:12px;">
-        <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 링크</div>
-        <div class="ref-list">
-          ${refs.map(l => `
-          <a class="ref-card" href="${esc(l.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-            <div class="ref-body">
-              <div class="ref-title">${esc(l.title)}</div>
-              ${l.desc ? `<div class="ref-desc">${esc(l.desc)}</div>` : ''}
-              <div class="ref-url">${esc(l.url)}</div>
-            </div>
-            ${l.thumb ? `<img class="ref-thumb" src="${esc(l.thumb)}" alt="">` : ''}
-          </a>`).join('')}
-        </div>
-      </div>` : '';
-        const gallerySection = galleryHtml.trim() ? `<div style="margin-top:12px;">${galleryHtml}</div>` : '';
-        // 구 형식(단일 pdf) → 배열로 통합
-        const pdfs = p.pdfs && p.pdfs.length ? p.pdfs
-          : p.pdf ? [{ url: p.pdf, name: p.pdfName || 'PDF 파일' }] : [];
-        const pdfHtml = pdfs.length ? `
-      <div style="margin-top:12px;">
-        <div class="tag" style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">관련 파일</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          ${pdfs.map(f => `
-          <div class="ppdf-card" onclick="event.stopPropagation();ppdfOpen('${esc(f.url)}','${esc(f.name || 'PDF 파일')}')">
-            <div class="ppdf-icon">📄</div>
-            <div class="ppdf-card-body">
-              <div class="ppdf-card-name">${esc(f.name || 'PDF 파일')}</div>
-              ${f.desc ? `<div class="ref-desc" style="-webkit-line-clamp:unset;">${esc(f.desc)}</div>` : ''}
-              <div class="ppdf-card-hint">클릭해서 미리보기</div>
-            </div>
-          </div>`).join('')}
-        </div>
-      </div>` : '';
-        return `<div class="oexp-project" id="oexp-p-${i}">
-      ${p.name ? `<div class="oexp-project-title">${esc(p.name)}</div>` : ''}
-      ${p.period ? `<div class="oexp-project-period">${esc(p.period)}</div>` : ''}
-      ${bodyHtml}${gallerySection}${linksHtml}${pdfHtml}
-    </div>`;
-      }
-
-      bodyEl.innerHTML = projects.map(renderProject).join('');
-      const oexpOv = document.getElementById('oexp-overlay');
-      document.body.appendChild(oexpOv); // body 마지막으로 이동
-      void oexpOv.offsetHeight;          // 강제 reflow → compositor 반영
-      oexpOv.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      bodyEl.scrollTop = 0;
-    }
-    function oexpScrollTo(idx) {
-      const target = document.getElementById(`oexp-p-${idx}`);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    }
-    function oexpClose(e) {
-      if (e && e.target !== document.getElementById('oexp-overlay')) return;
-      document.getElementById('oexp-overlay').classList.remove('open');
-      document.body.style.overflow = '';
-      _oexpGalReg = {}; // 갤러리 레지스트리 초기화
     }
 
     // ── SLIDE MODAL ────────────────────────────────────────────────────────────
@@ -3093,13 +2742,13 @@
       <button class="btn btn-o" id="btn-resume" onclick="downloadResume()">이력서 PDF 다운로드</button>
     </div>
   </div>
-  ${ct.image ? `<div class="ct-img-wrap"><img src="${ct.image === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
+  ${ct.image && ct.image !== '__stored__' ? `<div class="ct-img-wrap"><img src="${ct.image}" alt="프로필 이미지" class="ct-img"></div>` : ''}
   <div class="divider" style="margin:48px 0;"></div>
   <div class="block" id="other-career">
     <div class="tag">기타 경력</div>
     <div class="prev-list">
       ${ct.prevCareers.map((p, i) => `
-      <div class="pcard" onclick="oexpOpen(${i})">
+      <div class="pcard" onclick="window.location.href='other-career-detail.html?id=${i}'">
         <div class="pt">${esc(p.title)}</div>
         <div class="pcard-bottom">
           <div class="ps">${esc(p.desc || '')}</div>

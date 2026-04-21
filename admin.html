@@ -1735,9 +1735,8 @@
             const url = await ref.getDownloadURL();
             v('f-contact-image').value = url;
           } catch (err) {
-            // 폴백: localStorage
-            try { localStorage.setItem('portfolio_contact_image', dataUrl); } catch { }
-            v('f-contact-image').value = '__stored__';
+            alert('이미지 업로드에 실패했습니다. Firebase Storage 연결을 확인해주세요.');
+            v('ct-img-preview').innerHTML = '';
           }
           markUnsaved();
         };
@@ -1790,7 +1789,6 @@
         _storage.ref('portfolio/contact_image.jpg').delete().catch(() => { });
       }
       v('f-contact-image').value = '';
-      localStorage.removeItem('portfolio_contact_image');
       v('ct-img-preview').innerHTML = '';
       markUnsaved();
     }
@@ -2506,9 +2504,8 @@
 
       set('f-email', DATA.contact.email);
       set('f-contact-title', DATA.contact.title);
-      const ctImgRaw = DATA.contact.image || '';
-      const ctImg = ctImgRaw === '__stored__' ? (localStorage.getItem('portfolio_contact_image') || '') : ctImgRaw;
-      v('f-contact-image').value = ctImgRaw;
+      const ctImg = (DATA.contact.image && DATA.contact.image !== '__stored__') ? DATA.contact.image : '';
+      v('f-contact-image').value = ctImg;
       v('ct-img-preview').innerHTML = ctImg ? `<img src="${ctImg}" style="max-width:280px;border-radius:8px;border:1px solid var(--border);">` : '';
       const pdfStored = DATA.contact.resumePdf === '__stored__';
       v('f-resume-pdf').value = DATA.contact.resumePdf || '';
@@ -2623,8 +2620,7 @@
 
       d.contact.email = gv('f-email');
       d.contact.title = gv('f-contact-title');
-      const imgVal = v('f-contact-image').value;
-      d.contact.image = imgVal === '__stored__' ? '__stored__' : (imgVal || '');
+      d.contact.image = v('f-contact-image').value || '';
       const pdfVal = v('f-resume-pdf').value;
       d.contact.resumePdf = pdfVal === '__stored__' ? '__stored__' : (pdfVal || '');
       d.contact.resumeName = gv('f-resume-name').trim();
