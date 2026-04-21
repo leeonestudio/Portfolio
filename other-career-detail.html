@@ -1044,7 +1044,7 @@
       }
 
       try {
-        const snap = await _db.collection('portfolio').doc('data').get();
+        const snap = await _db.collection('portfolio').doc('main').get();
         const data = snap.exists ? snap.data() : null;
         const career = data && data.contact && data.contact.prevCareers
           ? data.contact.prevCareers[id]
