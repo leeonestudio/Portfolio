@@ -1151,6 +1151,100 @@
       display: block;
     }
 
+    /* ── HERO VARIANT CARD ── */
+    .hv-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 8px;
+      background: #fff;
+      overflow: hidden;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .hv-card:last-child { margin-bottom: 0; }
+
+    .hv-card.hv-active {
+      border-color: #059669;
+      box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.2);
+    }
+
+    .hv-hd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      cursor: pointer;
+      user-select: none;
+      background: #fafafa;
+      border-bottom: 1px solid transparent;
+      transition: background .15s;
+    }
+
+    .hv-hd:hover { background: #f2f2f2; }
+
+    .hv-card.open > .hv-hd { border-bottom-color: var(--border); }
+
+    .hv-radio {
+      flex-shrink: 0;
+      width: auto !important;
+      cursor: pointer;
+      accent-color: #059669;
+      margin: 0;
+    }
+
+    .hv-memo-display {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .hv-badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: #fff;
+      background: #059669;
+      border-radius: 10px;
+      padding: 2px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .hv-del-btn {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #bbb;
+      font-size: 13px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      line-height: 1;
+      transition: color .15s, background .15s;
+    }
+
+    .hv-del-btn:hover {
+      color: #e53e3e;
+      background: rgba(229, 62, 62, 0.07);
+    }
+
+    .hv-tog {
+      font-size: 11px;
+      color: #bbb;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .hv-body {
+      padding: 16px;
+      display: none;
+    }
+
+    .hv-card.open > .hv-body { display: block; }
+
     @media(max-width:520px) {
 
       .grid2,
@@ -1256,9 +1350,13 @@
         <div class="field"><label class="label">이름</label><input type="text" id="f-name"></div>
         <div class="field"><label class="label">배지 텍스트 (줄바꿈은 Enter)</label><textarea id="f-badge" rows="2"
             placeholder="콘텐츠 마케터 · 포트폴리오"></textarea></div>
-        <div class="field"><label class="label">헤드라인 (줄바꿈은 Enter)</label><textarea id="f-tagline" rows="3"></textarea>
-        </div>
-        <div class="field"><label class="label">부제목</label><textarea id="f-subtitle" rows="2"></textarea></div>
+      </div>
+
+      <!-- 히어로 문구 관리 -->
+      <div class="sec">
+        <div class="sec-title">히어로 문구 관리</div>
+        <div id="hero-variants-wrap"></div>
+        <button class="btn btn-outline btn-sm" onclick="addHeroVariant()" style="margin-top:10px;">+ 문구 추가</button>
       </div>
 
       <!-- 메트릭 -->
@@ -2475,8 +2573,13 @@
     // ── POPULATE: PORTFOLIO ───────────────────────────────────────────────────
     function populateAll() {
       set('f-name', DATA.name);
-      set('f-tagline', DATA.tagline);
-      set('f-subtitle', DATA.subtitle);
+      // 히어로 문구 마이그레이션: 기존 tagline/subtitle → heroVariants[0]
+      if (!DATA.heroVariants || !DATA.heroVariants.length) {
+        DATA.heroVariants = [{ memo: '기본값', tagline: DATA.tagline || '', subtitle: DATA.subtitle || '' }];
+        DATA.activeHeroVariant = 0;
+      }
+      if (DATA.activeHeroVariant === undefined || DATA.activeHeroVariant === null) DATA.activeHeroVariant = 0;
+      populateHeroVariants();
 
       set('mb-title', DATA.motionBanner.title);
       set('mb-tag', DATA.motionBanner.tag);
@@ -2535,8 +2638,19 @@
     function collect() {
       const d = JSON.parse(JSON.stringify(DATA));
       d.name = gv('f-name');
-      d.tagline = gv('f-tagline');
-      d.subtitle = gv('f-subtitle');
+      // 히어로 문구 수집
+      const hvCards = [...v('hero-variants-wrap').querySelectorAll('.hv-card')];
+      d.heroVariants = hvCards.map(card => ({
+        memo: card.querySelector('.hv-memo').value.trim(),
+        tagline: card.querySelector('.hv-tagline').value,
+        subtitle: card.querySelector('.hv-subtitle').value
+      }));
+      const activeRadio = v('hero-variants-wrap').querySelector('.hv-radio:checked');
+      d.activeHeroVariant = activeRadio ? hvCards.indexOf(activeRadio.closest('.hv-card')) : 0;
+      if (d.activeHeroVariant < 0) d.activeHeroVariant = 0;
+      const activeVariant = d.heroVariants[d.activeHeroVariant] || d.heroVariants[0] || {};
+      d.tagline = activeVariant.tagline || '';
+      d.subtitle = activeVariant.subtitle || '';
 
       d.motionBanner.title = gv('mb-title');
       d.motionBanner.tag = gv('mb-tag');
@@ -2676,6 +2790,94 @@
     }
 
     let _savedTimer = null;
+    // ── HERO VARIANTS ─────────────────────────────────────────────────────────
+    function heroVariantCardHtml(variant, idx, isActive, isOpen) {
+      const memo = esc(variant.memo || '(제목 없음)');
+      const tagline = esc2(variant.tagline || '');
+      const subtitle = esc2(variant.subtitle || '');
+      return `<div class="hv-card${isActive ? ' hv-active' : ''}${isOpen ? ' open' : ''}" data-idx="${idx}">
+  <div class="hv-hd" onclick="toggleHeroCard(this)">
+    <input type="radio" class="hv-radio" name="hv-radio" onclick="event.stopPropagation();setActiveHeroVariant(this)"${isActive ? ' checked' : ''}>
+    <span class="hv-memo-display">${memo}</span>
+    ${isActive ? '<span class="hv-badge">현재 표시 중</span>' : ''}
+    <button class="hv-del-btn" onclick="event.stopPropagation();deleteHeroVariant(this)" title="삭제">✕</button>
+    <span class="hv-tog">${isOpen ? '▼' : '▶'}</span>
+  </div>
+  <div class="hv-body">
+    <div class="field"><label class="label">용도 메모</label>
+      <input type="text" class="hv-memo" value="${memo}" placeholder="예: A/B 테스트 B안, 시즌 문구 등"
+        oninput="this.closest('.hv-card').querySelector('.hv-memo-display').textContent=this.value||'(제목 없음)';markUnsaved()">
+    </div>
+    <div class="field"><label class="label">헤드라인 (줄바꿈은 Enter)</label>
+      <textarea class="hv-tagline" rows="3" oninput="markUnsaved()">${tagline}</textarea>
+    </div>
+    <div class="field" style="margin-bottom:0"><label class="label">부제목</label>
+      <textarea class="hv-subtitle" rows="2" oninput="markUnsaved()">${subtitle}</textarea>
+    </div>
+  </div>
+</div>`;
+    }
+
+    // HTML 인코딩 (textarea value용 — textarea는 attr이 아니므로 불필요하나 안전하게)
+    function esc2(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    function populateHeroVariants() {
+      const variants = DATA.heroVariants || [];
+      const activeIdx = DATA.activeHeroVariant || 0;
+      v('hero-variants-wrap').innerHTML = variants.map((vr, i) =>
+        heroVariantCardHtml(vr, i, i === activeIdx, i === activeIdx)
+      ).join('');
+    }
+
+    function toggleHeroCard(hdEl) {
+      const card = hdEl.closest('.hv-card');
+      const isOpen = card.classList.contains('open');
+      card.classList.toggle('open', !isOpen);
+      card.querySelector('.hv-tog').textContent = isOpen ? '▶' : '▼';
+    }
+
+    function setActiveHeroVariant(radioEl) {
+      const wrap = v('hero-variants-wrap');
+      const cards = [...wrap.querySelectorAll('.hv-card')];
+      const targetCard = radioEl.closest('.hv-card');
+      cards.forEach(card => {
+        const isTarget = card === targetCard;
+        card.classList.toggle('hv-active', isTarget);
+        // 뱃지: 기존 뱃지 제거 후 활성 카드에만 추가
+        const existingBadge = card.querySelector('.hv-badge');
+        if (existingBadge) existingBadge.remove();
+        if (isTarget) {
+          const badge = document.createElement('span');
+          badge.className = 'hv-badge';
+          badge.textContent = '현재 표시 중';
+          // hv-memo-display 다음에 삽입
+          const memoDisplay = card.querySelector('.hv-memo-display');
+          memoDisplay.after(badge);
+        }
+      });
+      markUnsaved();
+    }
+
+    function addHeroVariant() {
+      const newVariant = { memo: '', tagline: '', subtitle: '' };
+      const wrap = v('hero-variants-wrap');
+      const idx = wrap.querySelectorAll('.hv-card').length;
+      const div = document.createElement('div');
+      div.innerHTML = heroVariantCardHtml(newVariant, idx, false, true);
+      wrap.appendChild(div.firstElementChild);
+      markUnsaved();
+    }
+
+    function deleteHeroVariant(btn) {
+      const card = btn.closest('.hv-card');
+      const isActive = card.classList.contains('hv-active');
+      if (isActive) { alert('현재 표시 중인 문구 세트는 삭제할 수 없습니다.\n다른 세트를 먼저 선택(활성화)해주세요.'); return; }
+      const wrap = v('hero-variants-wrap');
+      if (wrap.querySelectorAll('.hv-card').length <= 1) { alert('최소 1개의 문구 세트가 필요합니다.'); return; }
+      card.remove();
+      markUnsaved();
+    }
+
     function markUnsaved() {
       const btn = v('btn-save');
       if (!btn || btn.style.display === 'none') return;
