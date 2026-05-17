@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+이미지 생성/node_modules/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Large binaries (Photoshop)
+*.psd
+
+# Logs
+*.log
+npm-debug.log*
