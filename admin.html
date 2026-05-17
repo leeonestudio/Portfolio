@@ -1263,11 +1263,13 @@
   </style>
   <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script>
     try { firebase.initializeApp(FIREBASE_CONFIG); } catch (e) { }
+    var _auth = firebase.auth();
     var _db = firebase.firestore();
     var _storage = firebase.storage();
   </script>
@@ -1275,14 +1277,15 @@
 
 <body>
 
-  <!-- ── PASSWORD GATE ── -->
+  <!-- ── LOGIN GATE (Firebase Auth) ── -->
   <div id="gate">
     <div class="gate-box">
       <h1>포트폴리오 편집</h1>
-      <p>관리자 비밀번호를 입력하세요</p>
-      <input type="password" id="pw-input" placeholder="비밀번호" onkeydown="if(event.key==='Enter')login()">
-      <button onclick="login()">입장</button>
-      <div class="gate-err" id="gate-err">비밀번호가 틀렸습니다</div>
+      <p>관리자 계정으로 로그인해주세요</p>
+      <input type="email" id="email-input" placeholder="이메일" autocomplete="username" onkeydown="if(event.key==='Enter')login()">
+      <input type="password" id="pw-input" placeholder="비밀번호" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+      <button id="login-btn" onclick="login()">로그인</button>
+      <div class="gate-err" id="gate-err">이메일 또는 비밀번호가 올바르지 않습니다</div>
     </div>
   </div>
 
@@ -1313,6 +1316,7 @@
       <div class="top-btns">
         <button class="btn btn-outline" onclick="window.open('index.html','_blank')">미리보기</button>
         <button class="btn btn-primary" id="btn-save" onclick="save()">저장하기</button>
+        <button class="btn btn-outline" id="btn-logout" onclick="logout()">로그아웃</button>
       </div>
     </div>
 
@@ -1574,26 +1578,27 @@
     <!-- ── 보안 설정 ── -->
     <div class="admin-section" id="as-security">
       <div class="sec">
-        <div class="sec-title">비밀번호 변경</div>
+        <div class="sec-title">계정 정보</div>
         <div class="field">
-          <label class="label">기존 비밀번호</label>
-          <input type="password" id="sec-cur-pw" placeholder="기존 비밀번호 입력">
-          <div id="sec-cur-err" style="font-size:12px;color:#e53e3e;margin-top:4px;display:none;">기존 비밀번호가 올바르지 않습니다
+          <label class="label">로그인 이메일</label>
+          <input type="email" id="sec-cur-email" readonly style="background:#f5f5f5;color:var(--text2);">
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <div style="font-size:13px;color:var(--text2);line-height:1.7;padding:14px;background:#f8f8f8;border-radius:6px;border:1px solid var(--border);">
+            <strong style="color:var(--text);">비밀번호 변경 안내</strong><br>
+            인증은 Firebase Authentication으로 관리됩니다.<br>
+            비밀번호를 변경하려면 아래 절차를 따라주세요.
+            <ol style="margin:10px 0 0 18px;padding:0;">
+              <li>Firebase Console &gt; Authentication &gt; Users 메뉴로 이동</li>
+              <li>본인 계정 행 우측 메뉴(⋮)에서 「비밀번호 재설정」 선택</li>
+              <li>등록된 이메일로 재설정 링크가 발송됩니다</li>
+            </ol>
           </div>
         </div>
-        <div class="field">
-          <label class="label">새 비밀번호</label>
-          <input type="password" id="sec-new-pw" placeholder="새 비밀번호 입력">
-        </div>
-        <div class="field">
-          <label class="label">새 비밀번호 확인</label>
-          <input type="password" id="sec-new-pw2" placeholder="새 비밀번호 다시 입력">
-          <div id="sec-match-err" style="font-size:12px;color:#e53e3e;margin-top:4px;display:none;">비밀번호가 일치하지 않습니다
-          </div>
-        </div>
-        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="changePassword()">변경하기</button>
-        <div id="sec-ok" style="font-size:12px;color:var(--accent);margin-top:8px;text-align:center;display:none;">비밀번호가
-          변경되었습니다</div>
+        <a class="btn btn-outline" style="width:100%;margin-top:12px;display:flex;justify-content:center;text-decoration:none;"
+          href="https://console.firebase.google.com/project/portfolio-leeone/authentication/users" target="_blank" rel="noopener">
+          Firebase Console 열기
+        </a>
       </div>
     </div><!-- /as-security -->
 
@@ -1700,23 +1705,86 @@
       try { localStorage.setItem('portfolio_v1', JSON.stringify(DATA)); } catch { }
     }
 
-    // ── AUTH ──────────────────────────────────────────────────────────────────
-    function getPassword() { return localStorage.getItem('portfolio_admin_pw') || 'admin1234'; }
+    // ── AUTH (Firebase Authentication) ────────────────────────────────────────
+    // 권한 검증은 Firestore Security Rules가 담당. 여기서는 "로그인된 사용자가 있는가"만 확인.
+    // 세션은 Firebase Auth 기본 지속성(LOCAL)으로 브라우저를 닫아도 유지됨.
+
+    var _adminInitialized = false;
 
     async function login() {
+      const email = document.getElementById('email-input').value.trim();
       const pw = document.getElementById('pw-input').value;
-      if (pw === getPassword()) {
-        document.getElementById('gate').style.display = 'none';
-        document.getElementById('panel').style.display = 'block';
-        await loadData();
-        populateAll();
-        populateInsights();
-        initChangeDetection();
-      } else {
-        document.getElementById('gate-err').style.display = 'block';
+      const errEl = document.getElementById('gate-err');
+      const btn = document.getElementById('login-btn');
+      errEl.style.display = 'none';
+      if (!email || !pw) {
+        errEl.textContent = '이메일과 비밀번호를 모두 입력해주세요';
+        errEl.style.display = 'block';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = '로그인 중...';
+      try {
+        await _auth.signInWithEmailAndPassword(email, pw);
+        // 성공 시 onAuthStateChanged가 UI 전환을 처리
+      } catch (e) {
+        // Firebase Auth 에러 코드를 한국어 메시지로 매핑
+        let msg = '이메일 또는 비밀번호가 올바르지 않습니다';
+        if (e && e.code === 'auth/too-many-requests') {
+          msg = '로그인 시도가 너무 많습니다. 잠시 후 다시 시도해주세요';
+        } else if (e && e.code === 'auth/network-request-failed') {
+          msg = '네트워크 연결을 확인해주세요';
+        } else if (e && e.code === 'auth/invalid-email') {
+          msg = '이메일 형식이 올바르지 않습니다';
+        }
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '로그인';
       }
     }
-    document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+    async function logout() {
+      try { await _auth.signOut(); } catch (e) { }
+      // 입력값 클리어
+      const pwEl = document.getElementById('pw-input');
+      if (pwEl) pwEl.value = '';
+      // onAuthStateChanged가 게이트 표시 복원 처리
+    }
+
+    // 단일 글로벌 리스너: 로그인 상태 변화에 따라 UI를 동기화
+    _auth.onAuthStateChanged(async function (user) {
+      const gate = document.getElementById('gate');
+      const panel = document.getElementById('panel');
+      const errEl = document.getElementById('gate-err');
+      if (user) {
+        // 로그인됨 → 게이트 숨김, 패널 표시
+        if (gate) gate.style.display = 'none';
+        if (panel) panel.style.display = 'block';
+        if (errEl) errEl.style.display = 'none';
+        // 보안 설정 화면의 이메일 표시 갱신
+        const emailReadonly = document.getElementById('sec-cur-email');
+        if (emailReadonly) emailReadonly.value = user.email || '';
+        // 데이터 로드는 첫 1회만 (재로그인 시 중복 로드 방지)
+        if (!_adminInitialized) {
+          _adminInitialized = true;
+          try {
+            await loadData();
+            populateAll();
+            populateInsights();
+            initChangeDetection();
+          } catch (e) {
+            console.error('admin init failed:', e);
+          }
+        }
+      } else {
+        // 로그아웃됨 → 게이트 표시, 패널 숨김
+        if (panel) panel.style.display = 'none';
+        if (gate) gate.style.display = 'flex';
+        _adminInitialized = false;
+      }
+    });
 
     // ── SIDEBAR ───────────────────────────────────────────────────────────────
     function openSidebar() {
@@ -2771,23 +2839,8 @@
       return d;
     }
 
-    function changePassword() {
-      const cur = v('sec-cur-pw').value;
-      const np = v('sec-new-pw').value;
-      const np2 = v('sec-new-pw2').value;
-      const curErr = v('sec-cur-err');
-      const matchErr = v('sec-match-err');
-      const ok = v('sec-ok');
-      curErr.style.display = 'none';
-      matchErr.style.display = 'none';
-      ok.style.display = 'none';
-      if (cur !== getPassword()) { curErr.style.display = 'block'; return; }
-      if (np !== np2) { matchErr.style.display = 'block'; return; }
-      localStorage.setItem('portfolio_admin_pw', np);
-      v('sec-cur-pw').value = ''; v('sec-new-pw').value = ''; v('sec-new-pw2').value = '';
-      ok.style.display = 'block';
-      setTimeout(() => { ok.style.display = 'none'; }, 3000);
-    }
+    // 비밀번호 변경은 Firebase Console에서 직접 처리 (보안 설정 섹션 안내 참조)
+    // — 이전 평문 비밀번호 비교/저장 로직(localStorage 'portfolio_admin_pw')은 제거됨
 
     let _savedTimer = null;
     // ── HERO VARIANTS ─────────────────────────────────────────────────────────
